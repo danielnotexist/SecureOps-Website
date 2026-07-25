@@ -41,7 +41,8 @@ import {
   RefreshCw,
   Gauge,
   Layers,
-  Plus
+  Plus,
+  Newspaper
 } from 'lucide-react';
 
 /* ------------------------------------------------------------------ *
@@ -351,6 +352,7 @@ export default function App() {
   const [selectedService, setSelectedService] = useState(null);
   const [isServicesHovered, setIsServicesHovered] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [pressModalOpen, setPressModalOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [openFaq, setOpenFaq] = useState(0);
   const [contactSent, setContactSent] = useState(false);
@@ -380,9 +382,9 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = selectedService || mobileOpen ? 'hidden' : '';
+    document.body.style.overflow = selectedService || mobileOpen || pressModalOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
-  }, [selectedService, mobileOpen]);
+  }, [selectedService, mobileOpen, pressModalOpen]);
 
   const openService = (svc) => { setSelectedService(svc); setIsServicesHovered(false); setMobileOpen(false); };
 
@@ -452,6 +454,13 @@ export default function App() {
 
             <li><a href="#packages" className="header-nav-link">חבילות ומחירים</a></li>
             <li><a href="#process" className="header-nav-link">איך זה עובד</a></li>
+            <li>
+              <button onClick={() => setPressModalOpen(true)} className="press-nav-highlight">
+                <Newspaper style={{ width: 17, height: 17, color: 'var(--purple-main)' }} />
+                <span>ישראל היום</span>
+                <span className="press-badge-soon">בקרוב</span>
+              </button>
+            </li>
             <li><a href="#about" className="header-nav-link">אודות</a></li>
             <li><a href="#faq" className="header-nav-link">שאלות נפוצות</a></li>
             <li><a href="#contact" className="header-nav-link">צור קשר</a></li>
@@ -498,6 +507,15 @@ export default function App() {
 
               <a href="#services" onClick={() => setMobileOpen(false)}>השירותים שלנו</a>
               <a href="#packages" onClick={() => setMobileOpen(false)}>חבילות ומחירים</a>
+              <button 
+                onClick={() => { setMobileOpen(false); setPressModalOpen(true); }} 
+                className="press-nav-highlight"
+                style={{ marginBlock: 6, justifyContent: 'center' }}
+              >
+                <Newspaper style={{ width: 17, height: 17, color: 'var(--purple-main)' }} />
+                <span>כתבה בישראל היום</span>
+                <span className="press-badge-soon">בקרוב</span>
+              </button>
               <a href="#calculator" onClick={() => setMobileOpen(false)}>מחשבון חיסכון</a>
               <a href="#process" onClick={() => setMobileOpen(false)}>איך זה עובד</a>
               <a href="#about" onClick={() => setMobileOpen(false)}>אודות</a>
@@ -1311,6 +1329,56 @@ export default function App() {
         </AnimatePresence>
       </div>
 
+      {/* ======================== PRESS MODAL ========================= */}
+      <AnimatePresence>
+        {pressModalOpen && (
+          <motion.div
+            className="modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setPressModalOpen(false)}
+          >
+            <motion.div
+              className="service-modal-box"
+              style={{ maxWidth: 540 }}
+              initial={{ scale: 0.94, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.94, opacity: 0, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button className="modal-close-btn-round" onClick={() => setPressModalOpen(false)} aria-label="סגור">
+                <X />
+              </button>
+
+              <div style={{ textAlign: 'center', paddingTop: 12 }}>
+                <div className="eyebrow" style={{ background: 'linear-gradient(135deg, #F3EFFC, #E6E0F8)', borderColor: 'var(--purple-100)' }}>
+                  <Newspaper style={{ width: 16, height: 16 }} /> פרסום בלעדי בתקשורת
+                </div>
+
+                <h3 style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--ink)', marginBlock: '12px 10px' }}>
+                  כתבה מיוחדת ב"ישראל היום" 📰
+                </h3>
+
+                <p style={{ fontSize: '1.02rem', color: 'var(--text-muted)', lineHeight: 1.75, marginBottom: 24 }}>
+                  השבוע תפורסם ב"ישראל היום" כתבה נרחבת שתסקור את פתרונות הסייבר, הענן והתשתיות המתקדמים של <strong>SecureOps</strong>.
+                  <br /><br />
+                  הישארו מעודכנים! הקישור הישיר לכתבה יעלה לכאן מיד עם פרסומה.
+                </p>
+
+                <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+                  <button className="btn btn-primary" onClick={() => setPressModalOpen(false)}>
+                    הבנתי, תודה!
+                  </button>
+                  <a href="#contact" className="btn btn-ghost" onClick={() => setPressModalOpen(false)}>
+                    צרו איתנו קשר
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

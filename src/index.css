@@ -1636,6 +1636,49 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 
 @media (max-width: 600px) { .floating-actions { bottom: 16px; left: 16px; } }
 
+/* Press / Media Highlight in Header */
+.press-nav-highlight {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #F3EFFC 0%, #E6E0F8 100%);
+  border: 1px solid rgba(122, 82, 232, 0.4);
+  box-shadow: 0 4px 16px rgba(122, 82, 232, 0.16);
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  color: var(--purple-dark);
+  font-weight: 700;
+  font-size: 0.92rem;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.25s var(--ease);
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1.2;
+}
+
+.press-nav-highlight:hover {
+  transform: translateY(-2px);
+  border-color: var(--purple-main);
+  box-shadow: 0 6px 22px rgba(122, 82, 232, 0.3);
+  background: linear-gradient(135deg, #EDE5FB 0%, #DED4F5 100%);
+}
+
+.press-badge-soon {
+  background: linear-gradient(135deg, var(--purple-main) 0%, #4D26C4 100%);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 2px 9px;
+  border-radius: var(--r-pill);
+  box-shadow: 0 2px 8px rgba(122, 82, 232, 0.35);
+  letter-spacing: 0.02em;
+  animation: pressPulse 2s infinite ease-in-out;
+}
+
+@keyframes pressPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 2px 8px rgba(122, 82, 232, 0.35); }
+  50% { transform: scale(1.06); box-shadow: 0 4px 14px rgba(122, 82, 232, 0.55); }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
