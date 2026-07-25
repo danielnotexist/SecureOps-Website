@@ -213,11 +213,13 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
    ========================================================================== */
 
 .header-unibo-style {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 1000;
   width: 100%;
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.82);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid transparent;
@@ -225,15 +227,16 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 20px;
+  gap: 16px;
+  flex-wrap: nowrap;
   transition: padding 0.32s var(--ease), background 0.32s var(--ease), box-shadow 0.32s var(--ease), border-color 0.32s var(--ease);
 }
 
 .header-unibo-style.is-scrolled {
   padding: 8px 4%;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.95);
   border-bottom-color: var(--line);
-  box-shadow: 0 6px 24px rgba(30, 36, 56, 0.06);
+  box-shadow: 0 6px 24px rgba(30, 36, 56, 0.08);
 }
 
 .header-right-logo-group { display: flex; align-items: center; text-decoration: none; flex-shrink: 0; }
@@ -244,14 +247,21 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
   object-fit: contain;
   transition: height 0.32s var(--ease);
 }
-.header-unibo-style.is-scrolled .header-logo-img { height: 50px; }
+.header-unibo-style.is-scrolled .header-logo-img { height: 48px; }
 
 @media (max-width: 480px) {
   .header-logo-img,
-  .header-unibo-style.is-scrolled .header-logo-img { height: 44px; }
+  .header-unibo-style.is-scrolled .header-logo-img { height: 42px; }
 }
 
-.header-nav-list { display: flex; gap: 1.9rem; list-style: none; align-items: center; }
+.header-nav-list {
+  display: flex;
+  gap: clamp(0.6rem, 1.2vw, 1.5rem);
+  list-style: none;
+  align-items: center;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
 .header-nav-item { position: relative; }
 
 .header-nav-link {
@@ -465,7 +475,7 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
   border-bottom: 1px solid var(--line);
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1260px) {
   .header-nav-list, .header-phone-cta-animated.desktop-only { display: none; }
   .header-burger { display: flex; }
 }
