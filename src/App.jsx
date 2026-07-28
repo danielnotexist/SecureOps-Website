@@ -166,10 +166,10 @@ const techStack = [
   { name: 'VMware',                     logo: '/images/partners/vmware.svg',        h: 22 },
   { name: 'Fortinet',                   logo: '/images/partners/fortinet.svg',      h: 20 },
   { name: 'Acronis',                    logo: '/images/partners/acronis.svg',       h: 24 },
-  { name: 'Cisco',                      logo: '/images/partners/cisco.svg',         h: 42 },
-  { name: 'Hewlett Packard Enterprise', logo: '/images/partners/hpe.svg',           h: 44 },
+  { name: 'Cisco',                      logo: '/images/partners/cisco.svg',         h: 32 },
+  { name: 'Hewlett Packard Enterprise', logo: '/images/partners/hpe.svg',           h: 34 },
   { name: 'Google Cloud',               logo: '/images/partners/gcp.svg',           h: 26 },
-  { name: 'AWS',                        logo: '/images/partners/aws.svg',           h: 46 },
+  { name: 'AWS',                        logo: '/images/partners/aws.svg',           h: 36 },
   { name: 'SentinelOne',                logo: '/images/partners/sentinelone.svg',   h: 24 },
   { name: 'Microsoft Azure',            logo: '/images/partners/azure.svg',         h: 28 }
 ];
@@ -450,7 +450,7 @@ export default function App() {
         <a href={`tel:${PHONE_TEL}`} className="header-phone-cta-animated desktop-only">
           <span className="cta-call-icon"><Phone /></span>
           <span className="cta-call-text">
-            <span className="lead">חייגו לייעוץ חינם</span>
+            <span className="lead">לייעוץ חינם חייגו</span>
             <span className="num">{PHONE_DISPLAY}</span>
           </span>
         </a>
@@ -526,15 +526,15 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="hero-cyber-brand">SecureOps</span>
-
             <h1 className="hero-cyber-title">
-              הגנת סייבר חכמה,<br />מבוססת תפעול.
+              העסק שלך מוגן<br />גם כשאתה לא מסתכל
             </h1>
 
+            <span className="hero-cyber-brand">עם SecureOps</span>
+
             <p className="hero-cyber-lead">
-              אנו מספקים פתרונות אבטחה מתקדמים לעסקים בכל גודל,
-              כדי להבטיח שתוכלו תמיד צעד אחד לפני האיומים.
+              מזהים איומים בזמן אמת, עוצרים בעיות לפני שהן הופכות למשבר,
+              ושומרים על המידע הקריטי שלכם מאובטח וזמין — במקום אחד.
             </p>
 
             <a href="#contact" className="hero-cyber-cta">

@@ -38,6 +38,7 @@
   --cy-text:    #C6D9E4;
   --cy-muted:   #8FA9BA;
   --header-h:   84px;
+  --header-max: 1340px;
 
   /* Lines */
   --line: rgba(43, 51, 76, 0.08);
@@ -234,7 +235,9 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
   /* transparent while it floats over the dark hero, solid once you leave it */
   background: transparent;
   border-bottom: 1px solid transparent;
-  padding: 0 clamp(18px, 4vw, 48px);
+  /* the bar stays full-width, but its contents are held to a centred track so
+     the logo and phone sit near the middle rather than on the screen edges */
+  padding-inline: max(clamp(18px, 4vw, 48px), calc((100vw - var(--header-max)) / 2));
   height: var(--header-h);
   display: flex;
   justify-content: space-between;
@@ -257,7 +260,7 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 .header-right-logo-group { display: flex; align-items: center; text-decoration: none; flex-shrink: 0; }
 
 .header-logo-img {
-  height: 46px;
+  height: 58px;
   width: auto;
   object-fit: contain;
   /* the horizontal lockup is dark-on-transparent; flatten it to white for the
@@ -265,11 +268,11 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
   filter: brightness(0) invert(1);
   transition: height 0.32s var(--ease);
 }
-.header-unibo-style.is-scrolled .header-logo-img { height: 38px; }
+.header-unibo-style.is-scrolled .header-logo-img { height: 46px; }
 
 @media (max-width: 480px) {
   .header-logo-img,
-  .header-unibo-style.is-scrolled .header-logo-img { height: 34px; }
+  .header-unibo-style.is-scrolled .header-logo-img { height: 38px; }
 }
 
 .header-nav-list {
@@ -360,11 +363,18 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 .cta-call-icon svg { width: 15px; height: 15px; color: var(--cy-teal); stroke-width: 2.2; }
 .header-phone-cta-animated:hover .cta-call-icon { animation-play-state: paused; }
 
-.cta-call-text { display: flex; flex-direction: column; line-height: 1.2; }
-/* the reference shows the number alone — the lead line stays for the drawer */
-.cta-call-text .lead { display: none; }
+.cta-call-text { display: flex; flex-direction: column; line-height: 1.25; }
+.cta-call-text .lead {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--cy-muted);
+  white-space: nowrap;
+  transition: color 0.24s var(--ease);
+}
+.header-phone-cta-animated:hover .cta-call-text .lead { color: var(--cy-text); }
 .cta-call-text .num {
-  font-size: 1.02rem;
+  font-size: 1.06rem;
   font-weight: 600;
   direction: ltr;
   text-align: right;
@@ -375,12 +385,7 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 .mobile-drawer-panel .header-phone-cta-animated { color: var(--purple-dark); }
 .mobile-drawer-panel .cta-call-icon { background: var(--purple-50); }
 .mobile-drawer-panel .cta-call-icon svg { color: var(--purple-main); }
-.mobile-drawer-panel .cta-call-text .lead {
-  display: block;
-  font-size: 0.9rem;
-  font-weight: 700;
-  white-space: nowrap;
-}
+.mobile-drawer-panel .cta-call-text .lead { color: var(--text-muted); font-size: 0.78rem; }
 
 .header-burger {
   display: none;
@@ -405,11 +410,14 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
   right: 0;
   margin-inline: auto;
   width: min(920px, 94vw);
-  background: rgba(255, 255, 255, 0.97);
-  backdrop-filter: blur(20px);
+  /* same dark glass as the header it drops out of */
+  background: linear-gradient(165deg, rgba(9, 30, 45, 0.97) 0%, rgba(4, 17, 27, 0.98) 100%);
+  backdrop-filter: saturate(160%) blur(22px);
+  -webkit-backdrop-filter: saturate(160%) blur(22px);
+  border: 1px solid rgba(95, 227, 206, 0.16);
   border-radius: var(--r-xl);
   padding: 30px 34px;
-  box-shadow: var(--sh-xl), 0 0 0 1px var(--line);
+  box-shadow: 0 34px 70px -26px rgba(0, 0, 0, 0.85);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 28px;
@@ -417,40 +425,47 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 }
 
 .mega-menu-col-title {
-  font-size: 0.98rem;
+  font-size: 0.95rem;
   font-weight: 700;
-  color: var(--purple-main);
+  color: var(--cy-teal);
   margin-bottom: 14px;
-  padding-bottom: 9px;
-  border-bottom: 1px solid var(--purple-100);
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(95, 227, 206, 0.18);
   white-space: nowrap;
 }
 
-.mega-menu-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.mega-menu-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
 
 .mega-menu-item-link {
-  color: var(--text-dark);
+  color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
   font-size: 0.92rem;
   font-weight: 500;
-  transition: all 0.22s var(--ease);
+  transition: color 0.22s var(--ease), background 0.22s var(--ease), transform 0.22s var(--ease);
   display: flex;
   align-items: center;
-  gap: 9px;
-  padding: 8px 10px;
+  gap: 10px;
+  padding: 9px 11px;
   border-radius: var(--r-sm);
   cursor: pointer;
   white-space: nowrap;
 }
 
-.mega-menu-item-link svg { width: 16px; height: 16px; color: var(--purple-light); flex-shrink: 0; transition: color 0.22s var(--ease); }
+.mega-menu-item-link svg {
+  width: 16px;
+  height: 16px;
+  color: var(--cy-teal);
+  opacity: 0.7;
+  flex-shrink: 0;
+  transition: opacity 0.22s var(--ease);
+}
 
 .mega-menu-item-link:hover {
-  color: var(--purple-dark);
-  background: var(--purple-50);
+  color: #fff;
+  background: rgba(95, 227, 206, 0.1);
   transform: translateX(-4px);
 }
-.mega-menu-item-link:hover svg { color: var(--purple-main); }
+.mega-menu-item-link:hover svg { opacity: 1; }
 
 /* Mobile drawer */
 .mobile-drawer {
@@ -508,11 +523,15 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 .hero-cyber {
   position: relative;
   width: 100%;
-  min-height: max(600px, 100svh);
-  padding: calc(var(--header-h) + clamp(20px, 4vw, 48px)) clamp(20px, 4vw, 48px) clamp(90px, 12vh, 150px);
+  /* stop short of the fold so the partner strip headline is already on screen
+     when the page loads on a desktop */
+  min-height: max(540px, calc(100svh - 176px));
+  padding: calc(var(--header-h) + clamp(16px, 3vw, 36px)) clamp(20px, 4vw, 48px) clamp(56px, 7vh, 96px);
   display: flex;
   align-items: center;
   overflow: hidden;
+  /* confine the video's blend mode to this section */
+  isolation: isolate;
   background:
     radial-gradient(120% 90% at 18% 42%, rgba(11, 37, 55, 0.95) 0%, transparent 62%),
     linear-gradient(160deg, var(--cy-bg) 0%, #08202F 46%, var(--cy-deep) 100%);
@@ -537,7 +556,8 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 
 .hero-cyber-inner {
   position: relative;
-  z-index: 1;
+  /* deliberately no z-index — a stacking context here would cut the video off
+     from the section background it needs to blend against */
   width: 100%;
   max-width: 1280px;
   margin-inline: auto;
@@ -550,24 +570,24 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 /* ---- copy column (right in RTL) ---- */
 .hero-cyber-copy { min-width: 0; }
 
-.hero-cyber-brand {
-  display: block;
-  font-size: clamp(2rem, 4.2vw, 3.1rem);
-  font-weight: 700;
-  color: var(--cy-teal);
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-  margin-bottom: 10px;
-  direction: ltr;
-  text-align: right;
-}
-
 .hero-cyber-title {
   font-size: clamp(1.9rem, 4vw, 3rem);
   font-weight: 800;
   color: #fff;
   line-height: 1.22;
   letter-spacing: -0.03em;
+  margin-bottom: 14px;
+}
+
+/* the smaller line under the headline — "עם SecureOps" — mixes a Hebrew word
+   with the Latin brand name, so bidi is left to inherit from the page (rtl)
+   instead of being forced, unlike the old brand-only line this replaced */
+.hero-cyber-brand {
+  display: block;
+  font-size: clamp(1.05rem, 1.7vw, 1.35rem);
+  font-weight: 600;
+  color: var(--cy-teal);
+  letter-spacing: -0.01em;
   margin-bottom: 22px;
 }
 
@@ -631,11 +651,18 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
   display: block;
 }
 
-/* the render is a hard-edged rectangle — feather it into the background */
+/* The render is a hard-edged rectangle on a near-black field. `screen` drops
+   that field into the section background — black screens to nothing, so only
+   the glow survives — and the mask feathers whatever is left at the corners.
+   Together they read as one piece of artwork rather than a pasted-in box. */
+.hero-cyber-visual {
+  mix-blend-mode: screen;
+}
+
 .hero-cyber-visual,
 .hero-cyber-video {
-  -webkit-mask-image: radial-gradient(72% 72% at 50% 50%, #000 58%, transparent 96%);
-  mask-image: radial-gradient(72% 72% at 50% 50%, #000 58%, transparent 96%);
+  -webkit-mask-image: radial-gradient(closest-side, #000 42%, rgba(0, 0, 0, 0.55) 72%, transparent 97%);
+  mask-image: radial-gradient(closest-side, #000 42%, rgba(0, 0, 0, 0.55) 72%, transparent 97%);
 }
 
 @media (max-width: 1024px) {
