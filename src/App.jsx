@@ -10,9 +10,7 @@ import {
   Cloud,
   Headphones,
   ShieldCheck,
-  Database,
   Server,
-  Zap,
   Clock,
   Award,
   Users,
@@ -30,9 +28,7 @@ import {
   Facebook,
   Send,
   BadgeCheck,
-  Search,
   Rocket,
-  LifeBuoy,
   Globe,
   Monitor,
   Smartphone,
@@ -204,60 +200,10 @@ const whyUs = [
 ];
 
 const processSteps = [
-  { n: '01', icon: Search, title: 'אפיון וסקר תשתיות', text: 'מיפוי מלא של המערכות, הסיכונים ונקודות הכשל בארגון — ללא עלות וללא התחייבות.' },
-  { n: '02', icon: Layers, title: 'תכנון פתרון מותאם', text: 'בונים תוכנית עבודה עם לוחות זמנים, תקציב ברור ויעדי אבטחה מדידים.' },
-  { n: '03', icon: Rocket, title: 'הטמעה ומעבר', text: 'ביצוע בשעות שלא פוגעות בפעילות, עם ליווי צמוד לעובדים ותוכנית חזרה לאחור.' },
-  { n: '04', icon: LifeBuoy, title: 'ניהול וניטור שוטף', text: 'ניטור MDR שוטף, דוחות חודשיים ופגישת סטטוס רבעונית לשיפור מתמיד.' }
-];
-
-const packages = [
-  {
-    name: 'Essential',
-    for: 'עסקים קטנים עד 15 עמדות',
-    price: '₪89',
-    per: '/ משתמש לחודש',
-    note: 'מינימום 5 משתמשים · ללא התחייבות ארוכה',
-    featured: false,
-    features: [
-      'תמיכת Helpdesk מרחוק בשעות עסקים',
-      'ניהול Microsoft 365 ורישיונות',
-      'אנטי וירוס מנוהל בתחנות',
-      'גיבוי ענן יומי מוצפן',
-      'דוח סטטוס חודשי'
-    ]
-  },
-  {
-    name: 'Business',
-    for: 'הבחירה של רוב הארגונים',
-    price: '₪149',
-    per: '/ משתמש לחודש',
-    note: 'כולל כל מה שב-Essential · SLA מחייב',
-    featured: true,
-    features: [
-      'תמיכה 24/7 עם SLA של 15 דקות',
-      'EDR מתקדם ושירות MDR מנוהל 24/7',
-      'ניהול חומת אש ותקשורת סניפים',
-      'גיבוי חסין כופרות (Immutable)',
-      'טכנאי באתר לפי צורך',
-      'ניהול שרתים ותשתיות וירטואליות'
-    ]
-  },
-  {
-    name: 'Enterprise',
-    for: 'ארגונים מרובי אתרים ורגולציה',
-    price: 'בהתאמה',
-    per: 'אישית',
-    note: 'כולל כל מה שב-Business · חוזה שנתי',
-    featured: false,
-    features: [
-      'ארכיטקט ענן ומנהל אבטחת מידע ייעודי',
-      'מבדקי חדירות תקופתיים ודוח ממצאים',
-      'הכנה וליווי לתקינת ISO 27001 / SOC 2',
-      'תוכנית DRP מתורגלת פעמיים בשנה',
-      'זמינות 99.99% מגובה בפיצוי חוזי',
-      'פגישת סטטוס רבעונית עם הנהלה'
-    ]
-  }
+  { n: '01', img: '/images/icons/proc-audit.png',  title: 'אפיון וסקר תשתיות', text: 'מיפוי מלא של המערכות, הסיכונים ונקודות הכשל בארגון — ללא עלות וללא התחייבות.' },
+  { n: '02', img: '/images/icons/proc-plan.png',   title: 'תכנון פתרון מותאם', text: 'בונים תוכנית עבודה עם לוחות זמנים, תקציב ברור ויעדי אבטחה מדידים.' },
+  { n: '03', img: '/images/icons/proc-launch.png', title: 'הטמעה ומעבר', text: 'ביצוע בשעות שלא פוגעות בפעילות, עם ליווי צמוד לעובדים ותוכנית חזרה לאחור.' },
+  { n: '04', img: '/images/icons/proc-manage.png', title: 'ניהול וניטור שוטף', text: 'ניטור MDR שוטף, דוחות חודשיים ופגישת סטטוס רבעונית לשיפור מתמיד.' }
 ];
 
 // photo: null renders an initials avatar until real headshots land.
@@ -352,15 +298,6 @@ export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [openFaq, setOpenFaq] = useState(0);
   const [contactSent, setContactSent] = useState(false);
-
-  const [userEmployees, setUserEmployees] = useState(25);
-  const [addons, setAddons] = useState({ soc: true, backup: true, cloud: false });
-
-  const basePerSeat = 380;
-  const addonPerSeat =
-    (addons.soc ? 120 : 0) + (addons.backup ? 60 : 0) + (addons.cloud ? 90 : 0);
-  const calculatedSavings = Math.round(userEmployees * (basePerSeat + addonPerSeat) * 0.72);
-  const downtimeHours = Math.max(2, Math.round(userEmployees * 0.45));
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -486,9 +423,8 @@ export default function App() {
               </div>
 
               <a href="#services" onClick={() => setMobileOpen(false)}>השירותים שלנו</a>
-              <a href="#packages" onClick={() => setMobileOpen(false)}>חבילות ומחירים</a>
-              <button 
-                onClick={() => { setMobileOpen(false); setPressModalOpen(true); }} 
+              <button
+                onClick={() => { setMobileOpen(false); setPressModalOpen(true); }}
                 className="press-nav-highlight"
                 style={{ marginBlock: 6, justifyContent: 'center' }}
               >
@@ -496,7 +432,6 @@ export default function App() {
                 <span>כתבה בישראל היום</span>
                 <span className="press-badge-soon">בקרוב</span>
               </button>
-              <a href="#calculator" onClick={() => setMobileOpen(false)}>מחשבון חיסכון</a>
               <a href="#process" onClick={() => setMobileOpen(false)}>איך זה עובד</a>
               <a href="#about" onClick={() => setMobileOpen(false)}>אודות</a>
               <a href="#team" onClick={() => setMobileOpen(false)}>הצוות</a>
@@ -538,7 +473,7 @@ export default function App() {
             </p>
 
             <a href="#contact" className="hero-cyber-cta">
-              <span>קבל ייעוץ חינם</span>
+              <span>לייעוץ ללא עלות השאירו פרטים</span>
               <span className="hero-cyber-cta-chevron"><ArrowLeft /></span>
             </a>
           </motion.div>
@@ -690,8 +625,8 @@ export default function App() {
 
               <div style={{ marginTop: 28, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                 <a href="#contact" className="btn btn-cyan">דברו איתנו <ArrowLeft style={{ width: 18, height: 18 }} /></a>
-                <a href="#packages" className="btn btn-ghost" style={{ background: 'rgba(255,255,255,0.14)', color: '#fff', borderColor: 'rgba(255,255,255,0.24)' }}>
-                  לחבילות השירות
+                <a href="#services" className="btn btn-ghost" style={{ background: 'rgba(255,255,255,0.14)', color: '#fff', borderColor: 'rgba(255,255,255,0.24)' }}>
+                  לכל השירותים
                 </a>
               </div>
             </div>
@@ -712,149 +647,48 @@ export default function App() {
             <p className="section-lead">ארבעה שלבים ברורים, לוחות זמנים כתובים, בלי הפתעות באמצע.</p>
           </motion.div>
 
-          <div className="process-grid">
+          <div className="process-flow-row">
             {processSteps.map((s, i) => (
-              <motion.div
-                className="process-step"
-                key={s.n}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.25 }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-              >
-                <div className="process-num">{s.n}</div>
-                <h3>{s.title}</h3>
-                <p>{s.text}</p>
-              </motion.div>
+              <React.Fragment key={s.n}>
+                <motion.div
+                  className="process-flow-card"
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.25 }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                >
+                  <div className="process-flow-tile">
+                    {s.img
+                      ? (
+                        <img
+                          src={s.img}
+                          alt=""
+                          className="process-flow-icon"
+                          style={{ animationDelay: `${i * 0.4}s` }}
+                          loading="lazy"
+                        />
+                      )
+                      : <span className="process-flow-icon-fallback">{s.n}</span>}
+                    <span className="process-flow-badge">{i + 1}</span>
+                  </div>
+                  <h3>{s.title}</h3>
+                  <p>{s.text}</p>
+                </motion.div>
+
+                {i < processSteps.length - 1 && (
+                  <span className="process-flow-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 60 32" fill="none">
+                      <path className="process-flow-arrow-curve" d="M56 8C40 27 20 27 7 15" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+                      <path className="process-flow-arrow-head" d="M13 9 6 15l7 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                )}
+              </React.Fragment>
             ))}
           </div>
         </div>
       </section>
 
-      {/* =========================== PACKAGES =========================== */}
-      <section className="section" id="packages">
-        <div className="wrap">
-          <motion.div className="section-head-center" {...reveal}>
-            <span className="eyebrow"><Gauge style={{ width: 15, height: 15 }} /> חבילות שירות</span>
-            <h2 className="section-head-title-light">מחיר קבוע לחודש, <span style={{ fontWeight: 800, color: 'var(--purple-main)' }}>בלי הפתעות</span></h2>
-            <p className="section-lead">
-              כל החבילות כוללות מערכת כרטיסים, דוח חודשי ואיש קשר טכני קבוע.
-              המחירים לפני מע"מ ומותאמים לפי גודל הארגון.
-            </p>
-          </motion.div>
-
-          <div className="pkg-grid">
-            {packages.map((p, i) => (
-              <motion.div
-                className={`pkg-card${p.featured ? ' is-featured' : ''}`}
-                key={p.name}
-                initial={{ opacity: 0, y: 26 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.15 }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-              >
-                {p.featured && <div className="pkg-ribbon">הפופולרית ביותר</div>}
-
-                <div className="pkg-name">{p.name}</div>
-                <div className="pkg-for">{p.for}</div>
-
-                <div className="pkg-price">
-                  <span className="num">{p.price}</span>
-                  <span className="per">{p.per}</span>
-                </div>
-                <div className="pkg-note">{p.note}</div>
-
-                <ul className="pkg-list">
-                  {p.features.map((f) => (
-                    <li key={f}><CheckCircle2 /> <span>{f}</span></li>
-                  ))}
-                </ul>
-
-                <a href="#contact" className={`btn ${p.featured ? 'btn-primary' : 'btn-ghost'}`} style={{ width: '100%' }}>
-                  קבלו הצעת מחיר
-                </a>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ========================== CALCULATOR ========================== */}
-      <section className="section-tight" id="calculator">
-        <div className="calculator-wrap">
-          <motion.div className="section-head-center" {...reveal}>
-            <span className="eyebrow"><Zap style={{ width: 15, height: 15 }} /> מחשבון אינטראקטיבי</span>
-            <h2 className="section-head-title-light">כמה העסק שלכם <span style={{ fontWeight: 800, color: 'var(--purple-main)' }}>יכול לחסוך</span></h2>
-            <p className="section-lead">גררו את המחוון ובחרו את השירותים הרלוונטיים כדי לקבל הערכה מיידית.</p>
-          </motion.div>
-
-          <motion.div className="calc-white-card" {...reveal}>
-            <div className="calc-header-flex">
-              <span className="calc-label-text">מספר עובדים / תחנות בארגון</span>
-              <span className="calc-num-display">{userEmployees}</span>
-            </div>
-
-            <input
-              type="range"
-              min="5"
-              max="250"
-              value={userEmployees}
-              onChange={(e) => setUserEmployees(Number(e.target.value))}
-              className="calc-range-slider"
-              aria-label="מספר עובדים"
-            />
-            <div className="calc-scale-row"><span>5</span><span>250</span></div>
-
-            <div className="calc-toggle-row">
-              <button
-                className={`calc-toggle${addons.soc ? ' is-on' : ''}`}
-                onClick={() => setAddons((a) => ({ ...a, soc: !a.soc }))}
-              >
-                <ShieldCheck /> MDR — ניטור ותגובה
-              </button>
-              <button
-                className={`calc-toggle${addons.backup ? ' is-on' : ''}`}
-                onClick={() => setAddons((a) => ({ ...a, backup: !a.backup }))}
-              >
-                <Database /> גיבוי חסין כופרות
-              </button>
-              <button
-                className={`calc-toggle${addons.cloud ? ' is-on' : ''}`}
-                onClick={() => setAddons((a) => ({ ...a, cloud: !a.cloud }))}
-              >
-                <Cloud /> אופטימיזציית ענן
-              </button>
-            </div>
-
-            <div className="calc-result-purple-box">
-              <div style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-muted)' }}>
-                חיסכון חודשי מוערך בעלויות IT וסייבר
-              </div>
-              <motion.div
-                className="calc-price-text"
-                key={calculatedSavings}
-                initial={{ opacity: 0.4, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.25 }}
-              >
-                ₪{calculatedSavings.toLocaleString()}
-              </motion.div>
-              <div className="calc-breakdown">
-                <span>מניעת השבתה: <b>~{downtimeHours} שעות בחודש</b></span>
-                <span>חיסכון שנתי: <b>₪{(calculatedSavings * 12).toLocaleString()}</b></span>
-              </div>
-              <a href="#contact" className="btn btn-primary" style={{ marginTop: 22 }}>
-                בדקו את החיסכון האמיתי שלכם
-                <ArrowLeft style={{ width: 18, height: 18 }} />
-              </a>
-            </div>
-
-            <p className="form-note">
-              ההערכה מבוססת על נתוני ממוצע שוק לעלות השבתה, רישוי כפול וזמן טכנאי. המספר המדויק נקבע בסקר תשתיות.
-            </p>
-          </motion.div>
-        </div>
-      </section>
 
       {/* ============================ ABOUT ============================= */}
       <section className="dark-soc-wrapper" id="about">
@@ -1212,7 +1046,6 @@ export default function App() {
             <h4>החברה</h4>
             <a href="#about">אודות SecureOps</a>
             <a href="#process">תהליך העבודה</a>
-            <a href="#packages">חבילות ומחירים</a>
             <a href="#team">צוות המומחים</a>
             <a href="#testimonials">לקוחות ממליצים</a>
             <a href="#faq">שאלות נפוצות</a>

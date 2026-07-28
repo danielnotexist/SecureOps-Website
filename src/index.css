@@ -1,8 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap');
 
 /* ==========================================================================
    SecureOps Design System v3
-   Typeface: Rubik (rounded geometric, full Hebrew support)
+   Typeface: Heebo — geometric sans, full Hebrew support.
+   Swapped from Rubik (also sans-serif) to match the sharper, more neutral
+   grotesk look the client pointed to on a competitor site. That reference
+   used a licensed commercial font (Fontbit's "FB Coherenti Sans", restricted
+   embedding) which can't legally be reused here without a purchased license
+   — Heebo is the closest free match in the same visual family.
    ========================================================================== */
 
 :root {
@@ -84,7 +89,7 @@ html {
 
 html, body {
   width: 100%;
-  font-family: 'Rubik', system-ui, -apple-system, sans-serif;
+  font-family: 'Heebo', system-ui, -apple-system, sans-serif;
   font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -912,57 +917,121 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 
 .process-section { background: var(--bg-soft); border-block: 1px solid var(--line); }
 
-.process-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 22px;
+/* Flow layout: tile → curved arrow → tile → ... reads right-to-left with the
+   page direction, so step 01 sits rightmost and the arrows point toward the
+   next (lower, further-left) step — same funnel logic as a "leave your
+   details" step-by-step explainer, adapted to our own tile/badge system
+   rather than copied from any one reference. */
+.process-flow-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2px;
+}
+
+.process-flow-card {
   position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 230px;
+  text-align: center;
 }
 
-.process-grid::before {
-  content: '';
+.process-flow-tile {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  margin: 0 auto 20px;
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--sh-sm);
+  display: grid;
+  place-items: center;
+  transition: transform 0.32s var(--ease-out), box-shadow 0.32s var(--ease-out), border-color 0.32s var(--ease-out);
+}
+.process-flow-card:hover .process-flow-tile {
+  transform: translateY(-4px);
+  border-color: var(--cy-teal-dk);
+  box-shadow: var(--sh-md);
+}
+
+/* idle float — each icon gets its own phase via inline animation-delay in
+   JSX, so the four tiles bob out of sync instead of in lockstep */
+@keyframes processIconFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-6px) rotate(-3deg); }
+}
+
+.process-flow-icon {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  animation: processIconFloat 3.6s ease-in-out infinite;
+}
+/* hand control from the idle float to a snappier hover wiggle, then let the
+   float resume (from 0%) once the pointer leaves */
+.process-flow-card:hover .process-flow-icon {
+  animation: none;
+  transform: scale(1.14) rotate(6deg);
+  transition: transform 0.3s var(--ease-out);
+}
+
+.process-flow-icon-fallback { font-size: 1.4rem; font-weight: 800; color: var(--purple-100); }
+
+.process-flow-badge {
   position: absolute;
-  top: 30px;
-  right: 12%;
-  left: 12%;
-  height: 2px;
-  background: repeating-linear-gradient(to right, var(--purple-100) 0 10px, transparent 10px 20px);
-  z-index: 0;
-}
-
-@media (max-width: 900px) {
-  .process-grid { grid-template-columns: repeat(2, 1fr); }
-  .process-grid::before { display: none; }
-}
-@media (max-width: 520px) { .process-grid { grid-template-columns: 1fr; } }
-
-.process-step { position: relative; z-index: 1; text-align: center; }
-
-.process-num {
-  width: 60px;
-  height: 60px;
+  top: -10px;
+  right: -10px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  margin: 0 auto 18px;
-  background: var(--surface);
-  border: 2px solid var(--purple-100);
-  color: var(--purple-main);
-  font-size: 1.25rem;
+  background: linear-gradient(135deg, var(--cy-teal-hi) 0%, var(--cy-teal-dk) 100%);
+  border: 2px solid var(--bg-soft);
+  color: #04222C;
+  font-size: 0.82rem;
   font-weight: 800;
-  box-shadow: var(--sh-sm);
-  transition: all 0.35s var(--ease-out);
-}
-.process-step:hover .process-num {
-  background: linear-gradient(140deg, var(--purple-main), var(--purple-dark));
-  color: #fff;
-  border-color: transparent;
-  transform: translateY(-4px);
-  box-shadow: var(--sh-purple);
+  box-shadow: 0 4px 10px -2px rgba(47, 191, 166, 0.45);
 }
 
-.process-step h3 { font-size: 1.08rem; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
-.process-step p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.7; max-width: 260px; margin: 0 auto; }
+.process-flow-card h3 { font-size: 1.05rem; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+.process-flow-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.65; max-width: 205px; margin-inline: auto; }
+
+.process-flow-arrow {
+  flex-shrink: 0;
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 88px;
+  color: var(--cy-teal-dk);
+  opacity: 0.7;
+}
+.process-flow-arrow svg { width: 100%; height: auto; }
+
+/* marching dashes along the curve only — the small chevron head stays solid
+   so it doesn't dissolve into its own dash pattern at that size */
+.process-flow-arrow-curve {
+  stroke-dasharray: 5 6;
+  animation: processArrowFlow 1.8s linear infinite;
+}
+@keyframes processArrowFlow {
+  to { stroke-dashoffset: -22; }
+}
+
+@media (max-width: 900px) {
+  /* the arrows only read correctly in a single row — switch to a plain grid
+     rather than letting flex-wrap fight the card max-width into 3-up rows */
+  .process-flow-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 36px 20px; }
+  .process-flow-arrow { display: none; }
+  .process-flow-card { max-width: none; }
+}
+@media (max-width: 560px) {
+  .process-flow-row { grid-template-columns: 1fr; }
+}
 
 /* ==========================================================================
    Purple CTA banner
@@ -1027,159 +1096,6 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
   display: block;
   margin: 0 auto;
 }
-
-/* ==========================================================================
-   Packages
-   ========================================================================== */
-
-.pkg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: start; }
-@media (max-width: 960px) { .pkg-grid { grid-template-columns: 1fr; max-width: 480px; margin-inline: auto; } }
-
-.pkg-card {
-  position: relative;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--r-xl);
-  padding: 34px 30px;
-  box-shadow: var(--sh-sm);
-  transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-.pkg-card:hover { transform: translateY(-6px); box-shadow: var(--sh-lg); }
-
-.pkg-card.is-featured {
-  border: 2px solid var(--purple-main);
-  box-shadow: var(--sh-lg);
-  background: linear-gradient(180deg, var(--purple-50) 0%, var(--surface) 34%);
-}
-
-.pkg-ribbon {
-  position: absolute;
-  top: -14px;
-  right: 30px;
-  background: linear-gradient(135deg, var(--purple-main), var(--purple-dark));
-  color: #fff;
-  font-size: 0.8rem;
-  font-weight: 700;
-  padding: 6px 18px;
-  border-radius: var(--r-pill);
-  box-shadow: var(--sh-purple);
-}
-
-.pkg-name { font-size: 1.3rem; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
-.pkg-for { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px; }
-
-.pkg-price { display: flex; align-items: baseline; gap: 7px; margin-bottom: 6px; }
-.pkg-price .num { font-size: 2.4rem; font-weight: 800; color: var(--purple-main); letter-spacing: -0.04em; }
-.pkg-price .per { font-size: 0.9rem; color: var(--text-muted); font-weight: 500; }
-.pkg-note { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 24px; }
-
-.pkg-list { list-style: none; display: flex; flex-direction: column; gap: 11px; margin-bottom: 28px; flex-grow: 1; }
-.pkg-list li { display: flex; align-items: flex-start; gap: 9px; font-size: 0.93rem; color: var(--text-dark); line-height: 1.55; }
-.pkg-list li svg { width: 17px; height: 17px; color: var(--cyan-hover); flex-shrink: 0; margin-top: 3px; }
-
-/* ==========================================================================
-   Calculator
-   ========================================================================== */
-
-.calculator-wrap { max-width: var(--wrap-narrow); margin: 0 auto; padding: 0 24px; }
-
-.calc-white-card {
-  background: var(--surface);
-  border-radius: var(--r-2xl);
-  padding: 44px;
-  box-shadow: var(--sh-md);
-  border: 1px solid var(--line);
-}
-@media (max-width: 600px) { .calc-white-card { padding: 28px 22px; } }
-
-.calc-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; gap: 16px; flex-wrap: wrap; }
-.calc-label-text { font-size: 1.08rem; font-weight: 600; color: var(--ink); }
-
-.calc-num-display {
-  font-size: 2rem;
-  font-weight: 800;
-  color: var(--purple-main);
-  background: var(--purple-50);
-  border-radius: var(--r-sm);
-  padding: 2px 18px;
-  letter-spacing: -0.03em;
-}
-
-.calc-range-slider {
-  width: 100%;
-  height: 8px;
-  border-radius: var(--r-pill);
-  background: var(--bg-soft);
-  outline: none;
-  accent-color: var(--purple-main);
-  cursor: pointer;
-  -webkit-appearance: none;
-  appearance: none;
-}
-.calc-range-slider::-webkit-slider-runnable-track { height: 8px; border-radius: var(--r-pill); background: transparent; }
-.calc-range-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 26px;
-  height: 26px;
-  margin-top: -9px;
-  border-radius: 50%;
-  background: #fff;
-  border: 4px solid var(--purple-main);
-  box-shadow: var(--sh-md);
-  cursor: grab;
-  transition: transform 0.2s var(--ease);
-}
-.calc-range-slider::-webkit-slider-thumb:hover { transform: scale(1.12); }
-
-.calc-scale-row { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-top: 8px; }
-
-.calc-toggle-row { display: flex; gap: 10px; flex-wrap: wrap; margin: 26px 0 4px; }
-
-.calc-toggle {
-  border: 1px solid var(--line-strong);
-  background: var(--surface);
-  color: var(--text-dark);
-  border-radius: var(--r-pill);
-  padding: 9px 18px;
-  font-family: inherit;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  transition: all 0.25s var(--ease);
-}
-.calc-toggle svg { width: 15px; height: 15px; }
-.calc-toggle.is-on {
-  background: var(--purple-50);
-  border-color: var(--purple-main);
-  color: var(--purple-dark);
-  box-shadow: inset 0 0 0 1px var(--purple-main);
-}
-
-.calc-result-purple-box {
-  background: linear-gradient(135deg, var(--purple-50) 0%, var(--cyan-50) 100%);
-  border: 1px solid var(--purple-100);
-  border-radius: var(--r-lg);
-  padding: 30px;
-  text-align: center;
-  margin-top: 28px;
-}
-
-.calc-price-text {
-  font-size: clamp(2.1rem, 5vw, 3rem);
-  font-weight: 800;
-  color: var(--purple-main);
-  margin: 6px 0;
-  letter-spacing: -0.04em;
-}
-
-.calc-breakdown { display: flex; justify-content: center; gap: 26px; flex-wrap: wrap; margin-top: 14px; font-size: 0.86rem; color: var(--text-muted); }
-.calc-breakdown b { color: var(--text-dark); font-weight: 700; }
 
 /* ==========================================================================
    Dark SOC section
