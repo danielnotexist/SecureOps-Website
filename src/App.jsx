@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   CheckCircle2,
@@ -10,7 +10,9 @@ import {
   Cloud,
   Headphones,
   ShieldCheck,
+  Database,
   Server,
+  Zap,
   Clock,
   Award,
   Users,
@@ -203,6 +205,56 @@ const processSteps = [
   { n: '04', icon: LifeBuoy, title: 'ניהול וניטור שוטף', text: 'ניטור MDR שוטף, דוחות חודשיים ופגישת סטטוס רבעונית לשיפור מתמיד.' }
 ];
 
+const packages = [
+  {
+    name: 'Essential',
+    for: 'עסקים קטנים עד 15 עמדות',
+    price: '₪89',
+    per: '/ משתמש לחודש',
+    note: 'מינימום 5 משתמשים · ללא התחייבות ארוכה',
+    featured: false,
+    features: [
+      'תמיכת Helpdesk מרחוק בשעות עסקים',
+      'ניהול Microsoft 365 ורישיונות',
+      'אנטי וירוס מנוהל בתחנות',
+      'גיבוי ענן יומי מוצפן',
+      'דוח סטטוס חודשי'
+    ]
+  },
+  {
+    name: 'Business',
+    for: 'הבחירה של רוב הארגונים',
+    price: '₪149',
+    per: '/ משתמש לחודש',
+    note: 'כולל כל מה שב-Essential · SLA מחייב',
+    featured: true,
+    features: [
+      'תמיכה 24/7 עם SLA של 15 דקות',
+      'EDR מתקדם ושירות MDR מנוהל 24/7',
+      'ניהול חומת אש ותקשורת סניפים',
+      'גיבוי חסין כופרות (Immutable)',
+      'טכנאי באתר לפי צורך',
+      'ניהול שרתים ותשתיות וירטואליות'
+    ]
+  },
+  {
+    name: 'Enterprise',
+    for: 'ארגונים מרובי אתרים ורגולציה',
+    price: 'בהתאמה',
+    per: 'אישית',
+    note: 'כולל כל מה שב-Business · חוזה שנתי',
+    featured: false,
+    features: [
+      'ארכיטקט ענן ומנהל אבטחת מידע ייעודי',
+      'מבדקי חדירות תקופתיים ודוח ממצאים',
+      'הכנה וליווי לתקינת ISO 27001 / SOC 2',
+      'תוכנית DRP מתורגלת פעמיים בשנה',
+      'זמינות 99.99% מגובה בפיצוי חוזי',
+      'פגישת סטטוס רבעונית עם הנהלה'
+    ]
+  }
+];
+
 // photo: null renders an initials avatar until real headshots land.
 const team = [
   {
@@ -305,7 +357,16 @@ export default function App() {
   const [openFaq, setOpenFaq] = useState(0);
   const [contactSent, setContactSent] = useState(false);
 
+  const [userEmployees, setUserEmployees] = useState(25);
+  const [addons, setAddons] = useState({ soc: true, backup: true, cloud: false });
+
   const [wordIndex, setWordIndex] = useState(0);
+
+  const basePerSeat = 380;
+  const addonPerSeat =
+    (addons.soc ? 120 : 0) + (addons.backup ? 60 : 0) + (addons.cloud ? 90 : 0);
+  const calculatedSavings = Math.round(userEmployees * (basePerSeat + addonPerSeat) * 0.72);
+  const downtimeHours = Math.max(2, Math.round(userEmployees * 0.45));
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -328,7 +389,7 @@ export default function App() {
   const openService = (svc) => { setSelectedService(svc); setIsServicesHovered(false); setMobileOpen(false); };
 
   return (
-    <div className="app-shell">
+    <div className="min-h-screen">
 
       {/* ============================ HEADER ============================ */}
       <header className={`header-unibo-style${scrolled ? ' is-scrolled' : ''}`}>
@@ -345,7 +406,7 @@ export default function App() {
             >
               <a href="#services" className="header-nav-link">
                 <span>השירותים שלנו</span>
-                <ChevronDown className="header-nav-chevron" style={{ width: 16, height: 16, color: 'var(--brand)' }} />
+                <ChevronDown className="header-nav-chevron" style={{ width: 16, height: 16, color: 'var(--purple-main)' }} />
               </a>
 
               <AnimatePresence>
@@ -391,11 +452,11 @@ export default function App() {
               </AnimatePresence>
             </li>
 
-            <li><a href="#why" className="header-nav-link">למה אנחנו</a></li>
+            <li><a href="#packages" className="header-nav-link">חבילות ומחירים</a></li>
             <li><a href="#process" className="header-nav-link">איך זה עובד</a></li>
             <li>
               <button onClick={() => setPressModalOpen(true)} className="press-nav-highlight">
-                <Newspaper style={{ width: 17, height: 17, color: 'var(--brand)' }} />
+                <Newspaper style={{ width: 17, height: 17, color: 'var(--purple-main)' }} />
                 <span>ישראל היום</span>
                 <span className="press-badge-soon">בקרוב</span>
               </button>
@@ -445,16 +506,17 @@ export default function App() {
               </div>
 
               <a href="#services" onClick={() => setMobileOpen(false)}>השירותים שלנו</a>
-              <a href="#why" onClick={() => setMobileOpen(false)}>למה אנחנו</a>
-              <button
+              <a href="#packages" onClick={() => setMobileOpen(false)}>חבילות ומחירים</a>
+              <button 
                 onClick={() => { setMobileOpen(false); setPressModalOpen(true); }} 
                 className="press-nav-highlight"
                 style={{ marginBlock: 6, justifyContent: 'center' }}
               >
-                <Newspaper style={{ width: 17, height: 17, color: 'var(--brand)' }} />
+                <Newspaper style={{ width: 17, height: 17, color: 'var(--purple-main)' }} />
                 <span>כתבה בישראל היום</span>
                 <span className="press-badge-soon">בקרוב</span>
               </button>
+              <a href="#calculator" onClick={() => setMobileOpen(false)}>מחשבון חיסכון</a>
               <a href="#process" onClick={() => setMobileOpen(false)}>איך זה עובד</a>
               <a href="#about" onClick={() => setMobileOpen(false)}>אודות</a>
               <a href="#team" onClick={() => setMobileOpen(false)}>הצוות</a>
@@ -474,164 +536,114 @@ export default function App() {
       </AnimatePresence>
 
       {/* ============================= HERO ============================= */}
-      <section className="hero" id="top">
-        <div className="hero-inner">
+      <section className="hero-fullcover-unibo-wrap" id="top">
+        <motion.div
+          className="hero-badge"
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <span className="dot" />
+          <span>שירות MDR מנוהל · ניטור ותגובה 24/7/365</span>
+        </motion.div>
 
-          {/* --- copy column (right in RTL) --- */}
-          <div className="hero-copy">
-            <motion.div
-              className="hero-badge"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <span className="dot" />
-              <span>שירות MDR מנוהל · ניטור ותגובה 24/7/365</span>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.05, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <div className="hero-slogan-line">
-                <span>make IT</span>
-                <span className="hero-slogan-rotator">
-                  <AnimatePresence initial={false}>
-                    <motion.span
-                      key={dynamicWords[wordIndex]}
-                      initial={{ opacity: 0, y: 18, filter: 'blur(5px)' }}
-                      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                      exit={{ opacity: 0, y: -18, filter: 'blur(5px)', position: 'absolute' }}
-                      transition={{ duration: 0.42, ease: 'easeOut' }}
-                    >
-                      {dynamicWords[wordIndex]}
-                    </motion.span>
-                  </AnimatePresence>
-                </span>
-              </div>
-
-              <h1 className="hero-headline-navy">with SecureOps</h1>
-            </motion.div>
-
-            <div className="hero-subtext-gray">
-              <AnimatePresence initial={false}>
-                <motion.p
-                  key={dynamicHebrew[wordIndex]}
-                  initial={{ opacity: 0, y: 10, filter: 'blur(3px)' }}
-                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                  exit={{ opacity: 0, y: -10, filter: 'blur(3px)', position: 'absolute' }}
-                  transition={{ duration: 0.42 }}
-                >
-                  {dynamicHebrew[wordIndex]}
-                </motion.p>
-              </AnimatePresence>
-            </div>
-
-            <motion.div
-              className="hero-stats-card"
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.16, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <div className="hero-proof-item">
-                <span className="hero-proof-num">500+</span>
-                <span className="hero-proof-lbl">ארגונים מנוהלים</span>
-              </div>
-              <div className="hero-proof-item">
-                <span className="hero-proof-num">99.99%</span>
-                <span className="hero-proof-lbl">זמינות מדודה</span>
-              </div>
-              <div className="hero-proof-item">
-                <span className="hero-proof-num">15 דק'</span>
-                <span className="hero-proof-lbl">זמן תגובה SLA</span>
-              </div>
-              <div className="hero-proof-item">
-                <span className="hero-proof-num">12</span>
-                <span className="hero-proof-lbl">שנות ניסיון בשוק</span>
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="hero-cta-row"
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.24, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <a href="#contact" className="btn btn-primary">
-                <Sparkles style={{ width: 17, height: 17 }} />
-                קבלו סקר תשתיות ללא עלות
-              </a>
-              <a href="#services" className="btn btn-ghost">
-                לכל השירותים
-                <ArrowLeft style={{ width: 17, height: 17 }} />
-              </a>
-            </motion.div>
-          </div>
-
-          {/* --- visual column (left in RTL) ---
-              ASSET SLOT `hero-illustration`: swap `.hero-stage-art` + `.hero-stage-bg`
-              for the single hero render once it exists (see ASSETS-REQUIRED.md). */}
-          <motion.div
-            className="hero-visual"
-            initial={{ opacity: 0, scale: 0.97 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.1, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <div className="hero-stage">
-              <img src="/images/hero_3d_bg.jpg" alt="" className="hero-stage-bg" aria-hidden="true" />
-              <img
-                src="/images/icons/svc-cyber.png"
-                alt="מעטפת אבטחת מידע וענן מנוהלת של SecureOps"
-                className="hero-stage-art"
-              />
-
-              <div className="hero-chip hero-chip-1">
-                <span className="hero-chip-live" />
-                <span>
-                  MDR פעיל
-                  <span className="chip-sub">ניטור רציף 24/7</span>
-                </span>
-              </div>
-
-              <div className="hero-chip hero-chip-2">
-                <ShieldCheck />
-                <span>
-                  0 אירועי כופר
-                  <span className="chip-sub">אצל לקוחות מנוהלים</span>
-                </span>
-              </div>
-
-              <div className="hero-chip hero-chip-3">
-                <Clock />
-                <span>
-                  15 דקות
-                  <span className="chip-sub">זמן תגובה בחוזה</span>
-                </span>
-              </div>
-            </div>
-          </motion.div>
+        <div className="hero-slogan-line">
+          <span>make IT</span>
+          <span className="hero-slogan-rotator">
+            <AnimatePresence initial={false}>
+              <motion.span
+                key={dynamicWords[wordIndex]}
+                initial={{ opacity: 0, y: 18, filter: 'blur(5px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                exit={{ opacity: 0, y: -18, filter: 'blur(5px)', position: 'absolute' }}
+                transition={{ duration: 0.42, ease: 'easeOut' }}
+              >
+                {dynamicWords[wordIndex]}
+              </motion.span>
+            </AnimatePresence>
+          </span>
         </div>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.08, duration: 0.6 }}
+          className="hero-headline-navy"
+        >
+          with SecureOps
+        </motion.h1>
+
+        <div className="hero-subtext-gray">
+          <AnimatePresence initial={false}>
+            <motion.p
+              key={dynamicHebrew[wordIndex]}
+              initial={{ opacity: 0, y: 10, filter: 'blur(3px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, y: -10, filter: 'blur(3px)', position: 'absolute' }}
+              transition={{ duration: 0.42 }}
+            >
+              {dynamicHebrew[wordIndex]}
+            </motion.p>
+          </AnimatePresence>
+        </div>
+
+        <motion.div
+          className="hero-cta-row"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.55 }}
+        >
+          <a href="#contact" className="btn btn-primary">
+            <Sparkles style={{ width: 18, height: 18 }} />
+            קבלו סקר תשתיות ללא עלות
+          </a>
+          <a href="#services" className="btn btn-ghost">
+            לכל השירותים
+            <ArrowLeft style={{ width: 18, height: 18 }} />
+          </a>
+        </motion.div>
+
+        <motion.div
+          className="hero-proof-row"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.35, duration: 0.6 }}
+        >
+          <div className="hero-proof-item">
+            <span className="hero-proof-num">500+</span>
+            <span className="hero-proof-lbl">ארגונים מנוהלים</span>
+          </div>
+          <div className="hero-proof-item">
+            <span className="hero-proof-num">99.99%</span>
+            <span className="hero-proof-lbl">זמינות מדודה</span>
+          </div>
+          <div className="hero-proof-item">
+            <span className="hero-proof-num">15 דק'</span>
+            <span className="hero-proof-lbl">זמן תגובה SLA</span>
+          </div>
+          <div className="hero-proof-item">
+            <span className="hero-proof-num">12</span>
+            <span className="hero-proof-lbl">שנות ניסיון בשוק</span>
+          </div>
+        </motion.div>
       </section>
 
       {/* ========================== TECH STRIP ========================== */}
       <section className="tech-strip">
-        <div className="tech-strip-inner">
-          <div className="tech-strip-title">עובדים עם הטכנולוגיות המובילות בעולם</div>
-          <div className="tech-marquee">
-            {[0, 1].map((dup) => (
-              <div className="tech-marquee-group" key={dup} aria-hidden={dup === 1}>
-                {techStack.map((t) => (
-                  <span className="tech-chip" key={`${dup}-${t.name}`}>
-                    {t.logo
-                      ? <img src={t.logo} alt={t.name} className="tech-chip-logo" loading="lazy" />
-                      : <span className="tech-chip-dot" />}
-                    {!t.wordmark && t.name}
-                  </span>
-                ))}
-              </div>
-            ))}
-          </div>
+        <div className="tech-strip-title">עובדים עם הטכנולוגיות המובילות בעולם</div>
+        <div className="tech-marquee">
+          {[0, 1].map((dup) => (
+            <div className="tech-marquee-group" key={dup} aria-hidden={dup === 1}>
+              {techStack.map((t) => (
+                <span className="tech-chip" key={`${dup}-${t.name}`}>
+                  {t.logo
+                    ? <img src={t.logo} alt={t.name} className="tech-chip-logo" loading="lazy" />
+                    : <span className="tech-chip-dot" />}
+                  {!t.wordmark && t.name}
+                </span>
+              ))}
+            </div>
+          ))}
         </div>
       </section>
 
@@ -659,9 +671,7 @@ export default function App() {
                 viewport={{ once: true, amount: 0.15 }}
                 transition={{ duration: 0.5, delay: (i % 3) * 0.08, ease: [0.16, 1, 0.3, 1] }}
               >
-                <span className="service-icon-tile">
-                  <img src={svc.img} alt="" className="service-icon-3d" loading="lazy" />
-                </span>
+                <img src={svc.img} alt="" className="service-icon-3d" loading="lazy" />
 
                 <h3 className="service-card-title">{svc.title}</h3>
                 <p className="service-card-sub">{svc.subtitle}</p>
@@ -684,7 +694,7 @@ export default function App() {
         <div className="wrap">
           <motion.div className="section-head-center" {...reveal}>
             <span className="eyebrow"><Award style={{ width: 15, height: 15 }} /> למה SecureOps</span>
-            <h2 className="section-head-title-light">ההבדל הוא <span className="accent">בפרטים הקטנים</span></h2>
+            <h2 className="section-head-title-light">ההבדל הוא <span style={{ fontWeight: 800, color: 'var(--purple-main)' }}>בפרטים הקטנים</span></h2>
             <p className="section-lead">ארבע סיבות שבגללן ארגונים עוברים אלינו — ונשארים.</p>
           </motion.div>
 
@@ -737,9 +747,9 @@ export default function App() {
               </div>
 
               <div style={{ marginTop: 28, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-                <a href="#contact" className="btn btn-cyan">דברו איתנו <ArrowLeft style={{ width: 17, height: 17 }} /></a>
-                <a href="#services" className="btn btn-ghost" style={{ background: 'rgba(255,255,255,0.08)', color: '#fff', borderColor: 'rgba(255,255,255,0.20)', boxShadow: 'none' }}>
-                  לכל השירותים
+                <a href="#contact" className="btn btn-cyan">דברו איתנו <ArrowLeft style={{ width: 18, height: 18 }} /></a>
+                <a href="#packages" className="btn btn-ghost" style={{ background: 'rgba(255,255,255,0.14)', color: '#fff', borderColor: 'rgba(255,255,255,0.24)' }}>
+                  לחבילות השירות
                 </a>
               </div>
             </div>
@@ -779,13 +789,138 @@ export default function App() {
         </div>
       </section>
 
+      {/* =========================== PACKAGES =========================== */}
+      <section className="section" id="packages">
+        <div className="wrap">
+          <motion.div className="section-head-center" {...reveal}>
+            <span className="eyebrow"><Gauge style={{ width: 15, height: 15 }} /> חבילות שירות</span>
+            <h2 className="section-head-title-light">מחיר קבוע לחודש, <span style={{ fontWeight: 800, color: 'var(--purple-main)' }}>בלי הפתעות</span></h2>
+            <p className="section-lead">
+              כל החבילות כוללות מערכת כרטיסים, דוח חודשי ואיש קשר טכני קבוע.
+              המחירים לפני מע"מ ומותאמים לפי גודל הארגון.
+            </p>
+          </motion.div>
+
+          <div className="pkg-grid">
+            {packages.map((p, i) => (
+              <motion.div
+                className={`pkg-card${p.featured ? ' is-featured' : ''}`}
+                key={p.name}
+                initial={{ opacity: 0, y: 26 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+              >
+                {p.featured && <div className="pkg-ribbon">הפופולרית ביותר</div>}
+
+                <div className="pkg-name">{p.name}</div>
+                <div className="pkg-for">{p.for}</div>
+
+                <div className="pkg-price">
+                  <span className="num">{p.price}</span>
+                  <span className="per">{p.per}</span>
+                </div>
+                <div className="pkg-note">{p.note}</div>
+
+                <ul className="pkg-list">
+                  {p.features.map((f) => (
+                    <li key={f}><CheckCircle2 /> <span>{f}</span></li>
+                  ))}
+                </ul>
+
+                <a href="#contact" className={`btn ${p.featured ? 'btn-primary' : 'btn-ghost'}`} style={{ width: '100%' }}>
+                  קבלו הצעת מחיר
+                </a>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ========================== CALCULATOR ========================== */}
+      <section className="section-tight" id="calculator">
+        <div className="calculator-wrap">
+          <motion.div className="section-head-center" {...reveal}>
+            <span className="eyebrow"><Zap style={{ width: 15, height: 15 }} /> מחשבון אינטראקטיבי</span>
+            <h2 className="section-head-title-light">כמה העסק שלכם <span style={{ fontWeight: 800, color: 'var(--purple-main)' }}>יכול לחסוך</span></h2>
+            <p className="section-lead">גררו את המחוון ובחרו את השירותים הרלוונטיים כדי לקבל הערכה מיידית.</p>
+          </motion.div>
+
+          <motion.div className="calc-white-card" {...reveal}>
+            <div className="calc-header-flex">
+              <span className="calc-label-text">מספר עובדים / תחנות בארגון</span>
+              <span className="calc-num-display">{userEmployees}</span>
+            </div>
+
+            <input
+              type="range"
+              min="5"
+              max="250"
+              value={userEmployees}
+              onChange={(e) => setUserEmployees(Number(e.target.value))}
+              className="calc-range-slider"
+              aria-label="מספר עובדים"
+            />
+            <div className="calc-scale-row"><span>5</span><span>250</span></div>
+
+            <div className="calc-toggle-row">
+              <button
+                className={`calc-toggle${addons.soc ? ' is-on' : ''}`}
+                onClick={() => setAddons((a) => ({ ...a, soc: !a.soc }))}
+              >
+                <ShieldCheck /> MDR — ניטור ותגובה
+              </button>
+              <button
+                className={`calc-toggle${addons.backup ? ' is-on' : ''}`}
+                onClick={() => setAddons((a) => ({ ...a, backup: !a.backup }))}
+              >
+                <Database /> גיבוי חסין כופרות
+              </button>
+              <button
+                className={`calc-toggle${addons.cloud ? ' is-on' : ''}`}
+                onClick={() => setAddons((a) => ({ ...a, cloud: !a.cloud }))}
+              >
+                <Cloud /> אופטימיזציית ענן
+              </button>
+            </div>
+
+            <div className="calc-result-purple-box">
+              <div style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-muted)' }}>
+                חיסכון חודשי מוערך בעלויות IT וסייבר
+              </div>
+              <motion.div
+                className="calc-price-text"
+                key={calculatedSavings}
+                initial={{ opacity: 0.4, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25 }}
+              >
+                ₪{calculatedSavings.toLocaleString()}
+              </motion.div>
+              <div className="calc-breakdown">
+                <span>מניעת השבתה: <b>~{downtimeHours} שעות בחודש</b></span>
+                <span>חיסכון שנתי: <b>₪{(calculatedSavings * 12).toLocaleString()}</b></span>
+              </div>
+              <a href="#contact" className="btn btn-primary" style={{ marginTop: 22 }}>
+                בדקו את החיסכון האמיתי שלכם
+                <ArrowLeft style={{ width: 18, height: 18 }} />
+              </a>
+            </div>
+
+            <p className="form-note">
+              ההערכה מבוססת על נתוני ממוצע שוק לעלות השבתה, רישוי כפול וזמן טכנאי. המספר המדויק נקבע בסקר תשתיות.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
       {/* ============================ ABOUT ============================= */}
       <section className="dark-soc-wrapper" id="about">
         <div className="dark-soc-inner">
           <motion.div className="section-head-center" {...reveal}>
             <span className="eyebrow eyebrow-dark"><Activity style={{ width: 15, height: 15 }} /> אודות SecureOps</span>
             <h2 className="section-head-title-light" style={{ color: '#fff' }}>
-              הגנה שלא נרדמת <span style={{ fontWeight: 800, color: 'var(--cyan-soft)' }}>אף פעם</span>
+              הגנה שלא נרדמת <span style={{ fontWeight: 800, color: 'var(--cyan-accent)' }}>אף פעם</span>
             </h2>
           </motion.div>
 
@@ -826,7 +961,7 @@ export default function App() {
         <div className="wrap">
           <motion.div className="section-head-center" {...reveal}>
             <span className="eyebrow"><Star style={{ width: 15, height: 15 }} /> לקוחות מספרים</span>
-            <h2 className="section-head-title-light">מה אומרים עלינו <span className="accent">בשטח</span></h2>
+            <h2 className="section-head-title-light">מה אומרים עלינו <span style={{ fontWeight: 800, color: 'var(--purple-main)' }}>בשטח</span></h2>
           </motion.div>
 
           <div className="testi-grid">
@@ -861,7 +996,7 @@ export default function App() {
         <div className="wrap">
           <motion.div className="section-head-center" {...reveal}>
             <span className="eyebrow"><Users style={{ width: 15, height: 15 }} /> הצוות</span>
-            <h2 className="section-head-title-light">האנשים שמאחורי <span className="accent">SecureOps</span></h2>
+            <h2 className="section-head-title-light">האנשים שמאחורי <span style={{ fontWeight: 800, color: 'var(--purple-main)' }}>SecureOps</span></h2>
           </motion.div>
 
           <div className="team-2col-grid">
@@ -886,7 +1021,7 @@ export default function App() {
         <div className="wrap-narrow">
           <motion.div className="section-head-center" {...reveal}>
             <span className="eyebrow"><MessageCircle style={{ width: 15, height: 15 }} /> שאלות נפוצות</span>
-            <h2 className="section-head-title-light">כל מה ששאלתם <span className="accent">לפני שהתחלנו</span></h2>
+            <h2 className="section-head-title-light">כל מה ששאלתם <span style={{ fontWeight: 800, color: 'var(--purple-main)' }}>לפני שהתחלנו</span></h2>
           </motion.div>
 
           <div className="faq-list">
@@ -922,9 +1057,9 @@ export default function App() {
             <motion.div {...reveal}>
               <span className="eyebrow"><Send style={{ width: 15, height: 15 }} /> נשמח לשמוע מכם</span>
               <h2 className="section-head-title-light" style={{ marginBottom: 10 }}>
-                מתחילים ב<span className="accent">סקר תשתיות ללא עלות</span>
+                מתחילים ב<span style={{ fontWeight: 800, color: 'var(--purple-main)' }}>סקר תשתיות ללא עלות</span>
               </h2>
-              <p style={{ color: 'var(--muted)', lineHeight: 1.8 }}>
+              <p style={{ color: 'var(--text-muted)', lineHeight: 1.8 }}>
                 נגיע אליכם (או נתחבר מרחוק), נמפה את המערכות והסיכונים ונחזור עם דוח ממצאים
                 והצעה מותאמת — בלי התחייבות ובלי עלות.
               </p>
@@ -969,7 +1104,7 @@ export default function App() {
                 <div className="form-success">
                   <div className="form-success-icon"><CheckCircle2 /></div>
                   <h3 style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--ink)' }}>הפנייה התקבלה</h3>
-                  <p style={{ color: 'var(--muted)' }}>נציג שלנו יחזור אליכם תוך שעתיים בשעות הפעילות.</p>
+                  <p style={{ color: 'var(--text-muted)' }}>נציג שלנו יחזור אליכם תוך שעתיים בשעות הפעילות.</p>
                   <button className="btn btn-ghost" onClick={() => setContactSent(false)}>שליחת פנייה נוספת</button>
                 </div>
               ) : (
@@ -1058,9 +1193,7 @@ export default function App() {
               </button>
 
               <div className="modal-head">
-                <span className="modal-icon-tile">
-                  <img src={selectedService.img} alt="" className="service-icon-3d modal-icon" />
-                </span>
+                <img src={selectedService.img} alt="" className="service-icon-3d modal-icon" />
                 <div>
                   <h2>{selectedService.title}</h2>
                   <span>SecureOps — make IT easy</span>
@@ -1137,7 +1270,7 @@ export default function App() {
             <h4>החברה</h4>
             <a href="#about">אודות SecureOps</a>
             <a href="#process">תהליך העבודה</a>
-            <a href="#why">למה SecureOps</a>
+            <a href="#packages">חבילות ומחירים</a>
             <a href="#team">צוות המומחים</a>
             <a href="#testimonials">לקוחות ממליצים</a>
             <a href="#faq">שאלות נפוצות</a>
@@ -1146,19 +1279,19 @@ export default function App() {
           <div className="footer-col-item">
             <h4>צרו איתנו קשר</h4>
             <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Mail style={{ width: 16, height: 16, color: 'var(--cyan-soft)', flexShrink: 0 }} />
+              <Mail style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
               <span>contact@secureops.co.il</span>
             </p>
             <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Phone style={{ width: 16, height: 16, color: 'var(--cyan-soft)', flexShrink: 0 }} />
+              <Phone style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
               <a href={`tel:${PHONE_TEL}`} style={{ margin: 0, direction: 'ltr' }}>{PHONE_DISPLAY}</a>
             </p>
             <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <MapPin style={{ width: 16, height: 16, color: 'var(--cyan-soft)', flexShrink: 0 }} />
+              <MapPin style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
               <span>מגדלי עזריאלי, תל אביב</span>
             </p>
             <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Building2 style={{ width: 16, height: 16, color: 'var(--cyan-soft)', flexShrink: 0 }} />
+              <Building2 style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
               <span>ח.פ. 51-000000-0</span>
             </p>
           </div>
@@ -1200,14 +1333,14 @@ export default function App() {
       <AnimatePresence>
         {pressModalOpen && (
           <motion.div
-            className="modal-overlay-backdrop"
+            className="modal-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setPressModalOpen(false)}
           >
             <motion.div
-              className="modal-white-card"
+              className="service-modal-box"
               style={{ maxWidth: 540 }}
               initial={{ scale: 0.94, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
@@ -1219,15 +1352,15 @@ export default function App() {
               </button>
 
               <div style={{ textAlign: 'center', paddingTop: 12 }}>
-                <div className="eyebrow">
-                  <Newspaper style={{ width: 15, height: 15 }} /> פרסום בלעדי בתקשורת
+                <div className="eyebrow" style={{ background: 'linear-gradient(135deg, #F3EFFC, #E6E0F8)', borderColor: 'var(--purple-100)' }}>
+                  <Newspaper style={{ width: 16, height: 16 }} /> פרסום בלעדי בתקשורת
                 </div>
 
-                <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--ink)', letterSpacing: '-0.025em', marginBlock: '4px 12px' }}>
+                <h3 style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--ink)', marginBlock: '12px 10px' }}>
                   כתבה מיוחדת ב"ישראל היום" 📰
                 </h3>
 
-                <p style={{ fontSize: '0.9688rem', color: 'var(--muted)', lineHeight: 1.85, marginBottom: 26 }}>
+                <p style={{ fontSize: '1.02rem', color: 'var(--text-muted)', lineHeight: 1.75, marginBottom: 24 }}>
                   השבוע תפורסם ב"ישראל היום" כתבה נרחבת שתסקור את פתרונות הסייבר, הענן והתשתיות המתקדמים של <strong>SecureOps</strong>.
                   <br /><br />
                   הישארו מעודכנים! הקישור הישיר לכתבה יעלה לכאן מיד עם פרסומה.
