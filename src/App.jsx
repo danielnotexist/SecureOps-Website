@@ -151,22 +151,27 @@ const servicesData = [
   }
 ];
 
-// Monochrome vendor marks, tinted to the brand violet, in public/images/partners/.
-// `logo: null` renders the name on its own — those vendors delisted their marks
-// from the free icon sets, so their official file has to be downloaded by hand.
+// Official full-colour vendor wordmarks in public/images/partners/, sourced
+// from each vendor's own artwork (Wikimedia Commons mirrors of the official
+// files) — no AI-generated or hand-drawn stand-ins.
+//
+// `h` is the display height in px. The marks range from 1.7:1 (AWS, stacked
+// "aws" + smile) to 8.7:1 (Fortinet, one thin line), so a single shared cap
+// height would make AWS tiny and Fortinet enormous. Each height is tuned so
+// all eleven read at the same optical weight instead of the same measured
+// height.
 const techStack = [
-  { name: 'Microsoft 365', logo: '/images/partners/microsoft-365.svg' },
-  { name: 'Microsoft Azure', logo: '/images/partners/microsoft-azure.svg' },
-  { name: 'Amazon AWS', wordmark: true, logo: '/images/partners/amazon-aws.svg' },
-  { name: 'Fortinet', logo: '/images/partners/fortinet.svg' },
-  { name: 'Palo Alto Networks', logo: '/images/partners/palo-alto-networks.svg' },
-  { name: 'VMware', wordmark: true, logo: '/images/partners/vmware.svg' },
-  { name: 'Veeam Backup', wordmark: true, logo: '/images/partners/veeam.svg' },
-  { name: 'Acronis', logo: null },
-  { name: 'Google Workspace', logo: '/images/partners/google.svg' },
-  { name: 'CrowdStrike', logo: null },
-  { name: 'Cisco Meraki', logo: '/images/partners/cisco.svg' },
-  { name: 'Microsoft Intune', logo: '/images/partners/microsoft-365.svg' }
+  { name: 'Microsoft 365',              logo: '/images/partners/microsoft-365.svg', h: 26 },
+  { name: 'Veeam',                      logo: '/images/partners/veeam.svg',         h: 24 },
+  { name: 'VMware',                     logo: '/images/partners/vmware.svg',        h: 22 },
+  { name: 'Fortinet',                   logo: '/images/partners/fortinet.svg',      h: 20 },
+  { name: 'Acronis',                    logo: '/images/partners/acronis.svg',       h: 24 },
+  { name: 'Cisco',                      logo: '/images/partners/cisco.svg',         h: 42 },
+  { name: 'Hewlett Packard Enterprise', logo: '/images/partners/hpe.svg',           h: 44 },
+  { name: 'Google Cloud',               logo: '/images/partners/gcp.svg',           h: 26 },
+  { name: 'AWS',                        logo: '/images/partners/aws.svg',           h: 46 },
+  { name: 'SentinelOne',                logo: '/images/partners/sentinelone.svg',   h: 24 },
+  { name: 'Microsoft Azure',            logo: '/images/partners/azure.svg',         h: 28 }
 ];
 
 // `img` takes over from `icon` the moment a 3D render is dropped into
@@ -631,19 +636,24 @@ export default function App() {
       {/* ========================== TECH STRIP ========================== */}
       <section className="tech-strip">
         <div className="tech-strip-title">עובדים עם הטכנולוגיות המובילות בעולם</div>
-        <div className="tech-marquee">
-          {[0, 1].map((dup) => (
-            <div className="tech-marquee-group" key={dup} aria-hidden={dup === 1}>
-              {techStack.map((t) => (
-                <span className="tech-chip" key={`${dup}-${t.name}`}>
-                  {t.logo
-                    ? <img src={t.logo} alt={t.name} className="tech-chip-logo" loading="lazy" />
-                    : <span className="tech-chip-dot" />}
-                  {!t.wordmark && t.name}
-                </span>
-              ))}
-            </div>
-          ))}
+        <div className="tech-strip-panel">
+          <div className="tech-marquee">
+            {[0, 1].map((dup) => (
+              <div className="tech-marquee-group" key={dup} aria-hidden={dup === 1}>
+                {techStack.map((t) => (
+                  <span className="tech-chip" key={`${dup}-${t.name}`}>
+                    <img
+                      src={t.logo}
+                      alt={t.name}
+                      className="tech-chip-logo"
+                      style={{ height: t.h }}
+                      loading="lazy"
+                    />
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
