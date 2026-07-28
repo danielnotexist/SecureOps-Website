@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   CheckCircle2,
@@ -326,15 +326,6 @@ const faqs = [
   }
 ];
 
-const dynamicWords = ['easy', 'simple', 'secure', 'smart', 'seamless'];
-const dynamicHebrew = [
-  'שירותי מחשוב, ענן וסייבר — SecureOps ישראל',
-  'פתרונות אבטחה ותשתיות IT מתקדמות לעסקים',
-  'תמיכת Helpdesk ושירות MDR מנוהל 24/7 ללא פשרות',
-  'ניהול ענן מקצועי ב-AWS, Azure ו-Microsoft 365',
-  'מעטפת טכנולוגית מלאה בהתאמה אישית לארגון'
-];
-
 /* ------------------------------------------------------------------ *
  *  Helpers
  * ------------------------------------------------------------------ */
@@ -365,20 +356,11 @@ export default function App() {
   const [userEmployees, setUserEmployees] = useState(25);
   const [addons, setAddons] = useState({ soc: true, backup: true, cloud: false });
 
-  const [wordIndex, setWordIndex] = useState(0);
-
   const basePerSeat = 380;
   const addonPerSeat =
     (addons.soc ? 120 : 0) + (addons.backup ? 60 : 0) + (addons.cloud ? 90 : 0);
   const calculatedSavings = Math.round(userEmployees * (basePerSeat + addonPerSeat) * 0.72);
   const downtimeHours = Math.max(2, Math.round(userEmployees * 0.45));
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setWordIndex((prev) => (prev + 1) % dynamicWords.length);
-    }, 2800);
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -410,8 +392,8 @@ export default function App() {
               onMouseLeave={() => setIsServicesHovered(false)}
             >
               <a href="#services" className="header-nav-link">
-                <span>השירותים שלנו</span>
-                <ChevronDown className="header-nav-chevron" style={{ width: 16, height: 16, color: 'var(--purple-main)' }} />
+                <span>שירותי IT לעסקים</span>
+                <ChevronDown className="header-nav-chevron" style={{ width: 16, height: 16 }} />
               </a>
 
               <AnimatePresence>
@@ -457,17 +439,10 @@ export default function App() {
               </AnimatePresence>
             </li>
 
-            <li><a href="#packages" className="header-nav-link">חבילות ומחירים</a></li>
             <li><a href="#process" className="header-nav-link">איך זה עובד</a></li>
-            <li>
-              <button onClick={() => setPressModalOpen(true)} className="press-nav-highlight">
-                <Newspaper style={{ width: 17, height: 17, color: 'var(--purple-main)' }} />
-                <span>ישראל היום</span>
-                <span className="press-badge-soon">בקרוב</span>
-              </button>
-            </li>
             <li><a href="#about" className="header-nav-link">אודות</a></li>
-            <li><a href="#faq" className="header-nav-link">שאלות נפוצות</a></li>
+            {/* no destination yet — deliberately inert until the articles land */}
+            <li><span className="header-nav-link is-static">מאמרים</span></li>
             <li><a href="#contact" className="header-nav-link">צור קשר</a></li>
           </ul>
         </nav>
@@ -541,96 +516,53 @@ export default function App() {
       </AnimatePresence>
 
       {/* ============================= HERO ============================= */}
-      <section className="hero-fullcover-unibo-wrap" id="top">
-        <motion.div
-          className="hero-badge"
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <span className="dot" />
-          <span>שירות MDR מנוהל · ניטור ותגובה 24/7/365</span>
-        </motion.div>
+      <section className="hero-cyber" id="top">
+        <div className="hero-cyber-inner">
 
-        <div className="hero-slogan-line">
-          <span>make IT</span>
-          <span className="hero-slogan-rotator">
-            <AnimatePresence initial={false}>
-              <motion.span
-                key={dynamicWords[wordIndex]}
-                initial={{ opacity: 0, y: 18, filter: 'blur(5px)' }}
-                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                exit={{ opacity: 0, y: -18, filter: 'blur(5px)', position: 'absolute' }}
-                transition={{ duration: 0.42, ease: 'easeOut' }}
-              >
-                {dynamicWords[wordIndex]}
-              </motion.span>
-            </AnimatePresence>
-          </span>
+          {/* --- copy column (right in RTL) --- */}
+          <motion.div
+            className="hero-cyber-copy"
+            initial={{ opacity: 0, y: 22 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <span className="hero-cyber-brand">SecureOps</span>
+
+            <h1 className="hero-cyber-title">
+              הגנת סייבר חכמה,<br />מבוססת תפעול.
+            </h1>
+
+            <p className="hero-cyber-lead">
+              אנו מספקים פתרונות אבטחה מתקדמים לעסקים בכל גודל,
+              כדי להבטיח שתוכלו תמיד צעד אחד לפני האיומים.
+            </p>
+
+            <a href="#contact" className="hero-cyber-cta">
+              <span>קבל ייעוץ חינם</span>
+              <span className="hero-cyber-cta-chevron"><ArrowLeft /></span>
+            </a>
+          </motion.div>
+
+          {/* --- visual column (left in RTL) --- */}
+          <motion.div
+            className="hero-cyber-visual"
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <video
+              className="hero-cyber-video"
+              src="/video/hero-cyber.mp4"
+              poster="/video/hero-cyber.jpg"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              aria-hidden="true"
+            />
+          </motion.div>
         </div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.08, duration: 0.6 }}
-          className="hero-headline-navy"
-        >
-          with SecureOps
-        </motion.h1>
-
-        <div className="hero-subtext-gray">
-          <AnimatePresence initial={false}>
-            <motion.p
-              key={dynamicHebrew[wordIndex]}
-              initial={{ opacity: 0, y: 10, filter: 'blur(3px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              exit={{ opacity: 0, y: -10, filter: 'blur(3px)', position: 'absolute' }}
-              transition={{ duration: 0.42 }}
-            >
-              {dynamicHebrew[wordIndex]}
-            </motion.p>
-          </AnimatePresence>
-        </div>
-
-        <motion.div
-          className="hero-cta-row"
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.55 }}
-        >
-          <a href="#contact" className="btn btn-primary">
-            <Sparkles style={{ width: 18, height: 18 }} />
-            קבלו סקר תשתיות ללא עלות
-          </a>
-          <a href="#services" className="btn btn-ghost">
-            לכל השירותים
-            <ArrowLeft style={{ width: 18, height: 18 }} />
-          </a>
-        </motion.div>
-
-        <motion.div
-          className="hero-proof-row"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.35, duration: 0.6 }}
-        >
-          <div className="hero-proof-item">
-            <span className="hero-proof-num">500+</span>
-            <span className="hero-proof-lbl">ארגונים מנוהלים</span>
-          </div>
-          <div className="hero-proof-item">
-            <span className="hero-proof-num">99.99%</span>
-            <span className="hero-proof-lbl">זמינות מדודה</span>
-          </div>
-          <div className="hero-proof-item">
-            <span className="hero-proof-num">15 דק'</span>
-            <span className="hero-proof-lbl">זמן תגובה SLA</span>
-          </div>
-          <div className="hero-proof-item">
-            <span className="hero-proof-num">12</span>
-            <span className="hero-proof-lbl">שנות ניסיון בשוק</span>
-          </div>
-        </motion.div>
       </section>
 
       {/* ========================== TECH STRIP ========================== */}
