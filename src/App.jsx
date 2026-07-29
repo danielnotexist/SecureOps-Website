@@ -37,8 +37,7 @@ import {
   RefreshCw,
   Gauge,
   Layers,
-  Plus,
-  Newspaper
+  Plus
 } from 'lucide-react';
 
 /* ------------------------------------------------------------------ *
@@ -300,7 +299,6 @@ export default function App() {
   const [selectedService, setSelectedService] = useState(null);
   const [isServicesHovered, setIsServicesHovered] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [pressModalOpen, setPressModalOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [openFaq, setOpenFaq] = useState(0);
   const [contactSent, setContactSent] = useState(false);
@@ -312,9 +310,9 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = selectedService || mobileOpen || pressModalOpen ? 'hidden' : '';
+    document.body.style.overflow = selectedService || mobileOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
-  }, [selectedService, mobileOpen, pressModalOpen]);
+  }, [selectedService, mobileOpen]);
 
   const openService = (svc) => { setSelectedService(svc); setIsServicesHovered(false); setMobileOpen(false); };
 
@@ -428,20 +426,10 @@ export default function App() {
                 </button>
               </div>
 
-              <a href="#services" onClick={() => setMobileOpen(false)}>השירותים שלנו</a>
-              <button
-                onClick={() => { setMobileOpen(false); setPressModalOpen(true); }}
-                className="press-nav-highlight"
-                style={{ marginBlock: 6, justifyContent: 'center' }}
-              >
-                <Newspaper style={{ width: 17, height: 17, color: 'var(--purple-main)' }} />
-                <span>כתבה בישראל היום</span>
-                <span className="press-badge-soon">בקרוב</span>
-              </button>
+              <a href="#services" onClick={() => setMobileOpen(false)}>שירותי IT לעסקים</a>
               <a href="#process" onClick={() => setMobileOpen(false)}>איך זה עובד</a>
               <a href="#about" onClick={() => setMobileOpen(false)}>אודות</a>
-              <a href="#team" onClick={() => setMobileOpen(false)}>הצוות</a>
-              <a href="#faq" onClick={() => setMobileOpen(false)}>שאלות נפוצות</a>
+              <span className="mobile-drawer-static">מאמרים</span>
               <a href="#contact" onClick={() => setMobileOpen(false)}>צור קשר</a>
 
               <a href={`tel:${PHONE_TEL}`} className="header-phone-cta-animated" style={{ marginTop: 18, justifyContent: 'center' }}>
@@ -1110,56 +1098,6 @@ export default function App() {
         </AnimatePresence>
       </div>
 
-      {/* ======================== PRESS MODAL ========================= */}
-      <AnimatePresence>
-        {pressModalOpen && (
-          <motion.div
-            className="modal-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setPressModalOpen(false)}
-          >
-            <motion.div
-              className="service-modal-box"
-              style={{ maxWidth: 540 }}
-              initial={{ scale: 0.94, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.94, opacity: 0, y: 20 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button className="modal-close-btn-round" onClick={() => setPressModalOpen(false)} aria-label="סגור">
-                <X />
-              </button>
-
-              <div style={{ textAlign: 'center', paddingTop: 12 }}>
-                <div className="eyebrow" style={{ background: 'linear-gradient(135deg, #F3EFFC, #E6E0F8)', borderColor: 'var(--purple-100)' }}>
-                  <Newspaper style={{ width: 16, height: 16 }} /> פרסום בלעדי בתקשורת
-                </div>
-
-                <h3 style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--ink)', marginBlock: '12px 10px' }}>
-                  כתבה מיוחדת ב"ישראל היום" 📰
-                </h3>
-
-                <p style={{ fontSize: '1.02rem', color: 'var(--text-muted)', lineHeight: 1.75, marginBottom: 24 }}>
-                  השבוע תפורסם ב"ישראל היום" כתבה נרחבת שתסקור את פתרונות הסייבר, הענן והתשתיות המתקדמים של <strong>SecureOps</strong>.
-                  <br /><br />
-                  הישארו מעודכנים! הקישור הישיר לכתבה יעלה לכאן מיד עם פרסומה.
-                </p>
-
-                <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
-                  <button className="btn btn-primary" onClick={() => setPressModalOpen(false)}>
-                    הבנתי, תודה!
-                  </button>
-                  <a href="#contact" className="btn btn-ghost" onClick={() => setPressModalOpen(false)}>
-                    צרו איתנו קשר
-                  </a>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
