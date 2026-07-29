@@ -156,18 +156,24 @@ const servicesData = [
 // height would make AWS tiny and Fortinet enormous. Each height is tuned so
 // all eleven read at the same optical weight instead of the same measured
 // height.
+//
+// Filenames carry a "-v2" (etc.) suffix on any mark whose *content* changed
+// after it first went live: firebase.json caches every image for a year with
+// `immutable`, so overwriting a same-named file in place leaves visitors who
+// already cached the old bytes stuck with them for up to a year. Bump the
+// suffix (don't just overwrite) whenever swapping one of these images again.
 const techStack = [
-  { name: 'Microsoft 365',              logo: '/images/partners/microsoft-365.svg', h: 26 },
-  { name: 'Veeam',                      logo: '/images/partners/veeam.svg',         h: 24 },
-  { name: 'VMware',                     logo: '/images/partners/vmware.svg',        h: 22 },
-  { name: 'Fortinet',                   logo: '/images/partners/fortinet.svg',      h: 20 },
-  { name: 'Acronis',                    logo: '/images/partners/acronis.svg',       h: 24 },
-  { name: 'Cisco',                      logo: '/images/partners/cisco.svg',         h: 32 },
-  { name: 'Hewlett Packard Enterprise', logo: '/images/partners/hpe.svg',           h: 34 },
-  { name: 'Google Cloud',               logo: '/images/partners/gcp.svg',           h: 26 },
-  { name: 'AWS',                        logo: '/images/partners/aws.svg',           h: 36 },
-  { name: 'SentinelOne',                logo: '/images/partners/sentinelone.svg',   h: 24 },
-  { name: 'Microsoft Azure',            logo: '/images/partners/azure.svg',         h: 28 }
+  { name: 'Microsoft 365',              logo: '/images/partners/microsoft-365-v2.svg', h: 26 },
+  { name: 'Veeam',                      logo: '/images/partners/veeam-v2.svg',         h: 24 },
+  { name: 'VMware',                     logo: '/images/partners/vmware-v2.png',        h: 30 },
+  { name: 'Fortinet',                   logo: '/images/partners/fortinet-v2.svg',      h: 20 },
+  { name: 'Acronis',                    logo: '/images/partners/acronis-v2.png',       h: 24 },
+  { name: 'Cisco',                      logo: '/images/partners/cisco-v2.svg',         h: 32 },
+  { name: 'Hewlett Packard Enterprise', logo: '/images/partners/hpe.svg',              h: 34 },
+  { name: 'Google Cloud',               logo: '/images/partners/gcp.svg',              h: 26 },
+  { name: 'AWS',                        logo: '/images/partners/aws.svg',              h: 36 },
+  { name: 'SentinelOne',                logo: '/images/partners/sentinelone.svg',      h: 24 },
+  { name: 'Microsoft Azure',            logo: '/images/partners/azure.svg',            h: 28 }
 ];
 
 // `img` takes over from `icon` the moment a 3D render is dropped into
