@@ -81,8 +81,68 @@ on all sides. No text, no background, no gradient backdrop, no outlines.
 
 ---
 
+## Story banner illustration — ✅ done
+
+| | |
+|---|---|
+| **Filename** | `public/images/story-illustration.png` |
+| **Where it appears** | The full-bleed violet band right after `#services` ("אנחנו לא רק ספק IT...") — `.story-visual`, on the right side of that section (text sits on the left, opposite the hero's convention, by request) |
+| **Status** | Generated, background-removed, and wired in. The decorative laptop-in-a-circle mark from the original layout was cut per request — no longer part of this section. |
+
+---
+
+## Contact band illustration
+
+| | |
+|---|---|
+| **Filename** | `public/images/contact-illustration.png` |
+| **Where it appears** | The violet "בואו נהפוך את אתגרי ה-IT שלכם" band at the bottom of the page — `.contact-visual`, beside the form |
+| **Current fallback** | A glass medallion with a headset icon plus three floating trust chips (`.contact-art-stage`) — decorative, but swap it for the real art |
+| **Style note** | Must match `story-illustration.png` exactly in style — same flat-vector SaaS look, same violet/cyan palette — since both sit on the same violet gradient a few sections apart. |
+
+**Prompt:**
+
+```
+A clean flat-vector illustration, transparent background, in the modern
+corporate-SaaS illustration style (think unDraw or Storyset). A friendly
+support professional wearing a headset sits at a simple desk, one hand
+raised in a welcoming gesture, smiling toward the viewer. Their clothing
+uses a soft violet (#8B7BC9) and deep violet (#4E4483) palette with a
+bright cyan (#79D7ED) accent on the headset and one clothing detail. Behind
+and around them, floating at slight angles: a large rounded chat/message
+bubble outline in cyan (#79D7ED), a small envelope icon, and a small phone
+handset icon, all in clean flat cyan outline. A large abstract circle in
+mid-violet (#6C5CA8) sits behind the figure as a backdrop shape. Minimal
+geometric shapes, smooth rounded edges, no gradients besides one subtle
+shadow crescent on the circle, no background scenery, no text, no logos.
+Warm, approachable, professional mood. Vector illustration, flat design,
+transparent PNG.
+```
+
+To wire in once received: replace the `.contact-art-stage` block in the contact section of `src/App.jsx` with `<img src="/images/contact-illustration.png" alt="" className="contact-art" loading="lazy" />` — the `.contact-art` class is already styled and waiting.
+
+---
+
+## Team headshots — ⚠️ real photos only, no AI
+
+| | |
+|---|---|
+| **Filenames** | `public/images/team/daniel.jpg`, `public/images/team/dvir.jpg` (or hand me whatever the client sends and I'll place them) |
+| **Where they appear** | `#team` section — the large circular photo in each alternating profile row (`.team-profile-photo`), currently ~280px on desktop |
+| **Current fallback** | Initials avatar on a soft violet/cyan gradient circle (`.team-profile-initials`) |
+| **Status** | Waiting on the client to send his own photo and his partner's. **These are real, named people — do not generate faces with AI for this slot.** |
+
+**What to ask for, if briefing a photographer:** headshot, chest-up, looking at camera, relaxed confident expression, soft key light at 45°, clean seamless light-grey or white background, shallow depth of field, business-casual attire, square crop with generous headroom (the frame is a circle, so keep the subject centered with room on all sides — don't crop tight to the face).
+
+To wire in once received: set `photo: '/images/team/daniel.jpg'` (etc.) on the matching entry in the `team` array in `src/App.jsx` — the field already exists and is handled.
+
+---
+
 ## Priority
 
 | Asset | Urgency | Why |
 |---|---|---|
+| Team headshots | 🔴 high | Client is actively sending these — swap in as soon as they land |
+| Contact band illustration | 🟡 medium | Decorative medallion fallback looks intentional; real art is an upgrade |
+| Story banner illustration | ✅ done | Live in `.story-visual` |
 | Process-flow icons | 🟡 medium | The section works today with numbered placeholders; icons are a polish pass, not a blocker |

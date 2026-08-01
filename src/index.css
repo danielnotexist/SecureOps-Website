@@ -1,13 +1,12 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap');
 
 /* ==========================================================================
    SecureOps Design System v3
-   Typeface: Heebo — geometric sans, full Hebrew support.
-   Swapped from Rubik (also sans-serif) to match the sharper, more neutral
-   grotesk look the client pointed to on a competitor site. That reference
-   used a licensed commercial font (Fontbit's "FB Coherenti Sans", restricted
-   embedding) which can't legally be reused here without a purchased license
-   — Heebo is the closest free match in the same visual family.
+   Typeface: Rubik — rounded geometric sans, full Hebrew support.
+   Back from Heebo (sharper/neutral grotesk) to Rubik on request for a
+   softer, friendlier letterform — Rubik's terminals are genuinely rounded
+   where Heebo's are square, and it already proved out well in Hebrew on
+   this exact project before the earlier swap.
    ========================================================================== */
 
 :root {
@@ -89,7 +88,7 @@ html {
 
 html, body {
   width: 100%;
-  font-family: 'Heebo', system-ui, -apple-system, sans-serif;
+  font-family: 'Rubik', system-ui, -apple-system, sans-serif;
   font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -705,9 +704,14 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
    ========================================================================== */
 
 .tech-strip {
-  padding: 34px 0 30px;
+  padding: 34px 0 14px;
   position: relative;
 }
+
+/* the services section right after the logo strip doesn't need the full
+   generic .section top padding — that gap was ~150px, most of it dead
+   space before the strip even finishes settling visually */
+.tech-strip + .section { padding-top: 44px; }
 
 .tech-strip-title {
   text-align: center;
@@ -1044,67 +1048,151 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 }
 
 /* ==========================================================================
-   Purple CTA banner
+   Team profiles — replaces the old purple-cta-box + the old simple
+   team-2col-grid, which this makes redundant (richer bio, same two people).
+   Alternating photo/copy rows, mirrored on every second row.
    ========================================================================== */
 
-.purple-cta-section { max-width: var(--wrap); margin: 0 auto; padding: 0 24px; }
+.team-profiles { display: flex; flex-direction: column; gap: clamp(48px, 7vw, 76px); }
 
-.purple-cta-box {
-  position: relative;
-  background: linear-gradient(135deg, #6C5CA8 0%, #4E4483 55%, #3B3268 100%);
-  border-radius: var(--r-2xl);
-  padding: 56px;
-  color: white;
-  box-shadow: var(--sh-purple);
+.team-profile-row {
   display: grid;
-  grid-template-columns: 1.15fr 1fr;
+  grid-template-columns: 1fr minmax(180px, 280px);
   align-items: center;
-  gap: 44px;
-  overflow: hidden;
+  gap: clamp(28px, 5vw, 56px);
 }
 
-.purple-cta-box::before {
+/* row 1: copy first (order 1 -> right column), photo second (order 2 ->
+   left column). Row 2 mirrors by swapping which element takes which order,
+   without touching the grid track sizes themselves. */
+.team-profile-copy { order: 1; }
+.team-profile-photo { order: 2; }
+
+.team-profile-row:nth-child(even) .team-profile-copy { order: 2; }
+.team-profile-row:nth-child(even) .team-profile-photo { order: 1; }
+
+.team-profile-photo img,
+.team-profile-initials {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.team-profile-photo img {
+  border: 1px solid var(--line);
+  box-shadow: var(--sh-lg);
+}
+
+.team-profile-initials {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(150deg, var(--purple-50), var(--cyan-50));
+  border: 1px solid var(--line);
+  color: var(--purple-main);
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.team-profile-name { font-size: clamp(1.4rem, 2.6vw, 1.85rem); font-weight: 800; color: var(--ink); margin-bottom: 14px; letter-spacing: -0.02em; }
+.team-profile-bio { font-size: 0.9688rem; color: var(--text-muted); line-height: 1.85; margin-bottom: 14px; }
+.team-profile-bio strong { color: var(--text-dark); font-weight: 700; }
+
+.team-profile-cta { margin-top: 6px; }
+
+@media (max-width: 720px) {
+  .team-profile-row,
+  .team-profile-row:nth-child(even) {
+    grid-template-columns: 1fr;
+    text-align: center;
+    justify-items: center;
+  }
+  /* single column now, so "order" just controls stacking — photo on top
+     for every row regardless of the desktop alternation */
+  .team-profile-photo,
+  .team-profile-row:nth-child(even) .team-profile-photo { order: 1; }
+  .team-profile-copy,
+  .team-profile-row:nth-child(even) .team-profile-copy { order: 2; }
+  .team-profile-photo { max-width: 200px; }
+}
+
+/* ==========================================================================
+   Story banner — a company-narrative band, deliberately distinct from the
+   rounded purple-cta-box above: full-bleed edge-to-edge (not a card inset in
+   the page), a brighter gradient that never reaches the card's darkest tone,
+   and a two-column paragraph pair instead of a stats grid.
+   ========================================================================== */
+
+.story-band {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--purple-light) 0%, var(--purple-main) 52%, var(--purple-dark) 100%);
+  padding-block: clamp(56px, 7vw, 88px);
+  color: #fff;
+}
+
+.story-band::before {
   content: '';
   position: absolute;
-  inset: 0;
+  inset-block-start: -12%;
+  inset-inline-end: -8%;
+  width: 620px;
+  height: 620px;
+  background: radial-gradient(closest-side, rgba(121, 215, 237, 0.24), transparent 70%);
   pointer-events: none;
-  background:
-    radial-gradient(560px 320px at 88% 8%, rgba(121, 215, 237, 0.28), transparent 60%),
-    radial-gradient(420px 300px at 4% 96%, rgba(255, 255, 255, 0.14), transparent 60%);
 }
-.purple-cta-box > * { position: relative; z-index: 1; }
+
+.story-band-inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  align-items: center;
+  gap: clamp(32px, 5vw, 64px);
+}
+
+.story-h2 {
+  font-size: clamp(1.6rem, 3.2vw, 2.35rem);
+  font-weight: 800;
+  line-height: 1.28;
+  letter-spacing: -0.02em;
+  margin-block: 18px 22px;
+}
+.story-h2-accent { color: var(--cyan-accent); }
+
+.story-paras {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.story-paras p { font-size: 0.9688rem; line-height: 1.8; color: rgba(255, 255, 255, 0.86); font-weight: 300; }
 
 @media (max-width: 900px) {
-  .purple-cta-box { grid-template-columns: 1fr; padding: 38px 26px; text-align: center; }
+  .story-band-inner { grid-template-columns: 1fr; text-align: center; }
+  .story-paras { grid-template-columns: 1fr; text-align: start; }
 }
 
-.purple-cta-h2 { font-size: clamp(1.7rem, 3.6vw, 2.6rem); font-weight: 800; line-height: 1.22; margin-bottom: 16px; }
-.purple-cta-p { font-size: 1.08rem; line-height: 1.8; opacity: 0.92; margin-bottom: 28px; font-weight: 300; }
-.purple-cta-p strong { font-weight: 700; }
-
-.purple-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-
-.purple-stat-card {
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(10px);
-  padding: 18px 12px;
-  border-radius: var(--r-md);
-  text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  transition: all 0.3s var(--ease);
+.story-visual {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
 }
-.purple-stat-card:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-4px); }
 
-.purple-stat-num { font-size: clamp(1.35rem, 2.6vw, 1.85rem); font-weight: 800; display: block; letter-spacing: -0.03em; direction: ltr; unicode-bidi: plaintext; }
-.purple-stat-lbl { font-size: 0.83rem; opacity: 0.88; font-weight: 400; }
-
-.purple-laptop-img {
+.story-art {
   width: 100%;
-  max-width: 460px;
-  border-radius: var(--r-lg);
-  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.28);
+  max-width: 300px;
+  height: auto;
+  object-fit: contain;
   display: block;
-  margin: 0 auto;
+  filter: drop-shadow(0 20px 34px rgba(30, 20, 60, 0.28));
 }
 
 /* ==========================================================================
@@ -1227,56 +1315,10 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 .testi-person .r { font-size: 0.84rem; color: var(--text-muted); }
 
 /* ==========================================================================
-   Team
+   Team (shared bits — layout itself lives in "Team profiles" above)
    ========================================================================== */
 
-.team-2col-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px; }
-@media (max-width: 768px) { .team-2col-grid { grid-template-columns: 1fr; } }
-
-.team-card-item {
-  background: var(--surface);
-  border-radius: var(--r-xl);
-  padding: 34px;
-  display: flex;
-  align-items: center;
-  gap: 26px;
-  box-shadow: var(--sh-sm);
-  border: 1px solid var(--line);
-  transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
-}
-.team-card-item:hover { transform: translateY(-5px); box-shadow: var(--sh-md); }
-
-@media (max-width: 520px) { .team-card-item { flex-direction: column; text-align: center; padding: 28px 22px; } }
-
-.team-avatar-img-round {
-  width: 108px;
-  height: 108px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #fff;
-  box-shadow: 0 0 0 3px var(--purple-100), var(--sh-md);
-  flex-shrink: 0;
-}
-
-.team-avatar-initials {
-  width: 108px;
-  height: 108px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  font-size: 2.2rem;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: 0.02em;
-  background: linear-gradient(140deg, var(--purple-main), var(--purple-light));
-  border: 3px solid #fff;
-  box-shadow: 0 0 0 3px var(--purple-100), var(--sh-md);
-}
-
-.team-role { font-size: 0.8rem; font-weight: 700; color: var(--purple-main); letter-spacing: 0.04em; display: block; margin-bottom: 5px; }
-.team-name { font-size: 1.35rem; font-weight: 700; color: var(--ink); margin-bottom: 7px; }
-.team-quote { font-size: 0.94rem; color: var(--text-muted); line-height: 1.72; font-style: italic; }
+.team-role { font-size: 0.8rem; font-weight: 700; color: var(--purple-main); letter-spacing: 0.04em; display: block; margin-bottom: 5px; text-transform: uppercase; }
 
 /* ==========================================================================
    FAQ
@@ -1332,50 +1374,204 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
    Contact
    ========================================================================== */
 
-.contact-section { background: var(--bg-soft); border-top: 1px solid var(--line); }
-
-.contact-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: 40px; align-items: start; }
-@media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; } }
-
-.contact-info-list { display: flex; flex-direction: column; gap: 14px; margin-top: 26px; }
-
-.contact-info-item {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
-  padding: 16px 20px;
-  text-decoration: none;
-  color: inherit;
-  transition: all 0.3s var(--ease);
-  box-shadow: var(--sh-xs);
+/* Full-bleed violet band, matching .story-band above — same gradient, same
+   cyan-accent heading treatment — so the page's two "brand voice" moments
+   (who we are / talk to us) read as a matched pair. The phone/email/address
+   this section used to list in a sidebar already sit in the footer directly
+   below, so they aren't repeated here. */
+.contact-band {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--purple-light) 0%, var(--purple-main) 52%, var(--purple-dark) 100%);
+  padding-block: clamp(56px, 7vw, 92px);
+  color: #fff;
 }
-.contact-info-item:hover { transform: translateX(-5px); border-color: var(--purple-100); box-shadow: var(--sh-sm); }
 
-.contact-info-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: var(--r-sm);
+.contact-band::before {
+  content: '';
+  position: absolute;
+  inset-block-start: -14%;
+  inset-inline-start: -8%;
+  width: 640px;
+  height: 640px;
+  background: radial-gradient(closest-side, rgba(121, 215, 237, 0.26), transparent 70%);
+  pointer-events: none;
+}
+
+.contact-band-inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+.contact-band-head { text-align: center; margin-bottom: clamp(32px, 4.5vw, 54px); }
+.contact-band-h2 {
+  color: #fff;
+  font-size: clamp(1.6rem, 3.2vw, 2.35rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.28;
+  margin-block: 18px 14px;
+}
+.contact-band-accent { color: var(--cyan-accent); }
+.contact-band-lead {
+  color: rgba(255, 255, 255, 0.86);
+  max-width: 580px;
+  margin-inline: auto;
+  line-height: 1.8;
+  font-weight: 300;
+}
+
+.contact-band-body {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: clamp(28px, 4vw, 56px);
+  align-items: center;
+}
+
+/* ---- visual side ---- */
+.contact-visual { display: flex; align-items: center; justify-content: center; }
+
+.contact-art {
+  width: 100%;
+  max-width: 330px;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 20px 34px rgba(30, 20, 60, 0.3));
+}
+
+/* stand-in while ASSET SLOT `contact-illustration` is empty — a medallion
+   plus floating trust chips, so the column reads as designed rather than
+   as an obviously blank placeholder box */
+.contact-art-stage {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  aspect-ratio: 1;
   display: grid;
   place-items: center;
-  background: var(--purple-50);
-  flex-shrink: 0;
 }
-.contact-info-icon svg { width: 20px; height: 20px; color: var(--purple-main); }
 
-.contact-info-item .lbl { font-size: 0.8rem; color: var(--text-muted); display: block; }
-.contact-info-item .val { font-weight: 600; color: var(--ink); font-size: 1rem; direction: ltr; text-align: right; }
+.contact-art-medallion {
+  width: 58%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0.08));
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: 0 24px 60px -20px rgba(30, 20, 60, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  color: #fff;
+  animation: contactMedallionFloat 6s ease-in-out infinite;
+}
+.contact-art-medallion svg { width: 42%; height: 42%; stroke-width: 1.5; }
 
-.contact-form-card {
-  background: var(--surface);
-  border: 1px solid var(--line);
+@keyframes contactMedallionFloat {
+  0%, 100% { transform: translateY(-6px); }
+  50%      { transform: translateY(6px); }
+}
+
+.contact-art-chip {
+  position: absolute;
+  padding: 8px 15px;
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  backdrop-filter: blur(8px);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  box-shadow: 0 10px 26px -12px rgba(30, 20, 60, 0.5);
+  animation: contactChipFloat 7s ease-in-out infinite;
+}
+.contact-art-chip-1 { inset-block-start: 6%;  inset-inline-start: 0; animation-delay: 0s; }
+.contact-art-chip-2 { inset-block-end: 22%;   inset-inline-end: -2%; animation-delay: -2.3s; }
+.contact-art-chip-3 { inset-block-end: 2%;    inset-inline-start: 8%; animation-delay: -4.6s; }
+
+@keyframes contactChipFloat {
+  0%, 100% { transform: translateY(-4px); }
+  50%      { transform: translateY(4px); }
+}
+
+/* ---- form side ---- */
+.contact-form-panel {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: var(--r-2xl);
-  padding: 38px;
-  box-shadow: var(--sh-md);
+  padding: clamp(24px, 3vw, 38px);
+  box-shadow: 0 30px 70px -30px rgba(30, 20, 60, 0.5);
 }
-@media (max-width: 600px) { .contact-form-card { padding: 26px 22px; } }
+
+/* on-violet skin for the shared .field primitives, scoped so the light
+   form styling used elsewhere (service modal) is untouched */
+.contact-form-panel .field label { color: rgba(255, 255, 255, 0.92); }
+.contact-form-panel .field input,
+.contact-form-panel .field select,
+.contact-form-panel .field textarea {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.26);
+  color: #fff;
+}
+.contact-form-panel .field input::placeholder,
+.contact-form-panel .field textarea::placeholder { color: rgba(255, 255, 255, 0.6); }
+.contact-form-panel .field input:focus,
+.contact-form-panel .field select:focus,
+.contact-form-panel .field textarea:focus {
+  border-color: var(--cyan-accent);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 0 4px rgba(121, 215, 237, 0.22);
+}
+.contact-form-panel .field select option { background: var(--purple-dark); color: #fff; }
+.contact-form-panel .field textarea { min-height: 92px; }
+
+.contact-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.8438rem;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+.contact-consent input {
+  margin-top: 3px;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  accent-color: var(--cyan-accent);
+}
+
+.contact-band-submit { width: 100%; }
+
+.contact-band-note { text-align: center; font-size: 0.8438rem; color: rgba(255, 255, 255, 0.75); margin-top: 14px; }
+.contact-band-note a { color: var(--cyan-accent); font-weight: 700; text-decoration: none; direction: ltr; display: inline-block; }
+.contact-band-note a:hover { color: #fff; }
+
+.form-success-onpurple .form-success-icon { background: rgba(255, 255, 255, 0.16); border-color: rgba(255, 255, 255, 0.3); }
+.form-success-onpurple .form-success-icon svg { color: #fff; }
+.form-success-onpurple .btn-ghost {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.form-success-onpurple .btn-ghost:hover { background: rgba(255, 255, 255, 0.22); }
+
+@media (max-width: 900px) {
+  .contact-band-body { grid-template-columns: 1fr; }
+  .contact-visual { order: 2; }
+  .contact-form-panel { order: 1; }
+}
+@media (max-width: 560px) {
+  .contact-art-stage { max-width: 260px; }
+  .contact-art-chip { font-size: 0.75rem; padding: 6px 12px; }
+}
 
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 @media (max-width: 560px) { .form-row { grid-template-columns: 1fr; } }
@@ -1403,8 +1599,6 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
   box-shadow: 0 0 0 4px rgba(108, 92, 168, 0.12);
 }
 .field input::placeholder, .field textarea::placeholder { color: #A6B0C7; }
-
-.form-note { font-size: 0.82rem; color: var(--text-muted); text-align: center; margin-top: 12px; }
 
 .form-success {
   display: flex;

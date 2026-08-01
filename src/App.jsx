@@ -211,21 +211,24 @@ const processSteps = [
   { n: '04', img: '/images/icons/proc-manage.png', title: 'ניהול וניטור שוטף', text: 'ניטור MDR שוטף, דוחות חודשיים ופגישת סטטוס רבעונית לשיפור מתמיד.' }
 ];
 
-// photo: null renders an initials avatar until real headshots land.
+// ASSET SLOT `team-photos`: photo: null renders an initials avatar until
+// the real headshots the client is sending over land — see ASSETS-REQUIRED.md.
 const team = [
   {
     name: 'דניאל כהן',
     role: 'שותף מייסד',
     initials: 'דכ',
     photo: null,
-    quote: 'המומחיות שלנו היא להפוך את תשתיות ה-IT והסייבר שלכם למנוע צמיחה בטוח ויציב עבור העסק.'
+    bio1: 'האחריות שלי היא להנגיש את עולם הענן והאבטחה בקלות ובבהירות לכל ארגון, ללא קשר לגודלו. אני מאמין שכל עסק — קטן כגדול — זכאי לאותה רמת שירות, ולכן אני עובד באופן קפדני כדי להבטיח לכם את השירות המקצועי, המתקדם והאדיב ביותר בתחום.',
+    bio2: 'אני מכיר היטב כל אחד מהלקוחות שלנו, מעורב באופן אישי בכל תהליך, ושואף תמיד לבחירת הפתרון המדויק והטוב ביותר עבור כל לקוח ולקוח.'
   },
   {
     name: 'דביר דבוש',
     role: 'שותף מייסד',
     initials: 'דד',
     photo: null,
-    quote: 'אנחנו מיישמים את הטכנולוגיות המובילות בשוק הענן והסייבר, ומנהלים אותן מקצה לקצה עבור הלקוח.'
+    bio1: 'אחראי על כל מערך הטכנולוגיה והתשתיות אצל SecureOps — מוצרי ענן, אבטחת מידע ורמת הגבהה גבוהה. אני מיישם את הטכנולוגיות המובילות בשוק, ומנהל אותן מקצה לקצה עבור הלקוח.',
+    bio2: 'מרדף אחר הטכנולוגיות החדשות ביותר מייצר בי התלהבות אמיתית. הכל מתחיל ונגמר בבחירת הפתרון המדויק ביותר לכל לקוח, מה שהופך את התפקיד שלי למעניין ומאתגר במיוחד.'
   }
 ];
 
@@ -560,6 +563,54 @@ export default function App() {
         </div>
       </section>
 
+      {/* ============================ STORY BANNER ======================= */}
+      <section className="story-band">
+        <div className="story-band-inner">
+          <motion.div
+            className="story-visual"
+            initial={{ opacity: 0, scale: 0.94 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <img src="/images/story-illustration.png" alt="" className="story-art" loading="lazy" />
+          </motion.div>
+
+          <motion.div
+            className="story-copy"
+            initial={{ opacity: 0, y: 26 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ delay: 0.1, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <span className="eyebrow eyebrow-dark"><Users style={{ width: 15, height: 15 }} /> מי אנחנו</span>
+
+            <h2 className="story-h2">
+              אנחנו לא רק ספק IT.<br />
+              <span className="story-h2-accent">אנחנו הצוות שעומד מאחוריכם.</span>
+            </h2>
+
+            <div className="story-paras">
+              <p>
+                SecureOps ליוותה לאורך 12 השנים האחרונות מאות עסקים — מחברות משפחתיות
+                ועד ארגוני הייטק ומוסדות ציבור — בהקמת תשתיות ענן, אבטחת מידע וסביבות
+                עבודה יציבות שפשוט עובדות, כל הזמן.
+              </p>
+              <p>
+                העיקרון שמנחה אותנו פשוט: אותה רמת שירות, אותו זמן תגובה ואותה
+                מחויבות — בין אם אתם עסק קטן שרק מתחיל להתנהל מול ספק IT מסודר,
+                ובין אם אתם ארגון שגדל וממשיך לגדול איתנו.
+              </p>
+            </div>
+
+            <a href="#contact" className="btn btn-cyan">
+              שאלו אותנו איך
+              <ArrowLeft style={{ width: 18, height: 18 }} />
+            </a>
+          </motion.div>
+        </div>
+      </section>
+
       {/* ============================ WHY US ============================ */}
       <section className="section-tight" id="why">
         <div className="wrap">
@@ -590,45 +641,49 @@ export default function App() {
         </div>
       </section>
 
-      {/* ========================= PURPLE BANNER ======================== */}
-      <section className="section-tight">
-        <div className="purple-cta-section">
-          <motion.div className="purple-cta-box" {...reveal}>
-            <div>
-              <h2 className="purple-cta-h2">הפכו את העסק שלכם לגרסה הטובה ביותר שלו</h2>
-              <p className="purple-cta-p">
-                עם המערכות המתקדמות של SecureOps והסלוגן שמנחה אותנו <strong>make IT easy</strong> —
-                תוכלו לישון בשקט ביודעכם שהמידע הארגוני, תשתיות הענן והתקשורת שלכם מוגנים
-                בסטנדרטים הבינלאומיים המחמירים ביותר.
-              </p>
-
-              <div className="purple-stats-grid">
-                <div className="purple-stat-card">
-                  <span className="purple-stat-num">99.99%</span>
-                  <span className="purple-stat-lbl">זמינות רשת</span>
-                </div>
-                <div className="purple-stat-card">
-                  <span className="purple-stat-num">15 דק'</span>
-                  <span className="purple-stat-lbl">זמן תגובה</span>
-                </div>
-                <div className="purple-stat-card">
-                  <span className="purple-stat-num">500+</span>
-                  <span className="purple-stat-lbl">לקוחות מרוצים</span>
-                </div>
-              </div>
-
-              <div style={{ marginTop: 28, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-                <a href="#contact" className="btn btn-cyan">דברו איתנו <ArrowLeft style={{ width: 18, height: 18 }} /></a>
-                <a href="#services" className="btn btn-ghost" style={{ background: 'rgba(255,255,255,0.14)', color: '#fff', borderColor: 'rgba(255,255,255,0.24)' }}>
-                  לכל השירותים
-                </a>
-              </div>
-            </div>
-
-            <div>
-              <img src="/images/purple_laptop.jpg" alt="פלטפורמת הניהול של SecureOps" className="purple-laptop-img" />
-            </div>
+      {/* ============================= TEAM ============================= */}
+      <section className="section" id="team">
+        <div className="wrap-narrow">
+          <motion.div className="section-head-center" {...reveal}>
+            <span className="eyebrow"><Users style={{ width: 15, height: 15 }} /> הצוות שלנו</span>
+            <h2 className="section-head-title-light">האנשים שעומדים <span style={{ fontWeight: 800, color: 'var(--purple-main)' }}>מאחורי כל קריאה</span></h2>
+            <p className="section-lead">
+              לא מוקד תמיכה אנונימי — צוות מקצועי שחי ונושם ענן, אבטחת מידע ותשתיות,
+              נמדד לפי תוצאות, ובעיקר אוהב את מה שהוא עושה. בואו להיות הלקוח הבא שלנו.
+            </p>
           </motion.div>
+
+          <div className="team-profiles">
+            {team.map((m, i) => (
+              <motion.div
+                className="team-profile-row"
+                key={m.name}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <div className="team-profile-photo">
+                  {m.photo
+                    ? <img src={m.photo} alt={m.name} />
+                    : <div className="team-profile-initials" aria-hidden="true">{m.initials}</div>}
+                </div>
+
+                <div className="team-profile-copy">
+                  <span className="team-role">{m.role}</span>
+                  <h3 className="team-profile-name">{m.name}</h3>
+                  <p className="team-profile-bio">{m.bio1}</p>
+                  <p className="team-profile-bio">
+                    <strong>גישה אישית:</strong> {m.bio2}
+                  </p>
+                  <a href="#contact" className="btn btn-ghost team-profile-cta">
+                    דבר איתי
+                    <ArrowLeft style={{ width: 16, height: 16 }} />
+                  </a>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -761,30 +816,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* ============================= TEAM ============================= */}
-      <section className="section-tight" id="team">
-        <div className="wrap">
-          <motion.div className="section-head-center" {...reveal}>
-            <span className="eyebrow"><Users style={{ width: 15, height: 15 }} /> הצוות</span>
-            <h2 className="section-head-title-light">האנשים שמאחורי <span style={{ fontWeight: 800, color: 'var(--purple-main)' }}>SecureOps</span></h2>
-          </motion.div>
-
-          <div className="team-2col-grid">
-            {team.map((m) => (
-              <motion.div className="team-card-item" key={m.name} {...reveal}>
-                {m.photo
-                  ? <img src={m.photo} alt={m.name} className="team-avatar-img-round" />
-                  : <div className="team-avatar-initials" aria-hidden="true">{m.initials}</div>}
-                <div>
-                  <span className="team-role">{m.role}</span>
-                  <h3 className="team-name">{m.name}</h3>
-                  <p className="team-quote">"{m.quote}"</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ============================== FAQ ============================= */}
       <section className="section-tight" id="faq">
@@ -821,60 +852,50 @@ export default function App() {
       </section>
 
       {/* ============================ CONTACT =========================== */}
-      <section className="section contact-section" id="contact">
-        <div className="wrap">
-          <div className="contact-grid">
-            <motion.div {...reveal}>
-              <span className="eyebrow"><Send style={{ width: 15, height: 15 }} /> נשמח לשמוע מכם</span>
-              <h2 className="section-head-title-light" style={{ marginBottom: 10 }}>
-                מתחילים ב<span style={{ fontWeight: 800, color: 'var(--purple-main)' }}>סקר תשתיות ללא עלות</span>
-              </h2>
-              <p style={{ color: 'var(--text-muted)', lineHeight: 1.8 }}>
-                נגיע אליכם (או נתחבר מרחוק), נמפה את המערכות והסיכונים ונחזור עם דוח ממצאים
-                והצעה מותאמת — בלי התחייבות ובלי עלות.
-              </p>
+      <section className="contact-band" id="contact">
+        <div className="contact-band-inner">
+          <motion.div className="contact-band-head" {...reveal}>
+            <span className="eyebrow eyebrow-dark"><Send style={{ width: 15, height: 15 }} /> דברו איתנו</span>
+            <h2 className="contact-band-h2">
+              בואו נהפוך את אתגרי ה-IT שלכם<br />
+              <span className="contact-band-accent">לשקט נפשי אמיתי.</span>
+            </h2>
+            <p className="contact-band-lead">
+              השאירו פרטים ותאמו שיחת ייעוץ ללא עלות עם מומחה — נחזור אליכם תוך שעתיים בשעות הפעילות.
+            </p>
+          </motion.div>
 
-              <div className="contact-info-list">
-                <a href={`tel:${PHONE_TEL}`} className="contact-info-item">
-                  <span className="contact-info-icon"><Phone /></span>
-                  <span>
-                    <span className="lbl">טלפון · מענה מהיר</span>
-                    <span className="val">{PHONE_DISPLAY}</span>
-                  </span>
-                </a>
-
-                <a href="mailto:contact@secureops.co.il" className="contact-info-item">
-                  <span className="contact-info-icon"><Mail /></span>
-                  <span>
-                    <span className="lbl">דוא"ל</span>
-                    <span className="val">contact@secureops.co.il</span>
-                  </span>
-                </a>
-
-                <div className="contact-info-item">
-                  <span className="contact-info-icon"><MapPin /></span>
-                  <span>
-                    <span className="lbl">משרדים</span>
-                    <span className="val" style={{ direction: 'rtl' }}>מגדלי עזריאלי, תל אביב</span>
-                  </span>
-                </div>
-
-                <div className="contact-info-item">
-                  <span className="contact-info-icon"><Clock /></span>
-                  <span>
-                    <span className="lbl">מוקד תמיכה</span>
-                    <span className="val" style={{ direction: 'rtl' }}>אירועי אבטחה: כיסוי MDR 24/7/365</span>
-                  </span>
-                </div>
+          <div className="contact-band-body">
+            <motion.div
+              className="contact-visual"
+              initial={{ opacity: 0, scale: 0.94 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            >
+              {/* ASSET SLOT `contact-illustration` — flat vector support scene,
+                  same family as story-illustration.png. See ASSETS-REQUIRED.md.
+                  Decorative composition below stands in until it lands. */}
+              <div className="contact-art-stage">
+                <div className="contact-art-medallion"><Headphones /></div>
+                <span className="contact-art-chip contact-art-chip-1">מענה תוך שעתיים</span>
+                <span className="contact-art-chip contact-art-chip-2">ייעוץ ללא עלות</span>
+                <span className="contact-art-chip contact-art-chip-3">ללא התחייבות</span>
               </div>
             </motion.div>
 
-            <motion.div className="contact-form-card" {...reveal}>
+            <motion.div
+              className="contact-form-panel"
+              initial={{ opacity: 0, y: 26 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ delay: 0.1, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            >
               {contactSent ? (
-                <div className="form-success">
+                <div className="form-success form-success-onpurple">
                   <div className="form-success-icon"><CheckCircle2 /></div>
-                  <h3 style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--ink)' }}>הפנייה התקבלה</h3>
-                  <p style={{ color: 'var(--text-muted)' }}>נציג שלנו יחזור אליכם תוך שעתיים בשעות הפעילות.</p>
+                  <h3 style={{ fontSize: '1.3rem', fontWeight: 700, color: '#fff' }}>הפנייה התקבלה</h3>
+                  <p style={{ color: 'rgba(255,255,255,0.8)' }}>נציג שלנו יחזור אליכם תוך שעתיים בשעות הפעילות.</p>
                   <button className="btn btn-ghost" onClick={() => setContactSent(false)}>שליחת פנייה נוספת</button>
                 </div>
               ) : (
@@ -885,25 +906,18 @@ export default function App() {
                       <input id="c-name" type="text" placeholder="ישראל ישראלי" required />
                     </div>
                     <div className="field">
-                      <label htmlFor="c-company">שם החברה</label>
-                      <input id="c-company" type="text" placeholder="שם הארגון" required />
-                    </div>
-                  </div>
-
-                  <div className="form-row">
-                    <div className="field">
                       <label htmlFor="c-phone">טלפון</label>
                       <input id="c-phone" type="tel" placeholder="050-0000000" required />
                     </div>
-                    <div className="field">
-                      <label htmlFor="c-email">דוא"ל עסקי</label>
-                      <input id="c-email" type="email" placeholder="name@company.co.il" required />
-                    </div>
                   </div>
 
                   <div className="form-row">
                     <div className="field">
-                      <label htmlFor="c-size">גודל הארגון</label>
+                      <label htmlFor="c-email">דוא"ל</label>
+                      <input id="c-email" type="email" placeholder="name@company.co.il" required />
+                    </div>
+                    <div className="field">
+                      <label htmlFor="c-size">כמה מחשבים בחברה?</label>
                       <select id="c-size" defaultValue="">
                         <option value="" disabled>בחרו טווח</option>
                         <option>עד 10 עובדים</option>
@@ -912,27 +926,35 @@ export default function App() {
                         <option>150+ עובדים</option>
                       </select>
                     </div>
-                    <div className="field">
-                      <label htmlFor="c-topic">נושא הפנייה</label>
-                      <select id="c-topic" defaultValue="">
-                        <option value="" disabled>בחרו נושא</option>
-                        {servicesData.map((s) => <option key={s.id}>{s.title}</option>)}
-                        <option>אחר / ייעוץ כללי</option>
-                      </select>
-                    </div>
                   </div>
 
                   <div className="field">
-                    <label htmlFor="c-msg">פירוט הצורך</label>
+                    <label htmlFor="c-topic">באיזה שירות אתם מתעניינים?</label>
+                    <select id="c-topic" defaultValue="">
+                      <option value="" disabled>בחרו נושא</option>
+                      {servicesData.map((s) => <option key={s.id}>{s.title}</option>)}
+                      <option>אחר / ייעוץ כללי</option>
+                    </select>
+                  </div>
+
+                  <div className="field">
+                    <label htmlFor="c-msg">תיאור הפנייה</label>
                     <textarea id="c-msg" placeholder="ספרו לנו בקצרה על הסביבה הקיימת ועל מה שחשוב לכם לשפר" />
                   </div>
 
-                  <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>
+                  <label className="contact-consent">
+                    <input type="checkbox" required />
+                    <span>אני מאשר/ת שימוש בפרטים שמסרתי לצורך יצירת קשר בהתאם למדיניות הפרטיות.</span>
+                  </label>
+
+                  <button type="submit" className="btn btn-cyan contact-band-submit">
                     <Send style={{ width: 18, height: 18 }} />
-                    שליחת פנייה
+                    כן, תחזרו אליי בהקדם!
                   </button>
 
-                  <p className="form-note">הפרטים נשמרים אצלנו בלבד ולא מועברים לצד שלישי.</p>
+                  <p className="contact-band-note">
+                    או התקשרו ישירות: <a href={`tel:${PHONE_TEL}`}>{PHONE_DISPLAY}</a>
+                  </p>
                 </form>
               )}
             </motion.div>
