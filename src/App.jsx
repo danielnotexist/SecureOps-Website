@@ -298,61 +298,23 @@ const PHONE_TEL = '0771234567';
  *  Logo
  * ------------------------------------------------------------------ */
 
-/* Drawn inline rather than shipped as a PNG. The old raster lockup baked
-   the wordmark into the image, so the header had to flatten the whole
-   thing to white (`filter: brightness(0) invert(1)`) to sit on the dark
-   bar — which threw away the two-tone entirely. Here the mark is geometry
-   and the wordmark is real Rubik, so both keep their colour on any
-   background, stay sharp at any size, and cost ~2KB instead of 250KB.
+/* The supplied lockup, cut off the solid navy it was generated on. Two
+   files rather than one: "Secure" is pure white, so the dark lockup
+   disappears on the white mobile drawer — the light variant recolours just
+   the wordmark and leaves the shield alone.
 
-   Geometry: a shield of even stroke weight with a lemniscate centred in
-   it, sized so the loop clears the shield wall on both sides. Scale is
-   driven entirely by font-size on `.logo` — the mark and tagline are in
-   em, so one knob resizes the lockup. */
-function Logo({ variant = 'dark', markOnly = false, className = '', style }) {
-  const mark = (
-    <svg
-      className="logo-mark"
-      viewBox="0 0 64 72"
-      role="img"
-      aria-label={markOnly ? 'SecureOps' : undefined}
-      aria-hidden={markOnly ? undefined : true}
-      fill="none"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path
-        className="logo-shield"
-        strokeWidth="4.5"
-        d="M16 8 L48 8 Q54 8 54 14 L54 36 Q54 50 32 64 Q10 50 10 36 L10 14 Q10 8 16 8 Z"
-      />
-      {/* Two halves of one lemniscate, drawn separately so each carries its
-          own colour and they meet cleanly at the centre crossing. The lobe
-          radius (5.8) has to stay well clear of the stroke width (3.6) or
-          the loops fill in and read as solid blobs at small sizes. */}
-      <path
-        className="logo-loop-a"
-        strokeWidth="3.6"
-        d="M32 32.5 c-2.9,-3.87 -5.8,-5.8 -8.7,-5.8 a5.8,5.8 0 1,0 0,11.6 c2.9,0 5.8,-1.93 8.7,-5.8 Z"
-      />
-      <path
-        className="logo-loop-b"
-        strokeWidth="3.6"
-        d="M32 32.5 c2.9,3.87 5.8,5.8 8.7,5.8 a5.8,5.8 0 0,0 0,-11.6 c-2.9,0 -5.8,1.93 -8.7,5.8 Z"
-      />
-    </svg>
-  );
-
-  if (markOnly) return <span className={`logo logo-${variant} ${className}`} style={style}>{mark}</span>;
-
+   Sized by height so one value scales the whole lockup, and the intrinsic
+   ratio is fixed in CSS so the header doesn't reflow while the PNG loads. */
+function Logo({ variant = 'dark', className = '', style }) {
   return (
-    <span className={`logo logo-${variant} ${className}`} style={style}>
-      {mark}
-      <span className="logo-text">
-        <span className="logo-name">Secure<span className="logo-name-accent">Ops</span></span>
-        <span className="logo-tagline">make IT easy</span>
-      </span>
-    </span>
+    <img
+      src={variant === 'light' ? '/images/logo-lockup-light.png' : '/images/logo-lockup.png'}
+      alt="SecureOps — make IT easy"
+      width="755"
+      height="200"
+      className={`logo ${className}`}
+      style={style}
+    />
   );
 }
 
@@ -485,7 +447,7 @@ export default function App() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="mobile-drawer-head">
-                <Logo variant="light" style={{ fontSize: 21 }} />
+                <Logo variant="light" style={{ height: 34 }} />
                 <button className="modal-close-btn-round" style={{ position: 'static' }} onClick={() => setMobileOpen(false)} aria-label="סגור">
                   <X />
                 </button>
@@ -1093,7 +1055,7 @@ export default function App() {
       <footer className="footer-wrap-dark">
         <div className="footer-inner-4grid">
           <div>
-            <Logo variant="dark" style={{ fontSize: 26, marginBottom: 14 }} />
+            <Logo variant="dark" style={{ height: 46, marginBottom: 14 }} />
             <p style={{ color: 'rgba(255,255,255,0.66)', fontSize: '0.94rem', lineHeight: 1.75 }}>
               פתרונות אבטחת מידע, סייבר ותשתיות ענן מתקדמות לעסקים בישראל.
               ספק IT מנוהל אחד לכל מה שהארגון צריך. make IT easy.
