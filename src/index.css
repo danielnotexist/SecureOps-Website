@@ -263,20 +263,83 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 
 .header-right-logo-group { display: flex; align-items: center; text-decoration: none; flex-shrink: 0; }
 
-.header-logo-img {
-  height: 58px;
-  width: auto;
-  object-fit: contain;
-  /* the horizontal lockup is dark-on-transparent; flatten it to white for the
-     dark header instead of shipping a second logo file */
-  filter: brightness(0) invert(1);
-  transition: height 0.32s var(--ease);
+/* ---- logo lockup ----
+   Everything scales off font-size, so a single value resizes the mark, the
+   wordmark and the tagline together. LTR is forced on the text: the page is
+   RTL, but "SecureOps" and "make IT easy" are Latin and would otherwise get
+   their punctuation and spacing reordered. */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42em;
+  font-size: 28px;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
 }
-.header-unibo-style.is-scrolled .header-logo-img { height: 46px; }
+
+.logo-mark {
+  height: 1.62em;
+  width: auto;
+  flex-shrink: 0;
+  overflow: visible;
+}
+.logo-shield { stroke: var(--logo-shield); }
+.logo-loop-a { stroke: var(--logo-loop-a); }
+.logo-loop-b { stroke: var(--logo-loop-b); }
+
+.logo-text { display: flex; flex-direction: column; direction: ltr; }
+.logo-name {
+  font-size: 1em;
+  font-weight: 700;
+  letter-spacing: -0.022em;
+  color: var(--logo-name);
+}
+.logo-name-accent { color: var(--logo-accent); }
+.logo-tagline {
+  font-size: 0.36em;
+  font-weight: 400;
+  letter-spacing: 0.155em;
+  color: var(--logo-tagline);
+  margin-top: 0.45em;
+  padding-left: 0.1em;
+}
+
+/* on the dark header/footer the real colours read fine, so unlike the old
+   raster lockup nothing has to be flattened to white */
+.logo-dark {
+  --logo-shield: var(--purple-light);
+  --logo-loop-a: var(--purple-light);
+  --logo-loop-b: var(--cy-teal);
+  --logo-name: #fff;
+  --logo-accent: var(--cy-teal);
+  --logo-tagline: rgba(255, 255, 255, 0.7);
+}
+/* the pale --cyan-accent used on dark backgrounds washes out against white,
+   so the light lockup drops to the deeper teal */
+.logo-light {
+  --logo-shield: var(--purple-main);
+  --logo-loop-a: var(--purple-main);
+  --logo-loop-b: var(--cy-teal-dk);
+  --logo-name: var(--text-dark);
+  --logo-accent: var(--purple-main);
+  --logo-tagline: var(--text-muted);
+}
+
+/* Scaled rather than re-sized on scroll. The mark and tagline are sized in
+   em, so animating font-size would relayout both on every frame, while a
+   transform stays on the compositor. The header animates its own height
+   alongside this, so the lockup only needs the visual shrink. Origin is the
+   right edge because the page is RTL and the lockup is anchored there. */
+.header-logo {
+  transform-origin: right center;
+  transition: transform 0.32s var(--ease);
+}
+.header-unibo-style.is-scrolled .header-logo { transform: scale(0.82); }
 
 @media (max-width: 480px) {
-  .header-logo-img,
-  .header-unibo-style.is-scrolled .header-logo-img { height: 38px; }
+  .header-logo { font-size: 19px; }
+  .header-unibo-style.is-scrolled .header-logo { transform: none; }
 }
 
 .header-nav-list {
@@ -1634,7 +1697,6 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 }
 .footer-col-item a:hover { color: #fff; transform: translateX(-4px); }
 
-.footer-small-logo-img { height: 92px; width: auto; object-fit: contain; }
 
 .footer-social { display: flex; gap: 10px; margin-top: 18px; }
 .footer-social a {
