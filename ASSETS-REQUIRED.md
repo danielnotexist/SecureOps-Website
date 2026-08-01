@@ -95,9 +95,9 @@ on all sides. No text, no background, no gradient backdrop, no outlines.
 
 | | |
 |---|---|
-| **Filename** | `public/images/contact-illustration.png` |
+| **Filename** | `public/images/contact-illustration-v2.png` (renamed from the original `contact-illustration.png` when it was mirrored, per the immutable-cache rule — same filename would leave visitors who'd already loaded it stuck on the un-mirrored bytes for a year) |
 | **Where it appears** | The violet "בואו נהפוך את אתגרי ה-IT שלכם" band at the bottom — `.contact-art`, under the heading beside the form |
-| **Status** | Generated, cut out, wired in. 640×541, 33KB. |
+| **Status** | Generated, cut out, wired in, mirrored to face the form. 640×541, 33KB. |
 | **Caveat** | The supplied JPEG used a painted-on checkerboard to fake transparency, and the circle has a semi-transparent purple glow ring blended into it. That ring's colour sits between the checker and the artwork, so no threshold separates it — a faint speckled arc survives on the circle's outer edge. Removing it geometrically eats the desk and chair (thinner than the arc is wide) or breaks the cyan icon strokes. **If it bothers you: regenerate the source with a solid flat background colour instead of transparency**, and it cuts perfectly. |
 
 **Prompt:**
@@ -119,7 +119,7 @@ Warm, approachable, professional mood. Vector illustration, flat design,
 transparent PNG.
 ```
 
-To wire in once received: replace the `.contact-art-stage` block in the contact section of `src/App.jsx` with `<img src="/images/contact-illustration.png" alt="" className="contact-art" loading="lazy" />` — the `.contact-art` class is already styled and waiting.
+Already wired in — `<img src="/images/contact-illustration-v2.png" ...>` in the contact section of `src/App.jsx`.
 
 ---
 

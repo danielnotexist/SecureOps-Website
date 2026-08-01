@@ -874,7 +874,7 @@ export default function App() {
               </p>
 
               <img
-                src="/images/contact-illustration.png"
+                src="/images/contact-illustration-v2.png"
                 alt=""
                 className="contact-art"
                 loading="lazy"
