@@ -854,34 +854,31 @@ export default function App() {
       {/* ============================ CONTACT =========================== */}
       <section className="contact-band" id="contact">
         <div className="contact-band-inner">
-          <motion.div className="contact-band-head" {...reveal}>
-            <span className="eyebrow eyebrow-dark"><Send style={{ width: 15, height: 15 }} /> דברו איתנו</span>
-            <h2 className="contact-band-h2">
-              בואו נהפוך את אתגרי ה-IT שלכם<br />
-              <span className="contact-band-accent">לשקט נפשי אמיתי.</span>
-            </h2>
-            <p className="contact-band-lead">
-              השאירו פרטים ותאמו שיחת ייעוץ ללא עלות עם מומחה — נחזור אליכם תוך שעתיים בשעות הפעילות.
-            </p>
-          </motion.div>
-
           <div className="contact-band-body">
+            {/* copy + illustration share the narrow side so the form can run
+                wide — the whole section stays short instead of stacking */}
             <motion.div
-              className="contact-visual"
-              initial={{ opacity: 0, scale: 0.94 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              className="contact-aside"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
             >
-              {/* ASSET SLOT `contact-illustration` — flat vector support scene,
-                  same family as story-illustration.png. See ASSETS-REQUIRED.md.
-                  Decorative composition below stands in until it lands. */}
-              <div className="contact-art-stage">
-                <div className="contact-art-medallion"><Headphones /></div>
-                <span className="contact-art-chip contact-art-chip-1">מענה תוך שעתיים</span>
-                <span className="contact-art-chip contact-art-chip-2">ייעוץ ללא עלות</span>
-                <span className="contact-art-chip contact-art-chip-3">ללא התחייבות</span>
-              </div>
+              <span className="eyebrow eyebrow-dark"><Send style={{ width: 15, height: 15 }} /> דברו איתנו</span>
+              <h2 className="contact-band-h2">
+                בואו נהפוך את אתגרי ה-IT שלכם<br />
+                <span className="contact-band-accent">לשקט נפשי אמיתי.</span>
+              </h2>
+              <p className="contact-band-lead">
+                השאירו פרטים ותאמו שיחת ייעוץ ללא עלות — נחזור אליכם תוך שעתיים בשעות הפעילות.
+              </p>
+
+              <img
+                src="/images/contact-illustration.png"
+                alt=""
+                className="contact-art"
+                loading="lazy"
+              />
             </motion.div>
 
             <motion.div
@@ -900,7 +897,7 @@ export default function App() {
                 </div>
               ) : (
                 <form onSubmit={(e) => { e.preventDefault(); setContactSent(true); }}>
-                  <div className="form-row">
+                  <div className="form-grid">
                     <div className="field">
                       <label htmlFor="c-name">שם מלא</label>
                       <input id="c-name" type="text" placeholder="ישראל ישראלי" required />
@@ -909,9 +906,6 @@ export default function App() {
                       <label htmlFor="c-phone">טלפון</label>
                       <input id="c-phone" type="tel" placeholder="050-0000000" required />
                     </div>
-                  </div>
-
-                  <div className="form-row">
                     <div className="field">
                       <label htmlFor="c-email">דוא"ל</label>
                       <input id="c-email" type="email" placeholder="name@company.co.il" required />
@@ -926,31 +920,31 @@ export default function App() {
                         <option>150+ עובדים</option>
                       </select>
                     </div>
+                    <div className="field field-wide">
+                      <label htmlFor="c-topic">באיזה שירות אתם מתעניינים?</label>
+                      <select id="c-topic" defaultValue="">
+                        <option value="" disabled>בחרו נושא</option>
+                        {servicesData.map((s) => <option key={s.id}>{s.title}</option>)}
+                        <option>אחר / ייעוץ כללי</option>
+                      </select>
+                    </div>
+                    <div className="field field-wide">
+                      <label htmlFor="c-msg">תיאור הפנייה (אופציונלי)</label>
+                      <textarea id="c-msg" placeholder="ספרו לנו בקצרה על הסביבה הקיימת ועל מה שחשוב לכם לשפר" />
+                    </div>
                   </div>
 
-                  <div className="field">
-                    <label htmlFor="c-topic">באיזה שירות אתם מתעניינים?</label>
-                    <select id="c-topic" defaultValue="">
-                      <option value="" disabled>בחרו נושא</option>
-                      {servicesData.map((s) => <option key={s.id}>{s.title}</option>)}
-                      <option>אחר / ייעוץ כללי</option>
-                    </select>
+                  <div className="contact-submit-row">
+                    <label className="contact-consent">
+                      <input type="checkbox" required />
+                      <span>אני מאשר/ת שימוש בפרטים שמסרתי לצורך יצירת קשר בהתאם למדיניות הפרטיות.</span>
+                    </label>
+
+                    <button type="submit" className="btn btn-cyan contact-band-submit">
+                      <Send style={{ width: 18, height: 18 }} />
+                      כן, תחזרו אליי בהקדם!
+                    </button>
                   </div>
-
-                  <div className="field">
-                    <label htmlFor="c-msg">תיאור הפנייה</label>
-                    <textarea id="c-msg" placeholder="ספרו לנו בקצרה על הסביבה הקיימת ועל מה שחשוב לכם לשפר" />
-                  </div>
-
-                  <label className="contact-consent">
-                    <input type="checkbox" required />
-                    <span>אני מאשר/ת שימוש בפרטים שמסרתי לצורך יצירת קשר בהתאם למדיניות הפרטיות.</span>
-                  </label>
-
-                  <button type="submit" className="btn btn-cyan contact-band-submit">
-                    <Send style={{ width: 18, height: 18 }} />
-                    כן, תחזרו אליי בהקדם!
-                  </button>
 
                   <p className="contact-band-note">
                     או התקשרו ישירות: <a href={`tel:${PHONE_TEL}`}>{PHONE_DISPLAY}</a>

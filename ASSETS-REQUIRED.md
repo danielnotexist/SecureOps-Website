@@ -91,14 +91,14 @@ on all sides. No text, no background, no gradient backdrop, no outlines.
 
 ---
 
-## Contact band illustration
+## Contact band illustration — ✅ done (one caveat)
 
 | | |
 |---|---|
 | **Filename** | `public/images/contact-illustration.png` |
-| **Where it appears** | The violet "בואו נהפוך את אתגרי ה-IT שלכם" band at the bottom of the page — `.contact-visual`, beside the form |
-| **Current fallback** | A glass medallion with a headset icon plus three floating trust chips (`.contact-art-stage`) — decorative, but swap it for the real art |
-| **Style note** | Must match `story-illustration.png` exactly in style — same flat-vector SaaS look, same violet/cyan palette — since both sit on the same violet gradient a few sections apart. |
+| **Where it appears** | The violet "בואו נהפוך את אתגרי ה-IT שלכם" band at the bottom — `.contact-art`, under the heading beside the form |
+| **Status** | Generated, cut out, wired in. 640×541, 33KB. |
+| **Caveat** | The supplied JPEG used a painted-on checkerboard to fake transparency, and the circle has a semi-transparent purple glow ring blended into it. That ring's colour sits between the checker and the artwork, so no threshold separates it — a faint speckled arc survives on the circle's outer edge. Removing it geometrically eats the desk and chair (thinner than the arc is wide) or breaks the cyan icon strokes. **If it bothers you: regenerate the source with a solid flat background colour instead of transparency**, and it cuts perfectly. |
 
 **Prompt:**
 
@@ -143,6 +143,6 @@ To wire in once received: set `photo: '/images/team/daniel.jpg'` (etc.) on the m
 | Asset | Urgency | Why |
 |---|---|---|
 | Team headshots | 🔴 high | Client is actively sending these — swap in as soon as they land |
-| Contact band illustration | 🟡 medium | Decorative medallion fallback looks intentional; real art is an upgrade |
+| Contact band illustration | ✅ done | Live in `.contact-art` — see caveat above about the faint edge arc |
 | Story banner illustration | ✅ done | Live in `.story-visual` |
 | Process-flow icons | 🟡 medium | The section works today with numbered placeholders; icons are a polish pass, not a blocker |
