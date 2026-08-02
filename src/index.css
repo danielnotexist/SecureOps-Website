@@ -1066,21 +1066,26 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 
 .team-profiles { display: flex; flex-direction: column; gap: clamp(48px, 7vw, 76px); }
 
+/* Mirrored via named grid areas, not `order`: the two tracks are different
+   widths (copy gets 1fr, photo is capped at 180-280px), and `order` only
+   reorders which TRACK an item auto-places into -- it doesn't move a track's
+   size along with it. That previously sent the 280px-capped photo circle
+   into the wide 1fr track on every second row, ballooning it past 500px. */
 .team-profile-row {
   display: grid;
   grid-template-columns: 1fr minmax(180px, 280px);
+  grid-template-areas: "copy photo";
   align-items: center;
   gap: clamp(28px, 5vw, 56px);
 }
 
-/* row 1: copy first (order 1 -> right column), photo second (order 2 ->
-   left column). Row 2 mirrors by swapping which element takes which order,
-   without touching the grid track sizes themselves. */
-.team-profile-copy { order: 1; }
-.team-profile-photo { order: 2; }
+.team-profile-row:nth-child(even) {
+  grid-template-columns: minmax(180px, 280px) 1fr;
+  grid-template-areas: "photo copy";
+}
 
-.team-profile-row:nth-child(even) .team-profile-copy { order: 2; }
-.team-profile-row:nth-child(even) .team-profile-photo { order: 1; }
+.team-profile-copy { grid-area: copy; }
+.team-profile-photo { grid-area: photo; }
 
 .team-profile-photo img,
 .team-profile-initials {
@@ -1114,19 +1119,20 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 .team-profile-cta { margin-top: 6px; }
 
 @media (max-width: 720px) {
+  /* single column now — both rows stack the same way (photo on top)
+     regardless of the desktop alternation, so both get the same area order */
   .team-profile-row,
   .team-profile-row:nth-child(even) {
     grid-template-columns: 1fr;
+    grid-template-areas: "photo" "copy";
     text-align: center;
-    justify-items: center;
   }
-  /* single column now, so "order" just controls stacking — photo on top
-     for every row regardless of the desktop alternation */
-  .team-profile-photo,
-  .team-profile-row:nth-child(even) .team-profile-photo { order: 1; }
-  .team-profile-copy,
-  .team-profile-row:nth-child(even) .team-profile-copy { order: 2; }
-  .team-profile-photo { max-width: 200px; }
+  /* an explicit width instead of max-width + justify-items:center: the
+     latter switches the grid item to shrink-to-fit sizing, which the
+     initials div (a plain div with a width:100% child and no intrinsic
+     size of its own) resolves against indeterminately and collapses to a
+     sliver a few px wide */
+  .team-profile-photo { width: 200px; justify-self: center; }
 }
 
 /* ==========================================================================
