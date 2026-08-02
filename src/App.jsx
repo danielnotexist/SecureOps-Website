@@ -37,13 +37,7 @@ import {
   RefreshCw,
   Gauge,
   Layers,
-  Plus,
-  Accessibility,
-  Link2,
-  Type,
-  MousePointer2,
-  PauseCircle,
-  FileText
+  Plus
 } from 'lucide-react';
 
 /* ------------------------------------------------------------------ *
@@ -303,201 +297,6 @@ const EMAIL = 'sales@secureops.co.il';
 const HOURS = 'א׳–ה׳ 09:00–18:00';
 
 /* ------------------------------------------------------------------ *
- *  Legal
- * ------------------------------------------------------------------ */
-
-/* Plain-language starting points, not vetted legal text — the client needs
-   a lawyer to review these before launch, and ASSETS-REQUIRED.md says so.
-   Kept as data + one modal rather than separate routes because the site is
-   a single page and adding a router for four static documents would be a
-   lot of machinery for very little. */
-const LEGAL_DOCS = {
-  terms: {
-    title: 'תנאי שימוש',
-    updated: 'עודכן לאחרונה: אוגוסט 2026',
-    body: [
-      ['כללי', 'השימוש באתר SecureOps ובתכניו כפוף לתנאים שלהלן. הגלישה באתר מהווה הסכמה לתנאים אלה. אם אינכם מסכימים להם, אנא הימנעו משימוש באתר.'],
-      ['התכנים באתר', 'המידע באתר הוא מידע כללי בלבד ואינו מהווה ייעוץ מקצועי, המלצה או התחייבות. תיאורי השירותים הם כלליים; ההתקשרות בפועל וההיקף המדויק של כל שירות ייקבעו בהסכם נפרד ובכתב.'],
-      ['קניין רוחני', 'כל הזכויות בתכני האתר — לרבות טקסטים, עיצוב, גרפיקה, לוגו וקוד — שמורות ל-SecureOps, למעט סימני מסחר של צדדים שלישיים המוצגים באתר ואשר שייכים לבעליהם. אין להעתיק, לשכפל, להפיץ או לעשות שימוש מסחרי בתכנים ללא אישור מראש ובכתב.'],
-      ['אחריות', 'האתר מוצע כמות שהוא (AS IS). איננו אחראים לנזק ישיר או עקיף שייגרם משימוש באתר, מהסתמכות על תכניו או מאי-זמינות זמנית שלו.'],
-      ['קישורים חיצוניים', 'האתר עשוי לכלול קישורים לאתרים של צדדים שלישיים. אין לנו שליטה על תוכנם ואיננו נושאים באחריות להם.'],
-      ['שינויים ותחולה', 'אנו רשאים לעדכן תנאים אלה מעת לעת. על תנאים אלה יחולו דיני מדינת ישראל, וסמכות השיפוט הבלעדית נתונה לבתי המשפט המוסמכים במחוז תל אביב.']
-    ]
-  },
-  privacy: {
-    title: 'מדיניות פרטיות',
-    updated: 'עודכן לאחרונה: אוגוסט 2026',
-    body: [
-      ['איזה מידע נאסף', 'מידע שאתם מוסרים ביוזמתכם בטופס יצירת הקשר — שם, טלפון, דוא"ל ופרטי הפנייה. בנוסף נאסף מידע טכני אנונימי כגון סוג דפדפן, מכשיר ודפים שנצפו.'],
-      ['למה משתמשים בו', 'המידע משמש אך ורק כדי לחזור אליכם בנוגע לפנייתכם, לספק את השירות המבוקש ולשפר את האתר. איננו מוכרים ואיננו משכירים מידע אישי לצדדים שלישיים.'],
-      ['שמירה ואבטחה', 'המידע נשמר לפרק הזמן הדרוש למטרות שלשמן נאסף, ומאובטח באמצעים מקובלים. גישה אליו ניתנת רק לעובדים הזקוקים לה לצורך מתן השירות.'],
-      ['הזכויות שלכם', 'אתם רשאים לבקש לעיין במידע שנשמר עליכם, לתקנו או למחקו. לפנייה בנושא: ' + EMAIL + '.'],
-      ['דיוור', 'לא נשלח אליכם דיוור פרסומי ללא הסכמתכם, ובכל הודעה תוכלו להסיר את עצמכם מרשימת התפוצה.']
-    ]
-  },
-  cookies: {
-    title: 'מדיניות עוגיות (Cookies)',
-    updated: 'עודכן לאחרונה: אוגוסט 2026',
-    body: [
-      ['מה זה עוגיות', 'עוגיות הן קבצי טקסט קטנים שנשמרים בדפדפן שלכם ומאפשרים לאתר לזכור העדפות ולתפקד כראוי.'],
-      ['במה אנחנו משתמשים', 'האתר עושה שימוש מינימלי בעוגיות ובאחסון מקומי (localStorage). השימוש העיקרי הוא שמירת הגדרות הנגישות שבחרתם, כדי שלא תצטרכו להגדיר אותן מחדש בכל ביקור.'],
-      ['עוגיות של צדדים שלישיים', 'ככל שייעשה שימוש בכלי מדידה או פרסום של צדדים שלישיים, הם עשויים להציב עוגיות משלהם בהתאם למדיניות הפרטיות שלהם.'],
-      ['איך שולטים בזה', 'ניתן לחסום או למחוק עוגיות דרך הגדרות הדפדפן. שימו לב שחסימה עלולה לפגוע בחלק מפעולות האתר, לרבות שמירת הגדרות הנגישות.']
-    ]
-  },
-  accessibility: {
-    title: 'הצהרת נגישות',
-    updated: 'עודכן לאחרונה: אוגוסט 2026',
-    body: [
-      ['המחויבות שלנו', 'ב-SecureOps אנו רואים חשיבות רבה במתן שירות שוויוני לכלל הגולשים, לרבות אנשים עם מוגבלות, ופועלים להנגשת האתר בהתאם לתקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות) ולתקן הישראלי 5568.'],
-      ['מה הונגש באתר', 'האתר כולל תפריט נגישות הממוקם בצד שמאל של המסך ומאפשר: הגדלה והקטנה של הטקסט, מצב ניגודיות גבוהה, ניגודיות הפוכה, גווני אפור, הדגשת קישורים, מעבר לגופן קריא, סמן עכבר מוגדל ועצירת אנימציות. בנוסף האתר בנוי לניווט מלא באמצעות מקלדת, עם סימון ברור של אלמנט הפוקוס, ותומך בקוראי מסך באמצעות תגיות סמנטיות וטקסט חלופי לתמונות.'],
-      ['הסדרי נגישות במשרדים', 'השירות ניתן בעיקרו מרחוק ובאתרי הלקוח. לתיאום פגישה בהתאמת נגישות ניתן לפנות אלינו מראש.'],
-      ['נתקלתם בבעיה?', 'אנו ממשיכים לשפר את נגישות האתר. אם נתקלתם בקושי או בתקלה בנושא נגישות, נשמח שתעדכנו אותנו ונטפל בכך בהקדם. רכז הנגישות: ' + EMAIL + ' · ' + PHONE_DISPLAY + '.']
-    ]
-  }
-};
-
-/* ------------------------------------------------------------------ *
- *  Accessibility
- * ------------------------------------------------------------------ */
-
-/* Israeli sites are required to offer these controls (תקן ישראלי 5568 /
-   תקנות שוויון זכויות), so this is a compliance feature, not a nicety.
-   Each toggle sets a data-* attribute or a CSS variable on <html> and the
-   actual visual change lives in index.css — that keeps the behaviour
-   declarative and means nothing here has to know about page markup.
-   Choices persist in localStorage because someone who needs larger text
-   needs it on every visit, not just this one. */
-const A11Y_DEFAULTS = { fontScale: 1, contrast: 'none', links: false, readable: false, bigCursor: false, stopMotion: false };
-
-function AccessibilityWidget() {
-  const [open, setOpen] = useState(false);
-  const [cfg, setCfg] = useState(() => {
-    try {
-      return { ...A11Y_DEFAULTS, ...JSON.parse(localStorage.getItem('secureops-a11y') || '{}') };
-    } catch {
-      return A11Y_DEFAULTS;
-    }
-  });
-
-  useEffect(() => {
-    const el = document.documentElement;
-    el.style.setProperty('--a11y-font-scale', cfg.fontScale);
-    el.dataset.a11yContrast = cfg.contrast;
-    el.toggleAttribute('data-a11y-links', cfg.links);
-    el.toggleAttribute('data-a11y-readable', cfg.readable);
-    el.toggleAttribute('data-a11y-cursor', cfg.bigCursor);
-    el.toggleAttribute('data-a11y-still', cfg.stopMotion);
-    try { localStorage.setItem('secureops-a11y', JSON.stringify(cfg)); } catch { /* private mode */ }
-  }, [cfg]);
-
-  // Escape closes the panel, matching the service modal's behaviour
-  useEffect(() => {
-    if (!open) return undefined;
-    const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [open]);
-
-  const set = (patch) => setCfg((c) => ({ ...c, ...patch }));
-  const step = (delta) => set({ fontScale: Math.min(1.6, Math.max(0.9, +(cfg.fontScale + delta).toFixed(2))) });
-
-  const toggles = [
-    { key: 'links', label: 'הדגשת קישורים', icon: Link2 },
-    { key: 'readable', label: 'גופן קריא', icon: Type },
-    { key: 'bigCursor', label: 'סמן גדול', icon: MousePointer2 },
-    { key: 'stopMotion', label: 'עצירת אנימציות', icon: PauseCircle }
-  ];
-
-  return (
-    <div className="a11y-root">
-      <button
-        className="a11y-fab"
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-        aria-controls="a11y-panel"
-        aria-label="תפריט נגישות"
-        title="תפריט נגישות"
-      >
-        <Accessibility aria-hidden="true" />
-      </button>
-
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            id="a11y-panel"
-            className="a11y-panel"
-            role="dialog"
-            aria-label="הגדרות נגישות"
-            initial={{ opacity: 0, x: -12, scale: 0.97 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            exit={{ opacity: 0, x: -12, scale: 0.97 }}
-            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <div className="a11y-panel-head">
-              <h3>נגישות</h3>
-              <button onClick={() => setOpen(false)} aria-label="סגירת תפריט הנגישות"><X /></button>
-            </div>
-
-            <div className="a11y-group">
-              <span className="a11y-group-label">גודל טקסט</span>
-              <div className="a11y-stepper">
-                <button onClick={() => step(-0.1)} aria-label="הקטנת טקסט">−</button>
-                <span aria-live="polite">{Math.round(cfg.fontScale * 100)}%</span>
-                <button onClick={() => step(0.1)} aria-label="הגדלת טקסט">+</button>
-              </div>
-            </div>
-
-            <div className="a11y-group">
-              <span className="a11y-group-label">ניגודיות</span>
-              <div className="a11y-chips">
-                {[
-                  { v: 'none', l: 'רגיל' },
-                  { v: 'high', l: 'גבוהה' },
-                  { v: 'invert', l: 'הפוכה' },
-                  { v: 'grayscale', l: 'גווני אפור' }
-                ].map((o) => (
-                  <button
-                    key={o.v}
-                    className={cfg.contrast === o.v ? 'is-on' : ''}
-                    aria-pressed={cfg.contrast === o.v}
-                    onClick={() => set({ contrast: o.v })}
-                  >
-                    {o.l}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="a11y-group">
-              {toggles.map((t) => (
-                <button
-                  key={t.key}
-                  className={`a11y-toggle${cfg[t.key] ? ' is-on' : ''}`}
-                  aria-pressed={cfg[t.key]}
-                  onClick={() => set({ [t.key]: !cfg[t.key] })}
-                >
-                  <t.icon aria-hidden="true" />
-                  <span>{t.label}</span>
-                </button>
-              ))}
-            </div>
-
-            <button className="a11y-reset" onClick={() => setCfg(A11Y_DEFAULTS)}>
-              <RefreshCw aria-hidden="true" /> איפוס הגדרות
-            </button>
-
-            <p className="a11y-note">
-              נתקלתם בבעיית נגישות? כתבו לנו ל־<a href={`mailto:${EMAIL}`}>{EMAIL}</a>
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ *
  *  Logo
  * ------------------------------------------------------------------ */
 
@@ -532,7 +331,6 @@ export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [openFaq, setOpenFaq] = useState(0);
   const [contactSent, setContactSent] = useState(false);
-  const [legalDoc, setLegalDoc] = useState(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -541,23 +339,9 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = selectedService || mobileOpen || legalDoc ? 'hidden' : '';
+    document.body.style.overflow = selectedService || mobileOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
-  }, [selectedService, mobileOpen, legalDoc]);
-
-  /* Escape closes whatever overlay is on top. Both modals and the drawer are
-     dismissible by pointer only otherwise, which strands keyboard users. */
-  useEffect(() => {
-    if (!selectedService && !mobileOpen && !legalDoc) return undefined;
-    const onKey = (e) => {
-      if (e.key !== 'Escape') return;
-      if (legalDoc) setLegalDoc(null);
-      else if (selectedService) setSelectedService(null);
-      else setMobileOpen(false);
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [selectedService, mobileOpen, legalDoc]);
+  }, [selectedService, mobileOpen]);
 
   const openService = (svc) => { setSelectedService(svc); setIsServicesHovered(false); setMobileOpen(false); };
 
@@ -665,7 +449,7 @@ export default function App() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="mobile-drawer-head">
-                <Logo variant="dark" style={{ height: 34 }} />
+                <Logo variant="light" style={{ height: 34 }} />
                 <button className="modal-close-btn-round" style={{ position: 'static' }} onClick={() => setMobileOpen(false)} aria-label="סגור">
                   <X />
                 </button>
@@ -858,7 +642,7 @@ export default function App() {
         <div className="wrap">
           <motion.div className="section-head-center" {...reveal}>
             <span className="eyebrow"><Award style={{ width: 15, height: 15 }} /> WHY SECUREOPS</span>
-            <h2 className="section-head-title-light">לא עוד ספק. מישהו שבא <span style={{ fontWeight: 800, color: 'var(--accent)' }}>לבדוק שזה באמת עובד</span></h2>
+            <h2 className="section-head-title-light">לא עוד ספק. מישהו שבא <span style={{ fontWeight: 800, color: 'var(--purple-main)' }}>לבדוק שזה באמת עובד</span></h2>
             <p className="section-lead">
               אנחנו לא באים למכור מילים יפות. אנחנו באים לראות איפה זה חשוף,
               לסגור את הפינות, ולהישאר גם אחרי ההטמעה.
@@ -891,7 +675,7 @@ export default function App() {
         <div className="wrap-narrow">
           <motion.div className="section-head-center" {...reveal}>
             <span className="eyebrow"><Users style={{ width: 15, height: 15 }} /> הצוות שלנו</span>
-            <h2 className="section-head-title-light">האנשים שעומדים <span style={{ fontWeight: 800, color: 'var(--accent)' }}>מאחורי כל קריאה</span></h2>
+            <h2 className="section-head-title-light">האנשים שעומדים <span style={{ fontWeight: 800, color: 'var(--purple-main)' }}>מאחורי כל קריאה</span></h2>
             <p className="section-lead">
               לא מוקד תמיכה אנונימי — צוות מקצועי שחי ונושם ענן, אבטחת מידע ותשתיות,
               נמדד לפי תוצאות, ובעיקר אוהב את מה שהוא עושה. בואו להיות הלקוח הבא שלנו.
@@ -990,7 +774,7 @@ export default function App() {
           <motion.div className="section-head-center" {...reveal}>
             <span className="eyebrow eyebrow-dark"><Activity style={{ width: 15, height: 15 }} /> אודות SecureOps</span>
             <h2 className="section-head-title-light" style={{ color: '#fff' }}>
-              הגנה שלא נרדמת <span style={{ fontWeight: 800, color: 'var(--accent)' }}>אף פעם</span>
+              הגנה שלא נרדמת <span style={{ fontWeight: 800, color: 'var(--cyan-accent)' }}>אף פעם</span>
             </h2>
           </motion.div>
 
@@ -1031,7 +815,7 @@ export default function App() {
         <div className="wrap">
           <motion.div className="section-head-center" {...reveal}>
             <span className="eyebrow"><Star style={{ width: 15, height: 15 }} /> לקוחות מספרים</span>
-            <h2 className="section-head-title-light">מה אומרים עלינו <span style={{ fontWeight: 800, color: 'var(--accent)' }}>בשטח</span></h2>
+            <h2 className="section-head-title-light">מה אומרים עלינו <span style={{ fontWeight: 800, color: 'var(--purple-main)' }}>בשטח</span></h2>
           </motion.div>
 
           <div className="testi-grid">
@@ -1067,7 +851,7 @@ export default function App() {
         <div className="wrap-narrow">
           <motion.div className="section-head-center" {...reveal}>
             <span className="eyebrow"><MessageCircle style={{ width: 15, height: 15 }} /> FAQ</span>
-            <h2 className="section-head-title-light">השאלות שבסוף <span style={{ fontWeight: 800, color: 'var(--accent)' }}>כולם שואלים</span></h2>
+            <h2 className="section-head-title-light">השאלות שבסוף <span style={{ fontWeight: 800, color: 'var(--purple-main)' }}>כולם שואלים</span></h2>
           </motion.div>
 
           <div className="faq-list">
@@ -1309,90 +1093,32 @@ export default function App() {
           <div className="footer-col-item">
             <h4>צרו איתנו קשר</h4>
             <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Mail style={{ width: 16, height: 16, color: 'var(--accent)', flexShrink: 0 }} />
+              <Mail style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
               <a href={`mailto:${EMAIL}`} style={{ margin: 0, direction: 'ltr' }}>{EMAIL}</a>
             </p>
             <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Phone style={{ width: 16, height: 16, color: 'var(--accent)', flexShrink: 0 }} />
+              <Phone style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
               <a href={`tel:${PHONE_TEL}`} style={{ margin: 0, direction: 'ltr' }}>{PHONE_DISPLAY}</a>
             </p>
             <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Clock style={{ width: 16, height: 16, color: 'var(--accent)', flexShrink: 0 }} />
+              <Clock style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
               <span>{HOURS}</span>
             </p>
             <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <MapPin style={{ width: 16, height: 16, color: 'var(--accent)', flexShrink: 0 }} />
+              <MapPin style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
               <span>מגדלי עזריאלי, תל אביב</span>
             </p>
             <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Building2 style={{ width: 16, height: 16, color: 'var(--accent)', flexShrink: 0 }} />
+              <Building2 style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
               <span>ח.פ. 51-000000-0</span>
             </p>
           </div>
         </div>
 
         <div className="footer-copyright-bar">
-          <nav className="footer-legal-links" aria-label="מסמכים משפטיים">
-            {Object.entries(LEGAL_DOCS).map(([key, doc]) => (
-              <button key={key} onClick={() => setLegalDoc(key)}>{doc.title}</button>
-            ))}
-          </nav>
           <p>© {new Date().getFullYear()} SecureOps Ltd. כל הזכויות שמורות. make IT easy.</p>
         </div>
       </footer>
-
-      {/* ============================ LEGAL MODAL ======================= */}
-      <AnimatePresence>
-        {legalDoc && (
-          <motion.div
-            className="modal-overlay-backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setLegalDoc(null)}
-          >
-            <motion.div
-              className="modal-white-card legal-card"
-              role="dialog"
-              aria-modal="true"
-              aria-label={LEGAL_DOCS[legalDoc].title}
-              initial={{ opacity: 0, y: 24, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 24, scale: 0.98 }}
-              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                className="modal-close-btn-round"
-                onClick={() => setLegalDoc(null)}
-                aria-label="סגירה"
-              >
-                <X />
-              </button>
-
-              <div className="legal-head">
-                <FileText aria-hidden="true" />
-                <div>
-                  <h2>{LEGAL_DOCS[legalDoc].title}</h2>
-                  <span>{LEGAL_DOCS[legalDoc].updated}</span>
-                </div>
-              </div>
-
-              {LEGAL_DOCS[legalDoc].body.map(([heading, text]) => (
-                <section className="legal-section" key={heading}>
-                  <h3>{heading}</h3>
-                  <p>{text}</p>
-                </section>
-              ))}
-
-              <div className="legal-foot">
-                <span>שאלות בנושא? </span>
-                <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* ====================== FLOATING ACTIONS ======================== */}
       <div className="floating-actions">
@@ -1420,8 +1146,6 @@ export default function App() {
           )}
         </AnimatePresence>
       </div>
-
-      <AccessibilityWidget />
 
     </div>
   );

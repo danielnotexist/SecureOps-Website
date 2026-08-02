@@ -137,28 +137,10 @@ To wire in once received: set `photo: '/images/team/daniel.jpg'` (etc.) on the m
 
 ---
 
-## Legal documents — ⚠️ needs a lawyer's review before launch
-
-| | |
-|---|---|
-| **Where they live** | `LEGAL_DOCS` at the top of `src/App.jsx`, opened from the four footer links |
-| **Documents** | תנאי שימוש, מדיניות פרטיות, מדיניות עוגיות, הצהרת נגישות |
-| **Status** | Written as plain-language starting points so the footer isn't linking to nothing. **They are not vetted legal text.** |
-
-**What still needs doing:**
-
-- Have a lawyer review all four before the site is promoted. The privacy and cookie policies in particular make claims about data handling ("we don't sell data", retention periods) that have to match what the business actually does.
-- The accessibility statement names a contact for accessibility issues (currently the general sales address). Israeli regulations expect a named רכז נגישות — swap in the right person.
-- The terms name Tel Aviv courts as the venue and August 2026 as the last-updated date; confirm both.
-- If analytics or ad pixels are ever added, the cookie policy has to be updated to list them, and a consent banner will likely be required.
-
----
-
 ## Priority
 
 | Asset | Urgency | Why |
 |---|---|---|
-| Legal review | 🔴 high | Four policies are live and linked; they need a lawyer's eyes before launch |
 | Team headshots | ✅ done | Both founders' real photos are live |
 | Contact band illustration | ✅ done | Live in `.contact-art` — see caveat above about the faint edge arc |
 | Story banner illustration | ✅ done | Live in `.story-visual` |
