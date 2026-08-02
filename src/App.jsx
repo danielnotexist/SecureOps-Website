@@ -205,10 +205,10 @@ const whyUs = [
 ];
 
 const processSteps = [
-  { n: '01', img: '/images/icons/proc-audit.png',  title: 'אפיון וסקר תשתיות', text: 'מיפוי מלא של המערכות, הסיכונים ונקודות הכשל בארגון — ללא עלות וללא התחייבות.' },
-  { n: '02', img: '/images/icons/proc-plan.png',   title: 'תכנון פתרון מותאם', text: 'בונים תוכנית עבודה עם לוחות זמנים, תקציב ברור ויעדי אבטחה מדידים.' },
-  { n: '03', img: '/images/icons/proc-launch.png', title: 'הטמעה ומעבר', text: 'ביצוע בשעות שלא פוגעות בפעילות, עם ליווי צמוד לעובדים ותוכנית חזרה לאחור.' },
-  { n: '04', img: '/images/icons/proc-manage.png', title: 'ניהול וניטור שוטף', text: 'ניטור MDR שוטף, דוחות חודשיים ופגישת סטטוס רבעונית לשיפור מתמיד.' }
+  { n: '01', img: '/images/icons/proc-audit.png',  title: 'מדברים ישר', text: 'שיחה קצרה כדי להבין מה עובד, מה לא, ואיפה הכאב האמיתי. בלי סיבוב מכירה מיותר.' },
+  { n: '02', img: '/images/icons/proc-plan.png',   title: 'בודקים לעומק', text: 'עוברים על שרתים, גיבויים, מיילים, תחנות והרשאות. לא מנחשים, בודקים.' },
+  { n: '03', img: '/images/icons/proc-launch.png', title: 'מטמיעים מסודר', text: 'מגדירים את הפתרון, בודקים שהוא עובד, ומוודאים שהצוות שלכם לא נשאר עם סימני שאלה.' },
+  { n: '04', img: '/images/icons/proc-manage.png', title: 'נשארים על זה', text: 'מנטרים, מעדכנים, מגיבים כשצריך, ולא נותנים לדברים להירקב בשקט.' }
 ];
 
 // ASSET SLOT `team-photos`: photo: null renders an initials avatar until
@@ -291,8 +291,10 @@ const reveal = {
   transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] }
 };
 
-const PHONE_DISPLAY = '077-1234567';
-const PHONE_TEL = '0771234567';
+const PHONE_DISPLAY = '055-5702552';
+const PHONE_TEL = '0555702552';
+const EMAIL = 'sales@secureops.co.il';
+const HOURS = 'א׳–ה׳ 09:00–18:00';
 
 /* ------------------------------------------------------------------ *
  *  Logo
@@ -489,12 +491,13 @@ export default function App() {
             <span className="hero-cyber-brand">עם SecureOps</span>
 
             <p className="hero-cyber-lead">
-              מזהים איומים בזמן אמת, עוצרים בעיות לפני שהן הופכות למשבר,
-              ושומרים על המידע הקריטי שלכם מאובטח וזמין — במקום אחד.
+              פתרונות סייבר, גיבוי וניטור שמזהים איומים בזמן אמת, עוצרים בעיות
+              לפני שהן הופכות לשיחת 'הכול נפל', ושומרים על המידע הקריטי שלך
+              זמין, מאובטח ומנוהל במקום אחד.
             </p>
 
             <a href="#contact" className="hero-cyber-cta">
-              <span>לייעוץ ללא עלות השאירו פרטים</span>
+              <span>דברו איתנו</span>
               <span className="hero-cyber-cta-chevron"><ArrowLeft /></span>
             </a>
           </motion.div>
@@ -549,12 +552,11 @@ export default function App() {
       <section className="section" id="services">
         <div className="wrap">
           <motion.div className="section-head-center" {...reveal}>
-            <span className="eyebrow"><Layers style={{ width: 15, height: 15 }} /> מעטפת IT מלאה</span>
-            <h2 className="section-head-title-light">כל מה שהעסק שלכם צריך</h2>
-            <div className="section-head-title-bold">במקום אחד!</div>
+            <span className="eyebrow"><Layers style={{ width: 15, height: 15 }} /> SERVICES</span>
+            <h2 className="section-head-title-light">שירותים שנועדו לרגע</h2>
+            <div className="section-head-title-bold">שבו משהו משתבש</div>
             <p className="section-lead">
-              ענן, סייבר, תקשורת, גיבוי ותמיכה — תחת ספק אחד, חוזה אחד ואיש קשר אחד.
-              בלי לרדוף אחרי שלושה ספקים כשמשהו נופל.
+              גיבוי, סייבר, ניטור ו-IT מנוהל. דברים שעדיף לסדר לפני שמישהו נכנס לפאניקה.
             </p>
           </motion.div>
 
@@ -639,9 +641,12 @@ export default function App() {
       <section className="section-tight" id="why">
         <div className="wrap">
           <motion.div className="section-head-center" {...reveal}>
-            <span className="eyebrow"><Award style={{ width: 15, height: 15 }} /> למה SecureOps</span>
-            <h2 className="section-head-title-light">ההבדל הוא <span style={{ fontWeight: 800, color: 'var(--purple-main)' }}>בפרטים הקטנים</span></h2>
-            <p className="section-lead">ארבע סיבות שבגללן ארגונים עוברים אלינו — ונשארים.</p>
+            <span className="eyebrow"><Award style={{ width: 15, height: 15 }} /> WHY SECUREOPS</span>
+            <h2 className="section-head-title-light">לא עוד ספק. מישהו שבא <span style={{ fontWeight: 800, color: 'var(--purple-main)' }}>לבדוק שזה באמת עובד</span></h2>
+            <p className="section-lead">
+              אנחנו לא באים למכור מילים יפות. אנחנו באים לראות איפה זה חשוף,
+              לסגור את הפינות, ולהישאר גם אחרי ההטמעה.
+            </p>
           </motion.div>
 
           <div className="why-grid">
@@ -715,9 +720,9 @@ export default function App() {
       <section className="section process-section" id="process">
         <div className="wrap">
           <motion.div className="section-head-center" {...reveal}>
-            <span className="eyebrow"><Rocket style={{ width: 15, height: 15 }} /> תהליך העבודה</span>
-            <h2 className="section-head-title-light">מהשיחה הראשונה ועד לניהול השוטף</h2>
-            <p className="section-lead">ארבעה שלבים ברורים, לוחות זמנים כתובים, בלי הפתעות באמצע.</p>
+            <span className="eyebrow"><Rocket style={{ width: 15, height: 15 }} /> HOW IT WORKS</span>
+            <h2 className="section-head-title-light">איך זה עובד בפועל</h2>
+            <p className="section-lead">שיחה, בדיקה, הטמעה, תחזוקה. בלי עשן, בלי קסמים, בלי להשאיר דברים פתוחים.</p>
           </motion.div>
 
           <div className="process-flow-row">
@@ -845,8 +850,8 @@ export default function App() {
       <section className="section-tight" id="faq">
         <div className="wrap-narrow">
           <motion.div className="section-head-center" {...reveal}>
-            <span className="eyebrow"><MessageCircle style={{ width: 15, height: 15 }} /> שאלות נפוצות</span>
-            <h2 className="section-head-title-light">כל מה ששאלתם <span style={{ fontWeight: 800, color: 'var(--purple-main)' }}>לפני שהתחלנו</span></h2>
+            <span className="eyebrow"><MessageCircle style={{ width: 15, height: 15 }} /> FAQ</span>
+            <h2 className="section-head-title-light">השאלות שבסוף <span style={{ fontWeight: 800, color: 'var(--purple-main)' }}>כולם שואלים</span></h2>
           </motion.div>
 
           <div className="faq-list">
@@ -890,11 +895,11 @@ export default function App() {
             >
               <span className="eyebrow eyebrow-dark"><Send style={{ width: 15, height: 15 }} /> דברו איתנו</span>
               <h2 className="contact-band-h2">
-                בואו נהפוך את אתגרי ה-IT שלכם<br />
-                <span className="contact-band-accent">לשקט נפשי אמיתי.</span>
+                אם משהו מרגיש חשוף,<br />
+                <span className="contact-band-accent">בואו נדבר.</span>
               </h2>
               <p className="contact-band-lead">
-                השאירו פרטים ותאמו שיחת ייעוץ ללא עלות — נחזור אליכם תוך שעתיים בשעות הפעילות.
+                שיחה קצרה, בלי לחץ ובלי סיסמאות. פשוט נבין מה קורה ואיפה כואב.
               </p>
 
               <img
@@ -966,12 +971,12 @@ export default function App() {
 
                     <button type="submit" className="btn btn-cyan contact-band-submit">
                       <Send style={{ width: 18, height: 18 }} />
-                      כן, תחזרו אליי בהקדם!
+                      שלח פנייה
                     </button>
                   </div>
 
                   <p className="contact-band-note">
-                    או התקשרו ישירות: <a href={`tel:${PHONE_TEL}`}>{PHONE_DISPLAY}</a>
+                    או ישירות: <a href={`tel:${PHONE_TEL}`}>{PHONE_DISPLAY}</a> · <a href={`mailto:${EMAIL}`}>{EMAIL}</a> · {HOURS}
                   </p>
                 </form>
               )}
@@ -1065,7 +1070,7 @@ export default function App() {
               <a href="#top" aria-label="LinkedIn"><Linkedin /></a>
               <a href="#top" aria-label="Facebook"><Facebook /></a>
               <a href={`https://wa.me/972${PHONE_TEL.slice(1)}`} aria-label="WhatsApp"><MessageCircle /></a>
-              <a href="mailto:contact@secureops.co.il" aria-label="Email"><Mail /></a>
+              <a href={`mailto:${EMAIL}`} aria-label="Email"><Mail /></a>
             </div>
           </div>
 
@@ -1089,11 +1094,15 @@ export default function App() {
             <h4>צרו איתנו קשר</h4>
             <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <Mail style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
-              <span>contact@secureops.co.il</span>
+              <a href={`mailto:${EMAIL}`} style={{ margin: 0, direction: 'ltr' }}>{EMAIL}</a>
             </p>
             <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <Phone style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
               <a href={`tel:${PHONE_TEL}`} style={{ margin: 0, direction: 'ltr' }}>{PHONE_DISPLAY}</a>
+            </p>
+            <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Clock style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
+              <span>{HOURS}</span>
             </p>
             <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <MapPin style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
