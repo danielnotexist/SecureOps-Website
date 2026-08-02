@@ -5,8 +5,10 @@ import {
   X,
   Mail,
   Phone,
+  MapPin,
   ChevronDown,
   Cloud,
+  Headphones,
   ShieldCheck,
   Server,
   Clock,
@@ -21,11 +23,15 @@ import {
   Sparkles,
   Activity,
   Cpu,
+  Building2,
   Linkedin,
   Facebook,
   Send,
+  BadgeCheck,
   Rocket,
+  Globe,
   Monitor,
+  Smartphone,
   KeyRound,
   Menu,
   RefreshCw,
@@ -38,137 +44,107 @@ import {
  *  Data
  * ------------------------------------------------------------------ */
 
-// Icons are reused from the previous 6-category catalog by closest visual
-// fit — the new 8-service lineup doesn't have dedicated artwork yet for
-// disaster-recovery / email-security / EDR / DLP, so each borrows the icon
-// of its nearest sibling until real ones land. See ASSETS-REQUIRED.md.
 const servicesData = [
   {
+    id: 'cloud',
+    title: 'שירותי ענן לעסקים',
+    img: '/images/icons/svc-cloud.png',
+    tags: ['AWS', 'Azure', 'Microsoft 365', 'FinOps'],
+    subtitle: 'תכנון, הקמה וניהול סביבות ענן מתקדמות ב-AWS ו-Azure, אופטימיזציית FinOps וזמינות רצופה.',
+    shortDesc: 'תכנון, מיגרציה וניהול מלא של תשתיות ענן מתקדמות ב-AWS, Azure ו-Google Cloud.',
+    fullDesc: 'ב-SecureOps אנו מתכננים ומקימים ארכיטקטורת ענן מותאמת אישית תוך דגש על אבטחה, אופטימיזציית עלויות (FinOps) וזמינות מלאה 24/7. אנחנו מלווים את הארגון משלב האפיון, דרך המיגרציה עצמה ועד לניהול השוטף — בלי השבתות ובלי הפתעות בחשבונית.',
+    features: [
+      'מיגרציה חלקה לענן (AWS / Azure) ללא השבתת פעילות',
+      'ארכיטקטורת Multi-Cloud וסביבות היברידיות',
+      'ניהול קונטיינרים ו-Kubernetes ברמת Enterprise',
+      'אופטימיזציית עלויות חודשיות (FinOps) — חיסכון ממוצע של 30%',
+      'תשתית כקוד (Terraform / Bicep) לשחזור מהיר של סביבות',
+      'ניטור וזמינות רצופה 24/7/365'
+    ]
+  },
+  {
+    id: 'support',
+    title: 'שירותי IT לעסקים',
+    img: '/images/icons/svc-support.png',
+    tags: ['Helpdesk', 'SLA', 'Onboarding', 'M365'],
+    subtitle: 'מעטפת תמיכת Helpdesk מנוהלת 24/7 באמנת SLA מחייבת, ניהול תחנות עבודה וציוד היקפי.',
+    shortDesc: 'מענה טכני מהיר ומקצועי 24/7 לכל תחנות העבודה, השרתים והציוד ההיקפי בארגון.',
+    fullDesc: 'צוות ה-Helpdesk המיומן של SecureOps מעניק תמיכה טכנית מקיפה באמנת שירות (SLA) מחייבת, כדי להבטיח שכל העובדים בארגון שלכם יעבדו ברציפות ללא תקלות. כל קריאה נרשמת, נמדדת ונסגרת עם דיווח שקוף.',
+    features: [
+      'תמיכה מרחוק (Remote Helpdesk) עם מענה תוך דקות',
+      'טכנאי IT באתר הלקוח למערכים מורכבים',
+      'ניהול ציוד ותחנות עבודה (Onboarding & Offboarding)',
+      'ניהול משתמשים ורישיונות (Microsoft 365, Google Workspace)',
+      'מערכת כרטיסים ודוחות SLA חודשיים שקופים',
+      'תחזוקה מונעת ועדכוני אבטחה שוטפים'
+    ]
+  },
+  {
+    id: 'cyber',
+    title: 'שירותי אבטחת מידע',
+    img: '/images/icons/svc-cyber.png',
+    tags: ['MDR 24/7', 'EDR / XDR', 'Pentest', 'ISO 27001'],
+    subtitle: 'הגנת סייבר רב-שכבתית, שירות MDR מנוהל לניטור ותגובה 24/7, מערכות EDR ומבדקי חדירות.',
+    shortDesc: 'הגנה מקיפה מפני איומי סייבר, מתקפות כופר, פישינג וזיהוי חולשות אבטחה בזמן אמת.',
+    fullDesc: 'אנו בונים עבור הארגון שלך מעטפת הגנה רב-שכבתית המשלבת מערכות EDR/XDR מתקדמות, שירות MDR (Managed Detection & Response) של שותפי אבטחה מובילים והדרכות מודעות לעובדים. אנחנו בוחרים את ספק ה-MDR, מגדירים את חוקי הזיהוי ומנהלים מולו כל אירוע עד לסגירה — נקודת אחריות אחת מולכם.',
+    features: [
+      'ניטור ותגובה מנוהלים 24/7 (MDR) בשיתוף שותפי אבטחה מובילים',
+      'מבדקי חדירות (Penetration Testing) וזיהוי חולשות',
+      'הגנה מפני כופרות והגנת קצה (Endpoint Protection)',
+      'אימות דו-שלבי (MFA) וניהול זהויות (IAM)',
+      'סימולציות פישינג והדרכות מודעות לעובדים',
+      'הכנה לתקני רגולציה ISO 27001 ו-SOC 2'
+    ]
+  },
+  {
+    id: 'firewall',
+    title: 'חומות אש ותקשורת',
+    img: '/images/icons/svc-firewall.png',
+    tags: ['Fortinet', 'Palo Alto', 'SD-WAN', 'ZTNA'],
+    subtitle: 'התקנה וניהול חומות אש מבית Fortinet, יישום גישת Zero-Trust (ZTNA) וחיבור סניפים.',
+    shortDesc: 'יישום חומות אש (Firewall) מתקדמות, רשתות Zero-Trust ואבטחת נתונים בתקשורת.',
+    fullDesc: 'אנו מספקים פתרונות תקשורת ארגונית מאובטחת המבוססים על חומות אש מבית Fortinet ו-Palo Alto, המבטיחים הצפנה מלאה וסינון תנועה זדונית — כולל חיבור סניפים ועובדים מהבית באותה רמת אבטחה.',
+    features: [
+      'התקנת חומות אש דור חדש (Next-Gen Firewall)',
+      'חיבור סניפים ברשתות VPN מוצפנות ו-SD-WAN',
+      'יישום גישת Zero-Trust (ZTNA) לעובדים מרחוק',
+      'סינון תוכן, IPS והגנה על שכבת ה-DNS',
+      'ניהול ותעדוף רוחב פס (QoS) לרציפות עבודה'
+    ]
+  },
+  {
     id: 'backup',
-    title: 'גיבוי שרתים',
+    title: 'גיבוי ושחזור (DRP)',
     img: '/images/icons/svc-backup.png',
-    tags: ['Veeam', 'Acronis', 'Immutable', '3-2-1'],
-    subtitle: 'כדי שלא תגלו מאוחר מדי שהגיבוי האחרון שעבד היה לפני חודשיים.',
-    fullDesc: 'גיבוי שלא נבדק הוא לא גיבוי — הוא הימור. אנחנו מקימים מערך גיבוי אוטומטי ומוצפן לכל השרתים והנתונים הקריטיים, עם עותקים חסינים מכופרות ובדיקות שחזור תקופתיות שמוכיחות שזה באמת עובד, לא רק שזה "אמור" לעבוד.',
+    tags: ['Veeam', 'Acronis', 'Immutable', 'DRP'],
+    subtitle: 'מערך גיבוי ענן אוטומטי ומוצפן, עותקים חסינים מכופרות ותוכנית התאוששות מאסון.',
+    shortDesc: 'גיבוי ענן אוטומטי, מוצפן ומאובטח לכל נתוני החברה כולל תוכנית שחזור מאסון (DRP).',
+    fullDesc: 'המידע הארגוני הוא הנכס היקר ביותר שלכם. מערכות הגיבוי שלנו מבטיחות עותקים מוצפנים וחסינים מפני כופרות, עם יכולת שחזור מלאה בתוך דקות — ועם בדיקות שחזור תקופתיות שמוכיחות שזה באמת עובד.',
     features: [
       'גיבוי ענן אוטומטי ומוצפן (Veeam / Acronis)',
-      'עותקי גיבוי חסינים (Immutable) מפני כופרות',
+      'תוכנית שחזור מאסון (Disaster Recovery Plan) כתובה ומתורגלת',
+      'עותקי גיבוי חסינים (Immutable Backup) מפני כופרות',
       'מדיניות 3-2-1 עם עותק מחוץ לאתר',
-      'בדיקות שחזור תקופתיות בפועל, לא רק בתאוריה',
-      'שחזור ממוקד של קבצים, תיבות דואר ושרתים בודדים'
+      'שחזור ממוקד של קבצים, תיבות דואר ושרתים'
     ]
   },
   {
-    id: 'disaster-recovery',
-    title: 'התאוששות מאסון',
+    id: 'infra',
+    title: 'תחזוקת שרתים ותשתיות',
     img: '/images/icons/svc-infra.png',
-    tags: ['DRP', 'RTO / RPO', 'Failover', 'תרגול'],
-    subtitle: 'כשהשרת נופל, העסק לא אמור ליפול איתו.',
-    fullDesc: 'תוכנית התאוששות מאסון היא לא מסמך שיושב במגירה — היא נוהל כתוב ומתורגל, עם יעדי זמן שחזור (RTO) ואובדן נתונים (RPO) מוגדרים מראש, כך שכשקורה האסון כולם כבר יודעים בדיוק מה לעשות.',
+    tags: ['VMware', 'Hyper-V', 'RMM', 'SAN / NAS'],
+    subtitle: 'ניהול שרתי Linux ו-Windows, וירטואליזציה (VMware), ניטור רציף עם התראות אוטומטיות וזמינות גבוהה.',
+    shortDesc: 'ניטור רציף, תחזוקה מונעת וניהול שוטף לשרתים פיזיים ווירטואליים.',
+    fullDesc: 'אנו מנהלים סביבות וירטואליזציה (VMware, Hyper-V) ושרתים ייעודיים ברמת זמינות מירבית, תוך ניטור רציף של מעבדים, זיכרון ושטחי דיסק — כדי לטפל בתקלה עוד לפני שהמשתמשים מרגישים בה.',
     features: [
-      'תוכנית שחזור מאסון (DRP) כתובה ומתורגלת בפועל',
-      'יעדי RTO / RPO מוגדרים לפי קריטיות המערכת',
-      'סביבת Failover חלופית לעבודה בזמן תקלה',
-      'תרגולי שחזור תקופתיים עם דוח ממצאים',
-      'עדיפויות שחזור ברורות — מה עולה ראשון'
-    ]
-  },
-  {
-    id: 'email-security',
-    title: 'אבטחת מיילים',
-    img: '/images/icons/svc-cyber.png',
-    tags: ['Anti-Phishing', 'Mail Relay', 'DMARC', 'Spam'],
-    subtitle: 'כדי שלא תלמדו על פישינג רק אחרי שמישהו לחץ.',
-    fullDesc: 'תיבת המייל היא נקודת הכניסה הכי נפוצה לתקיפה. אנחנו בונים שכבת הגנה שמסננת פישינג, ספאם וקבצים זדוניים לפני שהם מגיעים למשתמש, יחד עם מדיניות אימות (SPF/DKIM/DMARC) שמונעת התחזות לדומיין שלכם.',
-    features: [
-      'סינון פישינג, ספאם וקבצים זדוניים בזמן אמת',
-      'הגדרת SPF / DKIM / DMARC למניעת התחזות לדומיין',
-      'Mail Relay מאובטח לשרתים ומערכות פנימיות',
-      'ארכוב מיילים וזמינות גם בזמן תקלה אצל הספק',
-      'סימולציות פישינג והדרכת עובדים'
-    ]
-  },
-  {
-    id: 'edr',
-    title: 'הגנת נקודות קצה',
-    img: '/images/icons/svc-support.png',
-    tags: ['EDR', 'Endpoint', 'Ransomware', 'Isolation'],
-    subtitle: 'מחשבים, שרתים ותחנות קצה. כי האיום לא תמיד נכנס דרך הדלת הראשית.',
-    fullDesc: 'לא כל תקיפה מתחילה בחומת האש. הגנת נקודות קצה (EDR) עוקבת אחרי כל מחשב, שרת ותחנת עבודה בארגון, מזהה התנהגות חריגה ועוצרת אותה — כולל בידוד אוטומטי של מכשיר נגוע לפני שהוא מדביק את כל הרשת.',
-    features: [
-      'ניטור והגנה על כל תחנות הקצה והשרתים',
-      'זיהוי התנהגות חריגה, לא רק חתימות ידועות',
-      'בידוד אוטומטי (Isolation) של מכשיר נגוע',
-      'הגנה ייעודית מפני כופרות (Ransomware)',
-      'דוחות אירועים וניתוח שורש הבעיה'
-    ]
-  },
-  {
-    id: 'mdr',
-    title: 'ניטור ותגובה מנוהלים',
-    img: '/images/icons/svc-cyber.png',
-    tags: ['MDR 24/7', 'SOC', 'Response', 'Escalation'],
-    subtitle: 'שמישהו יראה את ההתראה בזמן, במקום לגלות אותה בדיעבד.',
-    fullDesc: 'התראת אבטחה שאף אחד לא רואה שווה כמו שלא הייתה. שירות ה-MDR שלנו מבטיח שצוות אנושי מנטר את הסביבה 24/7, מגיב לאירועים בזמן אמת ומסלים אליכם רק כשבאמת צריך — לא כל צפצוף שווא.',
-    features: [
-      'ניטור ותגובה 24/7/365 בשיתוף שותפי אבטחה מובילים',
-      'צוות SOC אנושי, לא רק מערכת שמצפצפת',
-      'הגדרת חוקי זיהוי מותאמים לסביבה שלכם',
-      'תגובה לאירוע לפי נוהל כתוב ומתורגל',
-      'נקודת אחריות אחת מולכם עד לסגירת האירוע'
-    ]
-  },
-  {
-    id: 'dlp',
-    title: 'מניעת דליפת מידע',
-    img: '/images/icons/svc-firewall.png',
-    tags: ['DLP', 'חסימה', 'מדיניות', 'רגולציה'],
-    subtitle: 'כדי שמידע רגיש לא ייצא החוצה בטעות, בנוחות של קובץ מצורף.',
-    fullDesc: 'רוב דליפות המידע לא קורות בפריצה דרמטית — הן קורות כשמישהו מצרף בטעות קובץ לא נכון למייל החוצה. אנחנו מגדירים מדיניות שמזהה וחוסמת מידע רגיש (כרטיסי אשראי, ת"ז, מסמכים מסווגים) לפני שהוא יוצא מהארגון.',
-    features: [
-      'זיהוי אוטומטי של מידע רגיש (כרטיסי אשראי, ת"ז ועוד)',
-      'חסימת שליחה במייל, בענן ובאחסון נייד',
-      'מדיניות מותאמת לפי סוג מידע ורגישות',
-      'דוחות חריגים ומעקב אחר ניסיונות דליפה',
-      'התאמה לדרישות רגולציה ותקינה'
-    ]
-  },
-  {
-    id: 'rmm',
-    title: 'ניהול וניטור מרחוק',
-    img: '/images/icons/svc-infra.png',
-    tags: ['RMM', 'ניטור', 'אוטומציה', 'תחזוקה'],
-    subtitle: "לתפוס תקלות לפני שהן הופכות ל'יש פה מישהו שיכול לעזור עכשיו?'.",
-    fullDesc: 'אנחנו מנטרים את כל השרתים, התחנות והרשת בזמן אמת, ומקבלים התראה על עומס, שטח דיסק שאוזל או שירות שנפל — לפני שהעובדים בכלל שמים לב שמשהו לא בסדר.',
-    features: [
-      'ניטור רציף של שרתים, תחנות ורשת',
-      'התראות אוטומטיות על עומס, דיסק ותקינות שירותים',
-      'תחזוקה מונעת ועדכוני אבטחה מתוזמנים',
-      'טיפול מרחוק ברוב התקלות, בלי לחכות לטכנאי באתר',
-      'דוחות תקינות חודשיים שקופים'
-    ]
-  },
-  {
-    id: 'cloud-security',
-    title: 'אבטחת ענן',
-    img: '/images/icons/svc-cloud.png',
-    tags: ['AWS', 'Azure', 'IAM', 'Misconfig'],
-    subtitle: 'גם בענן אפשר לעשות בלגן. אנחנו שם כדי שזה לא יקרה.',
-    fullDesc: 'ענן לא מאובטח את עצמו. הרשאות רחבות מדי, אחסון שנשאר פתוח בטעות לעולם, או תצורה שגויה אחת — וכל היתרון של הענן הופך לסיכון. אנחנו בונים ובודקים את התצורה, ההרשאות וההגנה של הסביבה שלכם ב-AWS וב-Azure.',
-    features: [
-      'ביקורת הרשאות וזיהוי (IAM) לפי עקרון הרשאה מינימלית',
-      'זיהוי תצורות שגויות (Misconfiguration) וסגירתן',
-      'הגנה על אחסון ענן (Buckets / Storage) מחשיפה',
-      'ניטור פעילות חריגה בסביבת הענן',
-      'התאמה לדרישות רגולציה ותקנים (ISO 27001, SOC 2)'
+      'ניהול שרתי Linux ו-Windows Server',
+      'תשתיות וירטואליזציה (VMware / Hyper-V)',
+      'ניטור זמינות וביצועים עם התראות אוטומטיות והסלמה לצוות',
+      'ניהול מערכי אחסון מהירים (SAN / NAS / NVMe)',
+      'תחזוקה מונעת, עדכוני Firmware וניהול מחזור חיים לחומרה'
     ]
   }
 ];
-
-// Looked up by id rather than array position — the mega-menu below links to
-// specific services, and an id lookup can't silently point at the wrong
-// service if the catalog above gets reordered.
-const svcById = (id) => servicesData.find((s) => s.id === id);
 
 // Official full-colour vendor wordmarks in public/images/partners/, sourced
 // from each vendor's own artwork (Wikimedia Commons mirrors of the official
@@ -203,64 +179,36 @@ const techStack = [
 // public/images/icons/ — same pattern as the service cards.
 const whyUs = [
   {
-    icon: Users,
-    img: '/images/icons/why-team.png',
-    title: 'אנשי שטח',
-    text: 'אנחנו מכירים שרתים, הרשאות, גיבויים ומשתמשים לחוצים. לא רק סליידים.'
-  },
-  {
-    icon: Cpu,
-    title: 'כלים אמיתיים',
-    text: 'הטכנולוגיות שאנחנו עובדים איתן כל יום, לא רק שם על הדף. Microsoft 365, גיבויים, שרתים, הרשאות, ענן וניטור — בלי מצגות של 40 שקפים על "טרנספורמציה".'
-  },
-  {
-    icon: MessageCircle,
-    title: 'ליווי אמיתי',
-    text: 'יש עם מי לדבר גם אחרי ההטמעה, לא רק עד החתימה.'
-  },
-  {
     icon: Clock,
     img: '/images/icons/why-response.png',
-    title: 'SLA של 2 שעות',
-    text: 'כשמשהו קורס, אתם לא אמורים לחכות לנצח שיחזרו אליכם.'
+    title: 'זמן תגובה של 15 דקות',
+    text: 'אמנת שירות (SLA) מחייבת בחוזה. קריאה דחופה מקבלת מענה אנושי תוך רבע שעה, מסביב לשעון.'
+  },
+  {
+    icon: Users,
+    img: '/images/icons/why-team.png',
+    title: 'צוות ייעודי לכל לקוח',
+    text: 'לא מוקד אנונימי. מקבלים איש קשר טכני קבוע שמכיר את הסביבה שלכם ואת הצרכים העסקיים.'
+  },
+  {
+    icon: BadgeCheck,
+    img: '/images/icons/why-certified.png',
+    title: 'מומחים מוסמכים',
+    text: 'CISSP, AWS Solutions Architect, Fortinet NSE 7, Microsoft Expert — ההסמכות אצלנו, לא במצגת.'
   },
   {
     icon: Gauge,
-    title: 'פוקוס ברור',
-    text: 'סייבר, גיבוי וניטור. זה מה שאנחנו עושים, וזה בכוונה.'
-  },
-  {
-    icon: Layers,
-    title: 'בלי שכבות מיותרות',
-    text: 'פתרונות ברמה גבוהה, בלי להפוך כל עסק לתאגיד עם תקציב של בנק.'
+    img: '/images/icons/why-transparency.png',
+    title: 'שקיפות מלאה בעלויות',
+    text: 'מחיר חודשי קבוע לפי משתמש. בלי חיובי הפתעה, בלי שעות עבודה שמופיעות בסוף החודש.'
   }
 ];
 
 const processSteps = [
-  {
-    n: '01', img: '/images/icons/proc-audit.png',
-    title: 'מדברים ישר',
-    text: 'שיחה קצרה כדי להבין מה עובד, מה לא, ואיפה הכאב האמיתי. בלי סיבוב מכירה מיותר.',
-    bullets: ['מה יש היום', 'מה מפיל לכם זמן', 'מה הכי דחוף']
-  },
-  {
-    n: '02', img: '/images/icons/proc-plan.png',
-    title: 'בודקים לעומק',
-    text: 'עוברים על שרתים, גיבויים, מיילים, תחנות והרשאות. לא מנחשים, בודקים.',
-    bullets: ['פערי אבטחה', 'ממצאים ברורים', 'עדיפויות לטיפול']
-  },
-  {
-    n: '03', img: '/images/icons/proc-launch.png',
-    title: 'מטמיעים מסודר',
-    text: 'מגדירים את הפתרון, בודקים שהוא עובד, ומוודאים שהצוות שלכם לא נשאר עם סימני שאלה.',
-    bullets: ['הגדרות והטמעה', 'בדיקות שחזור ותגובה', 'הדרכה קצרה ויעילה']
-  },
-  {
-    n: '04', img: '/images/icons/proc-manage.png',
-    title: 'נשארים על זה',
-    text: 'מנטרים, מעדכנים, מגיבים כשצריך, ולא נותנים לדברים להירקב בשקט. גם אחרי ההטמעה יש מי שבודק שהמערכת נשארת חדה.',
-    bullets: ['ניטור שוטף', 'תחזוקה ועדכונים', 'תגובה כשצריך']
-  }
+  { n: '01', img: '/images/icons/proc-audit.png',  title: 'אפיון וסקר תשתיות', text: 'מיפוי מלא של המערכות, הסיכונים ונקודות הכשל בארגון — ללא עלות וללא התחייבות.' },
+  { n: '02', img: '/images/icons/proc-plan.png',   title: 'תכנון פתרון מותאם', text: 'בונים תוכנית עבודה עם לוחות זמנים, תקציב ברור ויעדי אבטחה מדידים.' },
+  { n: '03', img: '/images/icons/proc-launch.png', title: 'הטמעה ומעבר', text: 'ביצוע בשעות שלא פוגעות בפעילות, עם ליווי צמוד לעובדים ותוכנית חזרה לאחור.' },
+  { n: '04', img: '/images/icons/proc-manage.png', title: 'ניהול וניטור שוטף', text: 'ניטור MDR שוטף, דוחות חודשיים ופגישת סטטוס רבעונית לשיפור מתמיד.' }
 ];
 
 // ASSET SLOT `team-photos`: photo: null renders an initials avatar until
@@ -307,36 +255,28 @@ const testimonials = [
 
 const faqs = [
   {
-    q: 'מה ההבדל בין גיבוי רגיל ל-Disaster Recovery?',
-    a: 'גיבוי הוא עותק של הנתונים שלכם, נשמר בצד ומוצפן. Disaster Recovery זה הרבה יותר מזה — תוכנית ונוהל שמגדירים תוך כמה זמן חוזרים לעבוד (RTO) וכמה מידע מותר לאבד (RPO), כולל סביבה חלופית שאפשר לעלות עליה. גיבוי בלי תוכנית DR זה "יש לנו קובץ מגובה איפשהו". DR זה שאתם יודעים בדיוק מה קורה ברגע שהשרת נופל.'
+    q: 'כמה זמן לוקח להתחיל לעבוד איתכם?',
+    a: 'סקר התשתיות הראשוני מתבצע תוך 2–3 ימי עסקים מרגע הפנייה. תהליך ה-Onboarding המלא — כולל התקנת כלי ניטור, מיפוי ציוד והעברת ידע — אורך בדרך כלל בין שבוע לשבועיים, תלוי בגודל הארגון. בכל התקופה הזו הארגון ממשיך לעבוד כרגיל.'
   },
   {
-    q: 'מה זה EDR ולמה אנטי-וירוס לא מספיק?',
-    a: 'אנטי-וירוס מזהה איומים לפי חתימות ידועות — אם המתקפה חדשה, הוא פשוט לא רואה אותה. EDR (Endpoint Detection & Response) עוקב אחרי התנהגות בפועל על כל מחשב ושרת, מזהה חריגה גם בלי חתימה מוכרת, ומסוגל לבודד מכשיר נגוע לפני שהוא מדביק את שאר הרשת.'
+    q: 'האם אתם מחליפים את איש ה-IT הפנימי שלנו?',
+    a: 'לא בהכרח. בהרבה ארגונים אנחנו עובדים לצד מנהל IT פנימי ולוקחים על עצמנו את השכבות שדורשות התמחות — ענן, אבטחת מידע, ניהול שירות ה-MDR ותשתיות. בארגונים קטנים יותר אנחנו משמשים כמחלקת ה-IT המלאה.'
   },
   {
-    q: 'האם זה מתאים גם לעסקים קטנים?',
-    a: 'כן. רמת ההגנה, הניטור והגיבוי לא "קטנה" יותר בגלל שהעסק קטן — פשוט מתאימים את היקף השירות והתמחור לגודל שלכם. הרבה מהעסקים שאנחנו עובדים איתם היום התחילו קטנים והמשיכו לגדול אתנו.'
+    q: 'מה קורה אם יש תקלה קריטית באמצע הלילה?',
+    a: 'הניטור והתגובה לאירועי אבטחה מתבצעים 24/7/365 על ידי שותף MDR שאנחנו בוחרים, מגדירים ומנהלים מולו. ההתראה מגיעה אלינו ואנחנו אלה שמטפלים מולכם — כך שאתם מקבלים כיסוי מסביב לשעון בלי לשלם על הקמת מרכז ניטור פנימי. אירועי אבטחה מטופלים לפי נוהל תגובה לאירועים כתוב ומתורגל.'
   },
   {
-    q: 'מה זה Mail Relay?',
-    a: 'שירות שדרכו שרתים ומערכות פנימיות שולחים מייל החוצה (התראות, דוחות, קבלות) בלי לחשוף את השרת עצמו לאינטרנט. אנחנו מגדירים אותו עם הצפנה ומדיניות אימות (SPF / DKIM / DMARC), כך שהמיילים האלה לא ננעלים כספאם ולא הופכים לפרצה.'
+    q: 'האם המידע שלנו נשאר בישראל?',
+    a: 'ניתן. אנחנו מתכננים את ארכיטקטורת האחסון לפי דרישות הרגולציה שלכם — כולל שמירת מידע ב-Data Center בישראל, בענן ציבורי באזור מוגדר, או במודל היברידי. כל הפתרונות כוללים הצפנה במנוחה ובתעבורה.'
   },
   {
-    q: 'כמה זמן לוקחת הטמעה?',
-    a: 'סקר התשתיות הראשוני מתבצע תוך 2–3 ימי עסקים מרגע הפנייה. ההטמעה המלאה — כולל הגדרות, בדיקות שחזור ותגובה, והדרכה קצרה לצוות — אורכת בדרך כלל בין שבוע לשבועיים, תלוי בגודל הארגון. אתם ממשיכים לעבוד כרגיל לאורך כל התהליך.'
+    q: 'איך מתומחר השירות?',
+    a: 'המודל הוא מחיר חודשי קבוע לפי מספר משתמשים ורמת החבילה, ללא חיוב לפי שעות. כך אתם יודעים מראש מה תשלמו כל חודש, ואין לנו תמריץ שיהיו לכם תקלות. עבודות פרויקטליות חד-פעמיות (מיגרציה, הקמת אתר חדש) מתומחרות בנפרד ומראש.'
   },
   {
-    q: 'איך אתם בוחרים את הטכנולוגיות שאתם עובדים איתן?',
-    a: 'לא לפי איזה ספק משלם הכי הרבה עמלה. אנחנו עובדים עם כלים שהוכיחו את עצמם בשטח — Veeam ו-Acronis לגיבוי, Fortinet לתקשורת, VMware לוירטואליזציה ועוד — ומחליפים כלי אם הוא מפסיק להיות הכי טוב במה שהוא עושה.'
-  },
-  {
-    q: 'מה כולל שירות MDR?',
-    a: 'ניטור 24/7/365 של הסביבה שלכם, צוות SOC אנושי שמגיב לאירועים ולא רק מערכת שמצפצפת, חוקי זיהוי מותאמים לסביבה הספציפית שלכם, ותגובה לפי נוהל כתוב ומתורגל — עד לסגירת האירוע. אנחנו נקודת האחריות היחידה שלכם מול השירות.'
-  },
-  {
-    q: 'איך מתחילים?',
-    a: 'שיחה קצרה כדי להבין מה עובד ומה לא. אחר כך סקר תשתיות בפועל — לא ניחוש. משם תוכנית עבודה ברורה, הטמעה בשעות שלא פוגעות בפעילות, וניטור ותחזוקה שוטפים אחרי. השאירו פרטים בטופס למטה ונחזור אליכם תוך שעתיים בשעות הפעילות.'
+    q: 'אנחנו כבר עובדים עם ספק אחר — המעבר מסובך?',
+    a: 'התהליך מנוהל על ידינו מקצה לקצה: קליטת סיסמאות וגישות, תיעוד הסביבה הקיימת, זיהוי פערי אבטחה ומעבר מסודר בלי חלון השבתה. ברוב המקרים הלקוח לא מרגיש את ההחלפה מעבר לכתובת חדשה לפתיחת קריאות.'
   }
 ];
 
@@ -351,10 +291,8 @@ const reveal = {
   transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] }
 };
 
-const PHONE_DISPLAY = '055-5702552';
-const PHONE_TEL = '0555702552';
-const EMAIL = 'sales@secureops.co.il';
-const HOURS = 'א׳–ה׳ 09:00–18:00';
+const PHONE_DISPLAY = '077-1234567';
+const PHONE_TEL = '0771234567';
 
 /* ------------------------------------------------------------------ *
  *  Logo
@@ -436,22 +374,32 @@ export default function App() {
                     className="mega-menu-panel"
                   >
                     <div>
-                      <div className="mega-menu-col-title">גיבוי, תשתיות וענן</div>
+                      <div className="mega-menu-col-title">פתרונות ענן ותשתיות</div>
                       <ul className="mega-menu-list">
-                        <li><a onClick={() => openService(svcById('backup'))} className="mega-menu-item-link"><Server /> גיבוי שרתים</a></li>
-                        <li><a onClick={() => openService(svcById('disaster-recovery'))} className="mega-menu-item-link"><RefreshCw /> התאוששות מאסון</a></li>
-                        <li><a onClick={() => openService(svcById('rmm'))} className="mega-menu-item-link"><Monitor /> ניהול וניטור מרחוק</a></li>
-                        <li><a onClick={() => openService(svcById('cloud-security'))} className="mega-menu-item-link"><Cloud /> אבטחת ענן</a></li>
+                        <li><a onClick={() => openService(servicesData[0])} className="mega-menu-item-link"><Cloud /> שירותי ענן לעסקים</a></li>
+                        <li><a onClick={() => openService(servicesData[0])} className="mega-menu-item-link"><Mail /> מיילים 365 והגדרות דואר</a></li>
+                        <li><a onClick={() => openService(servicesData[3])} className="mega-menu-item-link"><Globe /> קו תמסורת אינטרנט מנוהל</a></li>
+                        <li><a onClick={() => openService(servicesData[5])} className="mega-menu-item-link"><Server /> תחזוקת שרתים ותשתיות</a></li>
+                      </ul>
+                    </div>
+
+                    <div>
+                      <div className="mega-menu-col-title">תמיכת IT ומרכזיות</div>
+                      <ul className="mega-menu-list">
+                        <li><a onClick={() => openService(servicesData[1])} className="mega-menu-item-link"><Headphones /> שירותי IT לעסקים (Helpdesk)</a></li>
+                        <li><a onClick={() => openService(servicesData[1])} className="mega-menu-item-link"><Phone /> מרכזייה בענן ותקשורת</a></li>
+                        <li><a onClick={() => openService(servicesData[4])} className="mega-menu-item-link"><RefreshCw /> תוכנית התאוששות מאסון (DRP)</a></li>
+                        <li><a onClick={() => openService(servicesData[1])} className="mega-menu-item-link"><Monitor /> ניהול תחנות עבודה וציוד</a></li>
                       </ul>
                     </div>
 
                     <div>
                       <div className="mega-menu-col-title">אבטחת מידע וסייבר</div>
                       <ul className="mega-menu-list">
-                        <li><a onClick={() => openService(svcById('email-security'))} className="mega-menu-item-link"><Mail /> אבטחת מיילים</a></li>
-                        <li><a onClick={() => openService(svcById('edr'))} className="mega-menu-item-link"><ShieldCheck /> הגנת נקודות קצה</a></li>
-                        <li><a onClick={() => openService(svcById('mdr'))} className="mega-menu-item-link"><Eye /> ניטור ותגובה מנוהלים (MDR)</a></li>
-                        <li><a onClick={() => openService(svcById('dlp'))} className="mega-menu-item-link"><Lock /> מניעת דליפת מידע</a></li>
+                        <li><a onClick={() => openService(servicesData[2])} className="mega-menu-item-link"><ShieldCheck /> אנטי וירוס ו-EDR מתקדם</a></li>
+                        <li><a onClick={() => openService(servicesData[2])} className="mega-menu-item-link"><Eye /> MDR — ניטור ותגובה מנוהלים</a></li>
+                        <li><a onClick={() => openService(servicesData[3])} className="mega-menu-item-link"><Lock /> חומות אש ו-Zero Trust</a></li>
+                        <li><a onClick={() => openService(servicesData[2])} className="mega-menu-item-link"><Smartphone /> MDM מערכות ניהול למובייל</a></li>
                       </ul>
                     </div>
                   </motion.div>
@@ -541,18 +489,14 @@ export default function App() {
             <span className="hero-cyber-brand">עם SecureOps</span>
 
             <p className="hero-cyber-lead">
-              פתרונות סייבר, גיבוי וניטור שמזהים איומים בזמן אמת, עוצרים בעיות
-              לפני שהן הופכות לשיחת 'הכול נפל', ושומרים על המידע הקריטי שלך
-              זמין, מאובטח ומנוהל במקום אחד.
+              מזהים איומים בזמן אמת, עוצרים בעיות לפני שהן הופכות למשבר,
+              ושומרים על המידע הקריטי שלכם מאובטח וזמין — במקום אחד.
             </p>
 
-            <div className="hero-cyber-cta-row">
-              <a href="#contact" className="hero-cyber-cta">
-                <span>דברו איתנו</span>
-                <span className="hero-cyber-cta-chevron"><ArrowLeft /></span>
-              </a>
-              <a href="#services" className="hero-cyber-cta-ghost">תראו מה אנחנו עושים</a>
-            </div>
+            <a href="#contact" className="hero-cyber-cta">
+              <span>לייעוץ ללא עלות השאירו פרטים</span>
+              <span className="hero-cyber-cta-chevron"><ArrowLeft /></span>
+            </a>
           </motion.div>
 
           {/* --- visual column (left in RTL) --- */}
@@ -605,11 +549,12 @@ export default function App() {
       <section className="section" id="services">
         <div className="wrap">
           <motion.div className="section-head-center" {...reveal}>
-            <span className="eyebrow"><Layers style={{ width: 15, height: 15 }} /> SERVICES</span>
-            <h2 className="section-head-title-light">שירותים שנועדו לרגע</h2>
-            <div className="section-head-title-bold">שבו משהו משתבש</div>
+            <span className="eyebrow"><Layers style={{ width: 15, height: 15 }} /> מעטפת IT מלאה</span>
+            <h2 className="section-head-title-light">כל מה שהעסק שלכם צריך</h2>
+            <div className="section-head-title-bold">במקום אחד!</div>
             <p className="section-lead">
-              גיבוי, סייבר, ניטור ו-IT מנוהל. דברים שעדיף לסדר לפני שמישהו נכנס לפאניקה.
+              ענן, סייבר, תקשורת, גיבוי ותמיכה — תחת ספק אחד, חוזה אחד ואיש קשר אחד.
+              בלי לרדוף אחרי שלושה ספקים כשמשהו נופל.
             </p>
           </motion.div>
 
@@ -694,12 +639,9 @@ export default function App() {
       <section className="section-tight" id="why">
         <div className="wrap">
           <motion.div className="section-head-center" {...reveal}>
-            <span className="eyebrow"><Award style={{ width: 15, height: 15 }} /> WHY SECUREOPS</span>
-            <h2 className="section-head-title-light">לא עוד ספק. מישהו שבא <span style={{ fontWeight: 800, color: 'var(--purple-main)' }}>לבדוק שזה באמת עובד</span></h2>
-            <p className="section-lead">
-              אנחנו לא באים למכור מילים יפות. אנחנו באים לראות איפה זה חשוף,
-              לסגור את הפינות, ולהישאר גם אחרי ההטמעה.
-            </p>
+            <span className="eyebrow"><Award style={{ width: 15, height: 15 }} /> למה SecureOps</span>
+            <h2 className="section-head-title-light">ההבדל הוא <span style={{ fontWeight: 800, color: 'var(--purple-main)' }}>בפרטים הקטנים</span></h2>
+            <p className="section-lead">ארבע סיבות שבגללן ארגונים עוברים אלינו — ונשארים.</p>
           </motion.div>
 
           <div className="why-grid">
@@ -773,9 +715,9 @@ export default function App() {
       <section className="section process-section" id="process">
         <div className="wrap">
           <motion.div className="section-head-center" {...reveal}>
-            <span className="eyebrow"><Rocket style={{ width: 15, height: 15 }} /> HOW IT WORKS</span>
-            <h2 className="section-head-title-light">איך זה עובד בפועל</h2>
-            <p className="section-lead">שיחה, בדיקה, הטמעה, תחזוקה. בלי עשן, בלי קסמים, בלי להשאיר דברים פתוחים.</p>
+            <span className="eyebrow"><Rocket style={{ width: 15, height: 15 }} /> תהליך העבודה</span>
+            <h2 className="section-head-title-light">מהשיחה הראשונה ועד לניהול השוטף</h2>
+            <p className="section-lead">ארבעה שלבים ברורים, לוחות זמנים כתובים, בלי הפתעות באמצע.</p>
           </motion.div>
 
           <div className="process-flow-row">
@@ -804,11 +746,6 @@ export default function App() {
                   </div>
                   <h3>{s.title}</h3>
                   <p>{s.text}</p>
-                  {s.bullets && (
-                    <ul className="process-flow-bullets">
-                      {s.bullets.map((b) => <li key={b}>{b}</li>)}
-                    </ul>
-                  )}
                 </motion.div>
 
                 {i < processSteps.length - 1 && (
@@ -908,9 +845,8 @@ export default function App() {
       <section className="section-tight" id="faq">
         <div className="wrap-narrow">
           <motion.div className="section-head-center" {...reveal}>
-            <span className="eyebrow"><MessageCircle style={{ width: 15, height: 15 }} /> FAQ</span>
-            <h2 className="section-head-title-light">השאלות שבסוף <span style={{ fontWeight: 800, color: 'var(--purple-main)' }}>כולם שואלים</span></h2>
-            <p className="section-lead">תשובות קצרות, בלי למרוח ובלי לייפות איפה שלא צריך.</p>
+            <span className="eyebrow"><MessageCircle style={{ width: 15, height: 15 }} /> שאלות נפוצות</span>
+            <h2 className="section-head-title-light">כל מה ששאלתם <span style={{ fontWeight: 800, color: 'var(--purple-main)' }}>לפני שהתחלנו</span></h2>
           </motion.div>
 
           <div className="faq-list">
@@ -954,21 +890,12 @@ export default function App() {
             >
               <span className="eyebrow eyebrow-dark"><Send style={{ width: 15, height: 15 }} /> דברו איתנו</span>
               <h2 className="contact-band-h2">
-                אם משהו מרגיש חשוף,<br />
-                <span className="contact-band-accent">בואו נדבר.</span>
+                בואו נהפוך את אתגרי ה-IT שלכם<br />
+                <span className="contact-band-accent">לשקט נפשי אמיתי.</span>
               </h2>
               <p className="contact-band-lead">
-                שיחה קצרה, בלי לחץ ובלי סיסמאות. פשוט נבין מה קורה ואיפה כואב.
-                השאירו פרטים ונחזור אליכם כדי להבין מה קורה אצלכם באמת — בלי
-                מכירה אגרסיבית, פשוט שיחה עניינית.
+                השאירו פרטים ותאמו שיחת ייעוץ ללא עלות — נחזור אליכם תוך שעתיים בשעות הפעילות.
               </p>
-
-              <ul className="contact-band-checklist">
-                <li>מיפוי מה באמת חשוף</li>
-                <li>סקירה של התשתיות וההרשאות</li>
-                <li>צעדים פרקטיים, לא מצגת</li>
-                <li>כיוון ברור גם אם לא ממשיכים איתנו</li>
-              </ul>
 
               <img
                 src="/images/contact-illustration-v2.png"
@@ -1000,28 +927,34 @@ export default function App() {
                       <input id="c-name" type="text" placeholder="ישראל ישראלי" required />
                     </div>
                     <div className="field">
-                      <label htmlFor="c-company">שם החברה</label>
-                      <input id="c-company" type="text" placeholder="חברת אלפא בע״מ" />
-                    </div>
-                    <div className="field">
                       <label htmlFor="c-phone">טלפון</label>
-                      <input id="c-phone" type="tel" placeholder="050-1234567" required />
+                      <input id="c-phone" type="tel" placeholder="050-0000000" required />
                     </div>
                     <div className="field">
-                      <label htmlFor="c-email">אימייל</label>
-                      <input id="c-email" type="email" placeholder="info@company.co.il" required />
+                      <label htmlFor="c-email">דוא"ל</label>
+                      <input id="c-email" type="email" placeholder="name@company.co.il" required />
+                    </div>
+                    <div className="field">
+                      <label htmlFor="c-size">כמה מחשבים בחברה?</label>
+                      <select id="c-size" defaultValue="">
+                        <option value="" disabled>בחרו טווח</option>
+                        <option>עד 10 עובדים</option>
+                        <option>10–50 עובדים</option>
+                        <option>50–150 עובדים</option>
+                        <option>150+ עובדים</option>
+                      </select>
                     </div>
                     <div className="field field-wide">
-                      <label htmlFor="c-topic">שירות נדרש</label>
+                      <label htmlFor="c-topic">באיזה שירות אתם מתעניינים?</label>
                       <select id="c-topic" defaultValue="">
-                        <option value="" disabled>בחר שירות...</option>
+                        <option value="" disabled>בחרו נושא</option>
                         {servicesData.map((s) => <option key={s.id}>{s.title}</option>)}
                         <option>אחר / ייעוץ כללי</option>
                       </select>
                     </div>
                     <div className="field field-wide">
-                      <label htmlFor="c-msg">הודעה</label>
-                      <textarea id="c-msg" placeholder="מה קורה אצלכם היום? מה כואב? מה כבר ניסיתם?" />
+                      <label htmlFor="c-msg">תיאור הפנייה (אופציונלי)</label>
+                      <textarea id="c-msg" placeholder="ספרו לנו בקצרה על הסביבה הקיימת ועל מה שחשוב לכם לשפר" />
                     </div>
                   </div>
 
@@ -1033,12 +966,12 @@ export default function App() {
 
                     <button type="submit" className="btn btn-cyan contact-band-submit">
                       <Send style={{ width: 18, height: 18 }} />
-                      שלח פנייה
+                      כן, תחזרו אליי בהקדם!
                     </button>
                   </div>
 
                   <p className="contact-band-note">
-                    או ישירות: <a href={`tel:${PHONE_TEL}`}>{PHONE_DISPLAY}</a> · <a href={`mailto:${EMAIL}`}>{EMAIL}</a> · {HOURS}
+                    או התקשרו ישירות: <a href={`tel:${PHONE_TEL}`}>{PHONE_DISPLAY}</a>
                   </p>
                 </form>
               )}
@@ -1132,7 +1065,7 @@ export default function App() {
               <a href="#top" aria-label="LinkedIn"><Linkedin /></a>
               <a href="#top" aria-label="Facebook"><Facebook /></a>
               <a href={`https://wa.me/972${PHONE_TEL.slice(1)}`} aria-label="WhatsApp"><MessageCircle /></a>
-              <a href={`mailto:${EMAIL}`} aria-label="Email"><Mail /></a>
+              <a href="mailto:contact@secureops.co.il" aria-label="Email"><Mail /></a>
             </div>
           </div>
 
@@ -1156,15 +1089,19 @@ export default function App() {
             <h4>צרו איתנו קשר</h4>
             <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <Mail style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
-              <a href={`mailto:${EMAIL}`} style={{ margin: 0, direction: 'ltr' }}>{EMAIL}</a>
+              <span>contact@secureops.co.il</span>
             </p>
             <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <Phone style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
               <a href={`tel:${PHONE_TEL}`} style={{ margin: 0, direction: 'ltr' }}>{PHONE_DISPLAY}</a>
             </p>
             <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Clock style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
-              <span>{HOURS}</span>
+              <MapPin style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
+              <span>מגדלי עזריאלי, תל אביב</span>
+            </p>
+            <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Building2 style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
+              <span>ח.פ. 51-000000-0</span>
             </p>
           </div>
         </div>
