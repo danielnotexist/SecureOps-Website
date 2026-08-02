@@ -123,14 +123,13 @@ Already wired in — `<img src="/images/contact-illustration-v2.png" ...>` in th
 
 ---
 
-## Team headshots — ⚠️ real photos only, no AI
+## Team headshots — ✅ done
 
 | | |
 |---|---|
-| **Filenames** | `public/images/team/daniel.jpg` ✅ done, `public/images/team/dvir.jpg` still pending |
-| **Where they appear** | `#team` section — the large circular photo in each alternating profile row (`.team-profile-photo`), currently ~280px on desktop |
-| **Current fallback** | Initials avatar on a soft violet/cyan gradient circle (`.team-profile-initials`) — still showing for דביר דבוש until his photo lands |
-| **Status** | Daniel's photo received and wired in. Waiting on his partner's. **These are real, named people — do not generate faces with AI for this slot.** |
+| **Filenames** | `public/images/team/daniel.jpg`, `public/images/team/dvir.jpg` |
+| **Where they appear** | `#team` section — the large circular photo in each alternating profile row (`.team-profile-photo`), 280px on desktop |
+| **Status** | Both real photos received and wired in. |
 
 **What to ask for, if briefing a photographer:** headshot, chest-up, looking at camera, relaxed confident expression, soft key light at 45°, clean seamless light-grey or white background, shallow depth of field, business-casual attire, square crop with generous headroom (the frame is a circle, so keep the subject centered with room on all sides — don't crop tight to the face).
 
@@ -142,7 +141,7 @@ To wire in once received: set `photo: '/images/team/daniel.jpg'` (etc.) on the m
 
 | Asset | Urgency | Why |
 |---|---|---|
-| Team headshots | 🔴 high | Client is actively sending these — swap in as soon as they land |
+| Team headshots | ✅ done | Both founders' real photos are live |
 | Contact band illustration | ✅ done | Live in `.contact-art` — see caveat above about the faint edge arc |
 | Story banner illustration | ✅ done | Live in `.story-visual` |
 | Process-flow icons | 🟡 medium | The section works today with numbered placeholders; icons are a polish pass, not a blocker |
