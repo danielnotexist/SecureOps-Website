@@ -317,6 +317,14 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
   position: relative;
 }
 
+/* the articles trigger is a <button> (nothing to link to yet), so it needs
+   the native button chrome stripped to read identically to the <a> items */
+.header-nav-link-btn {
+  background: none;
+  border: none;
+  font-family: inherit;
+}
+
 .header-nav-link::after {
   content: '';
   position: absolute;
@@ -482,6 +490,84 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 }
 .mega-menu-item-link:hover svg { opacity: 1; }
 
+/* Articles menu — same dark-glass panel as the services mega-menu, but a
+   single flowing list rather than 3 fixed columns: services are a known,
+   stable set of categories, while articles are an open-ended, growing list
+   with no natural 3-way split yet. Wraps into more columns on its own as
+   entries accumulate, and caps height with a scrollbar rather than growing
+   the panel past the viewport once there are many. */
+.articles-menu-panel {
+  width: min(640px, 92vw);
+  grid-template-columns: 1fr;
+  max-height: min(70vh, 520px);
+  overflow-y: auto;
+  display: block;
+}
+
+.articles-menu-empty {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.94rem;
+  text-align: center;
+  padding: 18px 8px;
+}
+
+.articles-menu-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 4px;
+}
+
+.articles-menu-item {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 13px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: background 0.22s var(--ease), transform 0.22s var(--ease);
+}
+.articles-menu-item:hover { background: rgba(95, 227, 206, 0.1); transform: translateX(-3px); }
+
+.articles-menu-item svg { width: 18px; height: 18px; color: var(--cy-teal); opacity: 0.8; flex-shrink: 0; margin-top: 2px; }
+
+.articles-menu-item-title { display: block; font-size: 0.94rem; font-weight: 600; color: #fff; white-space: normal; }
+.articles-menu-item-excerpt {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-top: 3px;
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.55);
+  white-space: normal;
+  line-height: 1.5;
+}
+
+/* ---- article list overlay (mobile) + reading modal — reuse the service
+   modal's light-card chrome (.modal-white-card etc.) so opening an article
+   doesn't introduce a third visual language for "a panel over the page" ---- */
+.articles-list-full { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+
+.articles-list-full-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 13px 14px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: background 0.2s var(--ease);
+}
+.articles-list-full-item:hover { background: var(--purple-50); }
+.articles-list-full-item svg { width: 19px; height: 19px; color: var(--purple-main); opacity: 0.85; flex-shrink: 0; margin-top: 2px; }
+
+.article-body { color: var(--text-dark); }
+.article-body p { font-size: 1rem; line-height: 1.9; margin-bottom: 18px; }
+.article-body p:last-child { margin-bottom: 0; }
+
 /* Mobile drawer */
 .mobile-drawer {
   position: fixed;
@@ -517,15 +603,23 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 }
 .mobile-drawer-panel a:hover { background: var(--purple-50); color: var(--purple-main); }
 
-/* "מאמרים" has no destination yet — present, readable, not interactive,
-   matching .header-nav-link.is-static on desktop */
-.mobile-drawer-static {
-  color: var(--text-muted);
+/* matches .mobile-drawer-panel a visually, but is a real <button> — the
+   drawer's links are all anchors except this one, which opens the article
+   list overlay instead of scrolling to a section */
+.mobile-drawer-link-btn {
+  background: none;
+  border: none;
+  font-family: inherit;
+  text-align: inherit;
+  color: var(--text-dark);
   font-weight: 600;
   font-size: 1.05rem;
   padding: 13px 14px;
-  opacity: 0.62;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: background 0.2s var(--ease);
 }
+.mobile-drawer-link-btn:hover { background: var(--purple-50); color: var(--purple-main); }
 
 .mobile-drawer-head {
   display: flex;

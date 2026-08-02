@@ -37,7 +37,8 @@ import {
   RefreshCw,
   Gauge,
   Layers,
-  Plus
+  Plus,
+  FileText
 } from 'lucide-react';
 
 /* ------------------------------------------------------------------ *
@@ -280,6 +281,14 @@ const faqs = [
   }
 ];
 
+// Populated one article at a time as they're handed over from the old
+// site. Each `content` paragraph is rendered as its own <p> in the reading
+// modal — plain strings, no markdown. An empty array here is a supported,
+// verified state: the nav item shows a "coming soon" message instead of a
+// blank panel rather than being disabled outright, so the dropdown is real
+// and working before the first article lands.
+const articles = [];
+
 /* ------------------------------------------------------------------ *
  *  Helpers
  * ------------------------------------------------------------------ */
@@ -327,6 +336,9 @@ function Logo({ variant = 'dark', className = '', style }) {
 export default function App() {
   const [selectedService, setSelectedService] = useState(null);
   const [isServicesHovered, setIsServicesHovered] = useState(false);
+  const [isArticlesHovered, setIsArticlesHovered] = useState(false);
+  const [articlesListOpen, setArticlesListOpen] = useState(false);
+  const [selectedArticle, setSelectedArticle] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [openFaq, setOpenFaq] = useState(0);
@@ -339,11 +351,32 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = selectedService || mobileOpen ? 'hidden' : '';
+    document.body.style.overflow = selectedService || mobileOpen || articlesListOpen || selectedArticle ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
-  }, [selectedService, mobileOpen]);
+  }, [selectedService, mobileOpen, articlesListOpen, selectedArticle]);
+
+  /* Escape closes whichever overlay is on top — all of them were pointer-only
+     otherwise, which strands keyboard users. */
+  useEffect(() => {
+    if (!selectedService && !mobileOpen && !articlesListOpen && !selectedArticle) return undefined;
+    const onKey = (e) => {
+      if (e.key !== 'Escape') return;
+      if (selectedArticle) setSelectedArticle(null);
+      else if (articlesListOpen) setArticlesListOpen(false);
+      else if (selectedService) setSelectedService(null);
+      else setMobileOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [selectedService, mobileOpen, articlesListOpen, selectedArticle]);
 
   const openService = (svc) => { setSelectedService(svc); setIsServicesHovered(false); setMobileOpen(false); };
+  const openArticle = (article) => {
+    setSelectedArticle(article);
+    setIsArticlesHovered(false);
+    setArticlesListOpen(false);
+    setMobileOpen(false);
+  };
 
   return (
     <div className="min-h-screen">
@@ -411,8 +444,54 @@ export default function App() {
 
             <li><a href="#process" className="header-nav-link">איך זה עובד</a></li>
             <li><a href="#about" className="header-nav-link">אודות</a></li>
-            {/* no destination yet — deliberately inert until the articles land */}
-            <li><span className="header-nav-link is-static">מאמרים</span></li>
+
+            <li
+              className="header-nav-item"
+              onMouseEnter={() => setIsArticlesHovered(true)}
+              onMouseLeave={() => setIsArticlesHovered(false)}
+            >
+              <button
+                type="button"
+                className="header-nav-link header-nav-link-btn"
+                onClick={() => setIsArticlesHovered((v) => !v)}
+                aria-expanded={isArticlesHovered}
+                aria-haspopup="true"
+              >
+                <span>מאמרים</span>
+                <ChevronDown className="header-nav-chevron" style={{ width: 16, height: 16 }} />
+              </button>
+
+              <AnimatePresence>
+                {isArticlesHovered && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8, scale: 0.985 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 8, scale: 0.985 }}
+                    transition={{ duration: 0.18 }}
+                    className="mega-menu-panel articles-menu-panel"
+                  >
+                    {articles.length === 0 ? (
+                      <p className="articles-menu-empty">מאמרים חדשים בקרוב — נעדכן כאן ברגע שיעלו.</p>
+                    ) : (
+                      <ul className="articles-menu-list">
+                        {articles.map((a) => (
+                          <li key={a.id}>
+                            <a onClick={() => openArticle(a)} className="articles-menu-item">
+                              <FileText />
+                              <span>
+                                <span className="articles-menu-item-title">{a.title}</span>
+                                {a.excerpt && <span className="articles-menu-item-excerpt">{a.excerpt}</span>}
+                              </span>
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </li>
+
             <li><a href="#contact" className="header-nav-link">צור קשר</a></li>
           </ul>
         </nav>
@@ -458,7 +537,15 @@ export default function App() {
               <a href="#services" onClick={() => setMobileOpen(false)}>שירותי IT לעסקים</a>
               <a href="#process" onClick={() => setMobileOpen(false)}>איך זה עובד</a>
               <a href="#about" onClick={() => setMobileOpen(false)}>אודות</a>
-              <span className="mobile-drawer-static">מאמרים</span>
+              {/* hover has no mobile equivalent, so tapping opens the same
+                  article list as a full list overlay instead */}
+              <button
+                type="button"
+                className="mobile-drawer-link-btn"
+                onClick={() => { setMobileOpen(false); setArticlesListOpen(true); }}
+              >
+                מאמרים
+              </button>
               <a href="#contact" onClick={() => setMobileOpen(false)}>צור קשר</a>
 
               <a href={`tel:${PHONE_TEL}`} className="header-phone-cta-animated" style={{ marginTop: 18, justifyContent: 'center' }}>
@@ -1050,6 +1137,103 @@ export default function App() {
                     שלחו לי הצעה
                   </button>
                 </form>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ===================== ARTICLES: LIST OVERLAY ==================== */}
+      {/* Only reachable from the mobile drawer today (desktop uses the hover
+          mega-menu instead), but written generically so a future "כל
+          המאמרים" link from the mega-menu can open the same thing. */}
+      <AnimatePresence>
+        {articlesListOpen && (
+          <motion.div
+            className="modal-overlay-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setArticlesListOpen(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 16 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 16 }}
+              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+              className="modal-white-card"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button className="modal-close-btn-round" onClick={() => setArticlesListOpen(false)} aria-label="סגור">
+                <X />
+              </button>
+
+              <div className="modal-head">
+                <div className="service-icon-3d modal-icon" style={{ display: 'grid', placeItems: 'center', background: 'var(--purple-50)', borderRadius: 'var(--r-md)' }}>
+                  <FileText style={{ width: 30, height: 30, color: 'var(--purple-main)' }} />
+                </div>
+                <div>
+                  <h2>מאמרים</h2>
+                  <span>SecureOps — make IT easy</span>
+                </div>
+              </div>
+
+              {articles.length === 0 ? (
+                <p className="modal-desc">מאמרים חדשים בקרוב — נעדכן כאן ברגע שיעלו.</p>
+              ) : (
+                <ul className="articles-list-full">
+                  {articles.map((a) => (
+                    <li key={a.id}>
+                      <a onClick={() => openArticle(a)} className="articles-list-full-item">
+                        <FileText />
+                        <span>
+                          <span className="articles-menu-item-title" style={{ color: 'var(--ink)' }}>{a.title}</span>
+                          {a.excerpt && <span className="articles-menu-item-excerpt" style={{ color: 'var(--text-muted)' }}>{a.excerpt}</span>}
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ===================== ARTICLES: READING MODAL =================== */}
+      <AnimatePresence>
+        {selectedArticle && (
+          <motion.div
+            className="modal-overlay-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedArticle(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 16 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 16 }}
+              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+              className="modal-white-card"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button className="modal-close-btn-round" onClick={() => setSelectedArticle(null)} aria-label="סגור">
+                <X />
+              </button>
+
+              <div className="modal-head">
+                <div className="service-icon-3d modal-icon" style={{ display: 'grid', placeItems: 'center', background: 'var(--purple-50)', borderRadius: 'var(--r-md)' }}>
+                  <FileText style={{ width: 30, height: 30, color: 'var(--purple-main)' }} />
+                </div>
+                <div>
+                  <h2>{selectedArticle.title}</h2>
+                  <span>SecureOps — make IT easy</span>
+                </div>
+              </div>
+
+              <div className="article-body">
+                {selectedArticle.content.map((para, i) => <p key={i}>{para}</p>)}
               </div>
             </motion.div>
           </motion.div>
