@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://secureops.co.il/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://secureops.co.il/blog/mfa-and-passwords-for-business</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://secureops.co.il/blog/remote-monitoring-management-rmm</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://secureops.co.il/blog/phishing-in-business</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://secureops.co.il/blog/edr-for-small-business</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://secureops.co.il/blog/where-to-store-business-backups</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://secureops.co.il/blog/disaster-recovery-business-plan</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://secureops.co.il/blog/data-leak-departing-employee</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://secureops.co.il/blog/managed-detection-response-mdr</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://secureops.co.il/blog/cloud-security-for-business</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+</urlset>

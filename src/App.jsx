@@ -1,5 +1,6 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Routes, Route, Link, useNavigate, useLocation, useParams } from 'react-router-dom';
 import {
   CheckCircle2,
   X,
@@ -467,158 +468,7 @@ const articles = [
       }
     ]
   },
-  {
-    "id": "why-businesses-get-hacked",
-    "title": "מדוע פרצו לארגון שלך: שלושת השלבים שאף אחד לא מספר עליהם",
-    "excerpt": "מדוע פרצו לארגון שלך? לא בגלל האקרים סופר-חכמים מצפון קוריאה. בגלל עדכון שלא עשית, סיסמה שעובד נתן לפישינג, וגיבוי שלא נבדק. סיפור אמיתי בלי סוד.",
-    "category": "כללי",
-    "date": "13 במאי 2026",
-    "readTime": "5 דק׳ קריאה",
-    "image": "/images/blog/why-businesses-get-hacked.jpg",
-    "thumb": "/images/blog/why-businesses-get-hacked-thumb.jpg",
-    "keywords": [
-      "פריצה לעסק",
-      "מתקפת סייבר",
-      "Cyber Kill Chain",
-      "אבטחת מידע לעסקים",
-      "כופרה",
-      "הגנת סייבר"
-    ],
-    "body": [
-      {
-        "t": "p",
-        "v": "בכל פעם שעסק נופל לפריצה, השאלה הראשונה זהה. \"איך זה קרה? יש לי אנטי-וירוס. יש לי גיבוי. יש לי טכנאי. למה דווקא אני?\"."
-      },
-      {
-        "t": "p",
-        "v": "התשובה הקצרה. כי לא פרצו לך מצפון קוריאה אחרי 3 חודשים של מיפוי. פרצו לך כי משהו פשוט היה פתוח. ויש דפוס חוזר שאני רואה אצל כמעט כל לקוח שמגיע אליי אחרי אירוע."
-      },
-      {
-        "t": "p",
-        "v": "יוסי, בעל מוסך עם 14 עובדים. כופרה. שלמה, רואה חשבון. דליפת מידע. דניאלה, סוכנת ביטוח. העברה כספית מזויפת. שלושה עסקים שונים, שלוש מתקפות שונות, אותו מקור. הם לא ידעו. ההסבר אצל כולם היה בערך אותו דבר."
-      },
-      {
-        "t": "p",
-        "v": "הפריצה לרוב היא לא פעולה דרמטית, היא סדרה של פערים קטנים שמצטברים. שלוש שכבות חסומות עוצרות אותה"
-      },
-      {
-        "t": "h",
-        "v": "מה זה Cyber Kill Chain ולמה זה רלוונטי לעסק שלך"
-      },
-      {
-        "t": "p",
-        "v": "יש מודל שמשתמשים בו בעולם הסייבר ונקרא Cyber Kill Chain. הוא מתאר את שלבי מתקפת סייבר מההתחלה ועד הפגיעה. אני אקצר את 7 השלבים המקוריים לשלושה שכוללים את 95 אחוז מהמתקפות על עסקים בישראל."
-      },
-      {
-        "t": "p",
-        "v": "שלב ראשון. הכניסה. שלב שני. ההתבססות. שלב שלישי. הפגיעה. הקסם הוא שאם תחסום שלב אחד מתוך השלושה, המתקפה נכשלת. אבל כי רוב העסקים פתוחים בכל השלבים, ההאקר עובר חלק."
-      },
-      {
-        "t": "h",
-        "v": "שלב ראשון: הכניסה. איך הם נכנסו"
-      },
-      {
-        "t": "p",
-        "v": "כמעט תמיד אחת משלוש דרכים. ראשונה, פישינג. מייל שעובד פתח, לחץ על קישור, הזין סיסמה. ההאקר עכשיו יודע את הסיסמה של אחד העובדים. בלי MFA, זו גישה מלאה. כתבתי על איך לעצור פישינג כאן."
-      },
-      {
-        "t": "p",
-        "v": "שנייה, סיסמה חלשה ש-leak. עובד השתמש באותה סיסמה ב-Linkedin ב-2019, וב-Linkedin הייתה דליפה ענקית. ההאקר מצא את הסיסמה במאגר, ניסה אותה על המייל של החברה, היא עבדה. כי \"Aa123456!\" זה גם הסיסמה למייל וגם הסיסמה למחשב."
-      },
-      {
-        "t": "p",
-        "v": "שלישית, פרצה לא מעודכנת. שרת או ראוטר שלא עודכן 8 חודשים. יש לו פרצה ידועה. ההאקר סורק את האינטרנט באוטומציה, מוצא אותו, נכנס."
-      },
-      {
-        "t": "p",
-        "v": "יוסי? פישינג. שלמה? סיסמה חלשה. דניאלה? ראוטר ישן שלא עודכן 14 חודשים."
-      },
-      {
-        "t": "h",
-        "v": "שלב שני: ההתבססות. למה הם נשארו"
-      },
-      {
-        "t": "p",
-        "v": "ברגע שההאקר נכנס, הוא לא תוקף מיד. הוא יושב בשקט. בודק מה יש לך. מעתיק את ה-CRM. מאתר איפה הגיבויים. מנסה לעלות בהרשאות. בעסק טיפוסי הוא מסתובב 14-21 יום בלי שאף אחד שם לב."
-      },
-      {
-        "t": "p",
-        "v": "איך הוא מצליח? שניים. ראשון, אין EDR אמיתי. אנטי-וירוס מסורתי לא רואה תהליכים לגיטימיים שמתנהגים מוזר. ההאקר משתמש בכלים שמותקנים על המחשב ממילא (PowerShell, RDP), אז אין שום \"וירוס\" לזהות. כתבתי על ההבדל כאן."
-      },
-      {
-        "t": "p",
-        "v": "שני, אין מי שמסתכל. ההתראות אולי קיימות, אבל הולכות למייל של מישהו שלא בודק. הלילות חופשיים לחלוטין. סופי שבוע פתוחים. ההאקר עובד בשלום כי אף אחד לא בבית."
-      },
-      {
-        "t": "p",
-        "v": "יוסי? היה לו רק Defender ברירת מחדל. שלמה? היה לו EDR אבל בלי ניטור. ההאקר היה אצלו 19 ימים. דניאלה? כלום מהצד הזה."
-      },
-      {
-        "t": "h",
-        "v": "שלב שלישי: הפגיעה. מה הם עשו"
-      },
-      {
-        "t": "p",
-        "v": "עכשיו ההאקר מבצע. שלוש אופציות עיקריות."
-      },
-      {
-        "t": "p",
-        "v": "ראשון, כופרה. הוא מצפין את כל הקבצים בבת אחת, כולל הגיבויים אם הצליח להגיע אליהם, ודורש כסף. רוב הכופרות עולות 5,000-30,000 דולר לעסק קטן."
-      },
-      {
-        "t": "p",
-        "v": "שני, גניבת מידע. הוא מעתיק את כל ה-CRM, הצעות, חוזים, ובדרך כלל מוכר את זה במחשך או מבקש כסף תמורת לא לפרסם. סחיטה."
-      },
-      {
-        "t": "p",
-        "v": "שלישי, פעולה כספית. הוא יושב על מייל של מנכ\"ל לכמה ימים, לומד את הסגנון, ואז שולח הוראת תשלום לחשבונאית. היא מעבירה. ההאקר מקבל את הכסף."
-      },
-      {
-        "t": "p",
-        "v": "יוסי? כופרה. 8,000 דולר ששילם, ולא קיבל את הקבצים בחזרה. שלמה? דליפת מידע, סחיטה ב-12 אלף דולר, שילם ובכל זאת המידע פורסם חלקית. דניאלה? העברה של 95 אלף שקל לחשבון מזויף, לא חזרה אליה אגורה."
-      },
-      {
-        "t": "h",
-        "v": "איך עוצרים בכל אחד מהשלבים"
-      },
-      {
-        "t": "p",
-        "v": "עכשיו לחלק שמעניין. בכל שלב יש דרך לעצור."
-      },
-      {
-        "t": "p",
-        "v": "עוצרים את הכניסה: MFA על כל החשבונות, סינון מיילים נכון, עדכונים אוטומטיים. שלושת אלה לבד חוסמים 70 אחוז מהמתקפות."
-      },
-      {
-        "t": "p",
-        "v": "עוצרים את ההתבססות: EDR אמיתי על כל תחנה ושרת, פלוס מישהו שמסתכל על ההתראות 24/7. ה-MDR החיצוני שכתבתי עליו כאן."
-      },
-      {
-        "t": "p",
-        "v": "עוצרים את הפגיעה: גיבוי immutable שההאקר לא יכול למחוק, נהלי אישור פנימיים להעברות כספיות, וסגמנטציה רשתית שמונעת מההאקר להתפשט בכל הרשת. גיבויים כתבתי עליהם כאן."
-      },
-      {
-        "t": "p",
-        "v": "אצלנו ב-SecureOps אנחנו מטמיעים את שלוש השכבות. כי אם רק שתיים מהן, ההאקר ימצא את החור."
-      },
-      {
-        "t": "h",
-        "v": "מדוע פרצו לארגון: התשובה האמיתית"
-      },
-      {
-        "t": "p",
-        "v": "כי כשהוא בא, היה לו מסלול חופשי לפחות באחד משלושת השלבים. לא פרצו לך בגלל שאתה לא חכם. פרצו לך כי לא בנית את הפיגום. ההאקר לא צריך להיות גאון. הוא צריך למצוא חור אחד. אם יש לך 30 חורים, הוא ימצא אחד."
-      },
-      {
-        "t": "p",
-        "v": "החדשות הטובות. הסגירה של החורים האלה לא דורשת מיליון שקל. עסק טיפוסי של 20 עובדים יכול לסגור 80 אחוז מהסיכון עם השקעה של 4,000-6,000 שקל בחודש. בהשוואה לעלות של אירוע אחד מוצלח (שמתחיל ב-50 אלף שקל ויכול להגיע למאות אלפים), זה ההחזר הכי טוב שתעשה השנה."
-      },
-      {
-        "t": "p",
-        "v": "איזה משלושת השלבים שלך הכי פתוח כרגע?"
-      }
-    ]
-  },
+
   {
     "id": "remote-monitoring-management-rmm",
     "title": "ניהול מחשבים מרחוק לעסק: למה הטכנאי הצמוד שלך לא מספיק יותר",
@@ -1674,17 +1524,30 @@ function renderArticleBody(body) {
  *  App
  * ------------------------------------------------------------------ */
 
+/* Cross-page chrome (header, footer, the service/article modals, the
+   floating actions) needs a couple of pieces of state and one function that
+   the routed pages themselves don't own: openService is triggered from the
+   header mega-menu and the footer on every page, not just Home, and
+   contactSent has to be set by the service modal's own form. Passed down
+   through context rather than props since Home and ArticlePage mount via
+   <Routes>, not as direct children. */
+const SiteContext = React.createContext(null);
+function useSite() {
+  return React.useContext(SiteContext);
+}
+
 export default function App() {
   const [selectedService, setSelectedService] = useState(null);
   const [isServicesHovered, setIsServicesHovered] = useState(false);
   const [isArticlesHovered, setIsArticlesHovered] = useState(false);
   const [articlesListOpen, setArticlesListOpen] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState(null);
-  const [fullArticle, setFullArticle] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [openFaq, setOpenFaq] = useState(0);
   const [contactSent, setContactSent] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -1693,25 +1556,30 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = selectedService || mobileOpen || articlesListOpen || selectedArticle || fullArticle ? 'hidden' : '';
+    document.body.style.overflow = selectedService || mobileOpen || articlesListOpen || selectedArticle ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
-  }, [selectedService, mobileOpen, articlesListOpen, selectedArticle, fullArticle]);
+  }, [selectedService, mobileOpen, articlesListOpen, selectedArticle]);
 
   /* Escape closes whichever overlay is on top — all of them were pointer-only
      otherwise, which strands keyboard users. */
   useEffect(() => {
-    if (!selectedService && !mobileOpen && !articlesListOpen && !selectedArticle && !fullArticle) return undefined;
+    if (!selectedService && !mobileOpen && !articlesListOpen && !selectedArticle) return undefined;
     const onKey = (e) => {
       if (e.key !== 'Escape') return;
-      if (fullArticle) setFullArticle(null);
-      else if (selectedArticle) setSelectedArticle(null);
+      if (selectedArticle) setSelectedArticle(null);
       else if (articlesListOpen) setArticlesListOpen(false);
       else if (selectedService) setSelectedService(null);
       else setMobileOpen(false);
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [selectedService, mobileOpen, articlesListOpen, selectedArticle, fullArticle]);
+  }, [selectedService, mobileOpen, articlesListOpen, selectedArticle]);
+
+  // route changes on their own scroll to the top; only a hash target should
+  // override that, and Home's own mount effect handles scrolling to it
+  useEffect(() => {
+    if (!location.hash) window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   const openService = (svc) => { setSelectedService(svc); setIsServicesHovered(false); setMobileOpen(false); };
   const openArticle = (article) => {
@@ -1720,173 +1588,417 @@ export default function App() {
     setArticlesListOpen(false);
     setMobileOpen(false);
   };
-  const openFullArticle = (article) => {
-    setFullArticle(article);
-    setSelectedArticle(null);
+
+  const goToContactAfterSubmit = () => {
+    setSelectedService(null);
+    setContactSent(true);
+    if (location.pathname === '/') document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+    else navigate('/#contact');
   };
 
-  /* SEO. The site is a single page with no router, so an open article has no
-     URL of its own for a crawler to index — but the title/description/keywords
-     still get swapped while one is open, which is what social-share scrapers
-     and an in-page crawl read. The JSON-LD Article block is what actually
-     gives Google something structured to work with.
-     Everything is restored on close so the homepage doesn't inherit an
-     article's metadata. */
-  useEffect(() => {
-    const setMeta = (name, content) => {
-      let tag = document.querySelector(`meta[name="${name}"]`);
-      if (!tag) {
-        tag = document.createElement('meta');
-        tag.setAttribute('name', name);
-        document.head.appendChild(tag);
-      }
-      tag.setAttribute('content', content);
-    };
-
-    const baseTitle = 'SecureOps | make IT easy — שירותי IT מנוהלים, ענן ואבטחת מידע לעסקים';
-    const baseDesc = document.querySelector('meta[name="description"]')?.getAttribute('content') || '';
-    const baseKeywords = document.querySelector('meta[name="keywords"]')?.getAttribute('content') || '';
-
-    // the full page is the "real" read, so it wins if both happen to be set
-    const active = fullArticle || selectedArticle;
-    if (!active) return undefined;
-
-    document.title = `${active.title} | SecureOps`;
-    setMeta('description', active.excerpt);
-    setMeta('keywords', active.keywords.join(', '));
-
-    const ld = document.createElement('script');
-    ld.type = 'application/ld+json';
-    ld.id = 'article-ld';
-    ld.textContent = JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'Article',
-      headline: active.title,
-      description: active.excerpt,
-      image: `https://first-project-fed3c.web.app${active.image}`,
-      articleSection: active.category,
-      keywords: active.keywords.join(', '),
-      inLanguage: 'he-IL',
-      author: { '@type': 'Organization', name: 'SecureOps' },
-      publisher: { '@type': 'Organization', name: 'SecureOps' }
-    });
-    document.head.appendChild(ld);
-
-    return () => {
-      document.title = baseTitle;
-      setMeta('description', baseDesc);
-      setMeta('keywords', baseKeywords);
-      document.getElementById('article-ld')?.remove();
-    };
-  }, [selectedArticle, fullArticle]);
+  /* Section anchors (#services, #contact, ...) only exist on Home. Clicking
+     one while reading an article can't just let the browser jump to a
+     same-page hash that has no matching element -- it has to navigate home
+     first and let Home's mount effect scroll once the section actually
+     exists. On Home itself this is a no-op: the native anchor behaviour
+     already works and is left alone. */
+  const handleShellClick = (e) => {
+    if (location.pathname === '/') return;
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const id = a.getAttribute('href').slice(1);
+    if (!id) return;
+    e.preventDefault();
+    navigate('/#' + id);
+  };
 
   return (
-    <div className="min-h-screen">
+    <SiteContext.Provider value={{ openService, contactSent, setContactSent }}>
+      <div className="min-h-screen" onClick={handleShellClick}>
 
-      {/* ============================ HEADER ============================ */}
-      <header className={`header-unibo-style${scrolled ? ' is-scrolled' : ''}`}>
-        <a href="#top" className="header-right-logo-group" aria-label="SecureOps">
-          <Logo variant="dark" className="header-logo" />
-        </a>
-
-        <nav>
-          <ul className="header-nav-list">
-            <li
-              className="header-nav-item"
-              onMouseEnter={() => setIsServicesHovered(true)}
-              onMouseLeave={() => setIsServicesHovered(false)}
-            >
-              <a href="#services" className="header-nav-link">
-                <span>שירותי IT לעסקים</span>
-                <ChevronDown className="header-nav-chevron" style={{ width: 16, height: 16 }} />
+            <header className={`header-unibo-style${scrolled ? ' is-scrolled' : ''}`}>
+              <a href="#top" className="header-right-logo-group" aria-label="SecureOps">
+                <Logo variant="dark" className="header-logo" />
               </a>
 
-              <AnimatePresence>
-                {isServicesHovered && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 8, scale: 0.985 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 8, scale: 0.985 }}
-                    transition={{ duration: 0.18 }}
-                    className="mega-menu-panel"
+              <nav>
+                <ul className="header-nav-list">
+                  <li
+                    className="header-nav-item"
+                    onMouseEnter={() => setIsServicesHovered(true)}
+                    onMouseLeave={() => setIsServicesHovered(false)}
                   >
-                    <div>
-                      <div className="mega-menu-col-title">פתרונות ענן ותשתיות</div>
-                      <ul className="mega-menu-list">
-                        <li><a onClick={() => openService(servicesData[0])} className="mega-menu-item-link"><Cloud /> שירותי ענן לעסקים</a></li>
-                        <li><a onClick={() => openService(servicesData[0])} className="mega-menu-item-link"><Mail /> מיילים 365 והגדרות דואר</a></li>
-                        <li><a onClick={() => openService(servicesData[3])} className="mega-menu-item-link"><Globe /> קו תמסורת אינטרנט מנוהל</a></li>
-                        <li><a onClick={() => openService(servicesData[5])} className="mega-menu-item-link"><Server /> תחזוקת שרתים ותשתיות</a></li>
-                      </ul>
+                    <a href="#services" className="header-nav-link">
+                      <span>שירותי IT לעסקים</span>
+                      <ChevronDown className="header-nav-chevron" style={{ width: 16, height: 16 }} />
+                    </a>
+
+                    <AnimatePresence>
+                      {isServicesHovered && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 8, scale: 0.985 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 8, scale: 0.985 }}
+                          transition={{ duration: 0.18 }}
+                          className="mega-menu-panel"
+                        >
+                          <div>
+                            <div className="mega-menu-col-title">פתרונות ענן ותשתיות</div>
+                            <ul className="mega-menu-list">
+                              <li><a onClick={() => openService(servicesData[0])} className="mega-menu-item-link"><Cloud /> שירותי ענן לעסקים</a></li>
+                              <li><a onClick={() => openService(servicesData[0])} className="mega-menu-item-link"><Mail /> מיילים 365 והגדרות דואר</a></li>
+                              <li><a onClick={() => openService(servicesData[3])} className="mega-menu-item-link"><Globe /> קו תמסורת אינטרנט מנוהל</a></li>
+                              <li><a onClick={() => openService(servicesData[5])} className="mega-menu-item-link"><Server /> תחזוקת שרתים ותשתיות</a></li>
+                            </ul>
+                          </div>
+
+                          <div>
+                            <div className="mega-menu-col-title">תמיכת IT ומרכזיות</div>
+                            <ul className="mega-menu-list">
+                              <li><a onClick={() => openService(servicesData[1])} className="mega-menu-item-link"><Headphones /> שירותי IT לעסקים (Helpdesk)</a></li>
+                              <li><a onClick={() => openService(servicesData[1])} className="mega-menu-item-link"><Phone /> מרכזייה בענן ותקשורת</a></li>
+                              <li><a onClick={() => openService(servicesData[4])} className="mega-menu-item-link"><RefreshCw /> תוכנית התאוששות מאסון (DRP)</a></li>
+                              <li><a onClick={() => openService(servicesData[1])} className="mega-menu-item-link"><Monitor /> ניהול תחנות עבודה וציוד</a></li>
+                            </ul>
+                          </div>
+
+                          <div>
+                            <div className="mega-menu-col-title">אבטחת מידע וסייבר</div>
+                            <ul className="mega-menu-list">
+                              <li><a onClick={() => openService(servicesData[2])} className="mega-menu-item-link"><ShieldCheck /> אנטי וירוס ו-EDR מתקדם</a></li>
+                              <li><a onClick={() => openService(servicesData[2])} className="mega-menu-item-link"><Eye /> MDR — ניטור ותגובה מנוהלים</a></li>
+                              <li><a onClick={() => openService(servicesData[3])} className="mega-menu-item-link"><Lock /> חומות אש ו-Zero Trust</a></li>
+                              <li><a onClick={() => openService(servicesData[2])} className="mega-menu-item-link"><Smartphone /> MDM מערכות ניהול למובייל</a></li>
+                            </ul>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </li>
+
+                  <li><a href="#process" className="header-nav-link">איך זה עובד</a></li>
+                  <li><a href="#about" className="header-nav-link">אודות</a></li>
+
+                  <li
+                    className="header-nav-item"
+                    onMouseEnter={() => setIsArticlesHovered(true)}
+                    onMouseLeave={() => setIsArticlesHovered(false)}
+                  >
+                    <button
+                      type="button"
+                      className="header-nav-link header-nav-link-btn"
+                      onClick={() => setIsArticlesHovered((v) => !v)}
+                      aria-expanded={isArticlesHovered}
+                      aria-haspopup="true"
+                    >
+                      <span>מאמרים</span>
+                      <ChevronDown className="header-nav-chevron" style={{ width: 16, height: 16 }} />
+                    </button>
+
+                    <AnimatePresence>
+                      {isArticlesHovered && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 8, scale: 0.985 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 8, scale: 0.985 }}
+                          transition={{ duration: 0.18 }}
+                          className="mega-menu-panel articles-menu-panel"
+                        >
+                          {articles.length === 0 ? (
+                            <p className="articles-menu-empty">מאמרים חדשים בקרוב — נעדכן כאן ברגע שיעלו.</p>
+                          ) : (
+                            <ul className="articles-menu-list">
+                              {articles.map((a) => (
+                                <li key={a.id}>
+                                  {/* thumb, not the hero, and eager: these are 5-8KB
+                                      each and the dropdown should paint complete
+                                      rather than popping images in after it opens */}
+                                  <a onClick={() => openArticle(a)} className="articles-menu-item">
+                                    <img src={a.thumb} alt="" />
+                                    <span>
+                                      <span className="articles-menu-item-cat">{a.category}</span>
+                                      <span className="articles-menu-item-title">{a.title}</span>
+                                      <span className="articles-menu-item-meta">{a.date} · {a.readTime}</span>
+                                    </span>
+                                  </a>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </li>
+
+                  <li><a href="#contact" className="header-nav-link">צור קשר</a></li>
+                </ul>
+              </nav>
+
+              <a href={`tel:${PHONE_TEL}`} className="header-phone-cta-animated desktop-only">
+                <span className="cta-call-icon"><Phone /></span>
+                <span className="cta-call-text">
+                  <span className="lead">לייעוץ חינם חייגו</span>
+                  <span className="num">{PHONE_DISPLAY}</span>
+                </span>
+              </a>
+
+              <button className="header-burger" onClick={() => setMobileOpen(true)} aria-label="פתח תפריט">
+                <Menu style={{ width: 22, height: 22 }} />
+              </button>
+            </header>
+
+      <AnimatePresence>
+              {mobileOpen && (
+                <motion.div
+                  className="mobile-drawer"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  <motion.div
+                    className="mobile-drawer-panel"
+                    initial={{ x: '100%' }}
+                    animate={{ x: 0 }}
+                    exit={{ x: '100%' }}
+                    transition={{ type: 'spring', damping: 30, stiffness: 280 }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="mobile-drawer-head">
+                      <Logo variant="light" style={{ height: 34 }} />
+                      <button className="modal-close-btn-round" style={{ position: 'static' }} onClick={() => setMobileOpen(false)} aria-label="סגור">
+                        <X />
+                      </button>
                     </div>
 
-                    <div>
-                      <div className="mega-menu-col-title">תמיכת IT ומרכזיות</div>
-                      <ul className="mega-menu-list">
-                        <li><a onClick={() => openService(servicesData[1])} className="mega-menu-item-link"><Headphones /> שירותי IT לעסקים (Helpdesk)</a></li>
-                        <li><a onClick={() => openService(servicesData[1])} className="mega-menu-item-link"><Phone /> מרכזייה בענן ותקשורת</a></li>
-                        <li><a onClick={() => openService(servicesData[4])} className="mega-menu-item-link"><RefreshCw /> תוכנית התאוששות מאסון (DRP)</a></li>
-                        <li><a onClick={() => openService(servicesData[1])} className="mega-menu-item-link"><Monitor /> ניהול תחנות עבודה וציוד</a></li>
-                      </ul>
+                    <a href="#services" onClick={() => setMobileOpen(false)}>שירותי IT לעסקים</a>
+                    <a href="#process" onClick={() => setMobileOpen(false)}>איך זה עובד</a>
+                    <a href="#about" onClick={() => setMobileOpen(false)}>אודות</a>
+                    {/* hover has no mobile equivalent, so tapping opens the same
+                        article list as a full list overlay instead */}
+                    <button
+                      type="button"
+                      className="mobile-drawer-link-btn"
+                      onClick={() => { setMobileOpen(false); setArticlesListOpen(true); }}
+                    >
+                      מאמרים
+                    </button>
+                    <a href="#contact" onClick={() => setMobileOpen(false)}>צור קשר</a>
+
+                    <a href={`tel:${PHONE_TEL}`} className="header-phone-cta-animated" style={{ marginTop: 18, justifyContent: 'center' }}>
+                      <span className="cta-call-icon"><Phone /></span>
+                      <span className="cta-call-text">
+                        <span className="lead">חייגו לייעוץ חינם</span>
+                        <span className="num">{PHONE_DISPLAY}</span>
+                      </span>
+                    </a>
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+      {/* Enter-only, no AnimatePresence: wrapping this in AnimatePresence with
+          mode="wait" seems correct (it's the documented react-router +
+          framer-motion pattern) but it gates mounting the new route on the
+          old one's exit *animation actually completing* -- and if that
+          callback doesn't fire, the swap never happens and navigation looks
+          frozen at the old page. A plain motion.div keyed by pathname still
+          gets a fresh enter transition on every navigation (React unmounts
+          the old one and mounts this one via the key change) without ever
+          depending on an animation finishing to do the actual page swap. */}
+      <motion.div
+        key={location.pathname}
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <Routes location={location}>
+          <Route path="/" element={<Home />} />
+          <Route path="/blog/:slug" element={<ArticlePage />} />
+          <Route path="*" element={<Home />} />
+        </Routes>
+      </motion.div>
+
+            <footer className="footer-wrap-dark">
+              <div className="footer-inner-4grid">
+                <div>
+                  <Logo variant="dark" style={{ height: 46, marginBottom: 14 }} />
+                  <p style={{ color: 'rgba(255,255,255,0.66)', fontSize: '0.94rem', lineHeight: 1.75 }}>
+                    פתרונות אבטחת מידע, סייבר ותשתיות ענן מתקדמות לעסקים בישראל.
+                    ספק IT מנוהל אחד לכל מה שהארגון צריך. make IT easy.
+                  </p>
+
+                  <div className="footer-social">
+                    <a href="#top" aria-label="LinkedIn"><Linkedin /></a>
+                    <a href="#top" aria-label="Facebook"><Facebook /></a>
+                    <a href={`https://wa.me/972${PHONE_TEL.slice(1)}`} aria-label="WhatsApp"><MessageCircle /></a>
+                    <a href={`mailto:${EMAIL}`} aria-label="Email"><Mail /></a>
+                  </div>
+                </div>
+
+                <div className="footer-col-item">
+                  <h4>השירותים שלנו</h4>
+                  {servicesData.map((s) => (
+                    <a key={s.id} onClick={() => openService(s)}>{s.title}</a>
+                  ))}
+                </div>
+
+                <div className="footer-col-item">
+                  <h4>החברה</h4>
+                  <a href="#about">אודות SecureOps</a>
+                  <a href="#process">תהליך העבודה</a>
+                  <a href="#team">צוות המומחים</a>
+                  <a href="#testimonials">לקוחות ממליצים</a>
+                  <a href="#faq">שאלות נפוצות</a>
+                </div>
+
+                <div className="footer-col-item">
+                  <h4>צרו איתנו קשר</h4>
+                  <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <Mail style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
+                    <a href={`mailto:${EMAIL}`} style={{ margin: 0, direction: 'ltr' }}>{EMAIL}</a>
+                  </p>
+                  <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <Phone style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
+                    <a href={`tel:${PHONE_TEL}`} style={{ margin: 0, direction: 'ltr' }}>{PHONE_DISPLAY}</a>
+                  </p>
+                  <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <Clock style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
+                    <span>{HOURS}</span>
+                  </p>
+                  <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <MapPin style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
+                    <span>מגדלי עזריאלי, תל אביב</span>
+                  </p>
+                  <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <Building2 style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
+                    <span>ח.פ. 51-000000-0</span>
+                  </p>
+                </div>
+              </div>
+
+              <div className="footer-copyright-bar">
+                <p>© {new Date().getFullYear()} SecureOps Ltd. כל הזכויות שמורות. make IT easy.</p>
+              </div>
+            </footer>
+
+      <AnimatePresence>
+              {selectedService && (
+                <motion.div
+                  className="modal-overlay-backdrop"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setSelectedService(null)}
+                >
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95, y: 16 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: 16 }}
+                    transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                    className="modal-white-card"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <button className="modal-close-btn-round" onClick={() => setSelectedService(null)} aria-label="סגור">
+                      <X />
+                    </button>
+
+                    <div className="modal-head">
+                      <img src={selectedService.img} alt="" className="service-icon-3d modal-icon" />
+                      <div>
+                        <h2>{selectedService.title}</h2>
+                        <span>SecureOps — make IT easy</span>
+                      </div>
                     </div>
 
-                    <div>
-                      <div className="mega-menu-col-title">אבטחת מידע וסייבר</div>
-                      <ul className="mega-menu-list">
-                        <li><a onClick={() => openService(servicesData[2])} className="mega-menu-item-link"><ShieldCheck /> אנטי וירוס ו-EDR מתקדם</a></li>
-                        <li><a onClick={() => openService(servicesData[2])} className="mega-menu-item-link"><Eye /> MDR — ניטור ותגובה מנוהלים</a></li>
-                        <li><a onClick={() => openService(servicesData[3])} className="mega-menu-item-link"><Lock /> חומות אש ו-Zero Trust</a></li>
-                        <li><a onClick={() => openService(servicesData[2])} className="mega-menu-item-link"><Smartphone /> MDM מערכות ניהול למובייל</a></li>
-                      </ul>
+                    <div className="service-card-tags" style={{ marginBottom: 22 }}>
+                      {selectedService.tags.map((t) => <span className="service-tag" key={t}>{t}</span>)}
+                    </div>
+
+                    <p className="modal-desc">{selectedService.fullDesc}</p>
+
+                    <h3 className="modal-sub-title">מה כולל השירות המלא?</h3>
+                    <ul className="modal-feature-list">
+                      {selectedService.features.map((feat) => (
+                        <li key={feat}><CheckCircle2 /> <span>{feat}</span></li>
+                      ))}
+                    </ul>
+
+                    <div className="modal-form-box">
+                      <h4>מעוניינים בהצעת מחיר מותאמת?</h4>
+                      <form
+                        onSubmit={(e) => { e.preventDefault(); goToContactAfterSubmit(); }}
+                        style={{ display: 'flex', flexDirection: 'column', gap: 12 }}
+                      >
+                        <div className="form-row">
+                          <div className="field" style={{ marginBottom: 0 }}>
+                            <input type="text" placeholder="שם מלא" required />
+                          </div>
+                          <div className="field" style={{ marginBottom: 0 }}>
+                            <input type="tel" placeholder="טלפון" required />
+                          </div>
+                        </div>
+                        <div className="field" style={{ marginBottom: 0 }}>
+                          <input type="email" placeholder='דוא"ל עסקי' required />
+                        </div>
+                        <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>
+                          <Send style={{ width: 18, height: 18 }} />
+                          שלחו לי הצעה
+                        </button>
+                      </form>
                     </div>
                   </motion.div>
-                )}
-              </AnimatePresence>
-            </li>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
-            <li><a href="#process" className="header-nav-link">איך זה עובד</a></li>
-            <li><a href="#about" className="header-nav-link">אודות</a></li>
-
-            <li
-              className="header-nav-item"
-              onMouseEnter={() => setIsArticlesHovered(true)}
-              onMouseLeave={() => setIsArticlesHovered(false)}
-            >
-              <button
-                type="button"
-                className="header-nav-link header-nav-link-btn"
-                onClick={() => setIsArticlesHovered((v) => !v)}
-                aria-expanded={isArticlesHovered}
-                aria-haspopup="true"
-              >
-                <span>מאמרים</span>
-                <ChevronDown className="header-nav-chevron" style={{ width: 16, height: 16 }} />
-              </button>
-
-              <AnimatePresence>
-                {isArticlesHovered && (
+            {/* Only reachable from the mobile drawer today (desktop uses the hover
+                mega-menu instead), but written generically so a future "כל
+                המאמרים" link from the mega-menu can open the same thing. */}
+            <AnimatePresence>
+              {articlesListOpen && (
+                <motion.div
+                  className="modal-overlay-backdrop"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setArticlesListOpen(false)}
+                >
                   <motion.div
-                    initial={{ opacity: 0, y: 8, scale: 0.985 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 8, scale: 0.985 }}
-                    transition={{ duration: 0.18 }}
-                    className="mega-menu-panel articles-menu-panel"
+                    initial={{ opacity: 0, scale: 0.95, y: 16 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: 16 }}
+                    transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                    className="modal-white-card"
+                    onClick={(e) => e.stopPropagation()}
                   >
+                    <button className="modal-close-btn-round" onClick={() => setArticlesListOpen(false)} aria-label="סגור">
+                      <X />
+                    </button>
+
+                    <div className="modal-head">
+                      <div className="service-icon-3d modal-icon" style={{ display: 'grid', placeItems: 'center', background: 'var(--purple-50)', borderRadius: 'var(--r-md)' }}>
+                        <FileText style={{ width: 30, height: 30, color: 'var(--purple-main)' }} />
+                      </div>
+                      <div>
+                        <h2>מאמרים</h2>
+                        <span>SecureOps — make IT easy</span>
+                      </div>
+                    </div>
+
                     {articles.length === 0 ? (
-                      <p className="articles-menu-empty">מאמרים חדשים בקרוב — נעדכן כאן ברגע שיעלו.</p>
+                      <p className="modal-desc">מאמרים חדשים בקרוב — נעדכן כאן ברגע שיעלו.</p>
                     ) : (
-                      <ul className="articles-menu-list">
+                      <ul className="articles-list-full">
                         {articles.map((a) => (
                           <li key={a.id}>
-                            {/* thumb, not the hero, and eager: these are 5-8KB
-                                each and the dropdown should paint complete
-                                rather than popping images in after it opens */}
-                            <a onClick={() => openArticle(a)} className="articles-menu-item">
-                              <img src={a.thumb} alt="" />
+                            <a onClick={() => openArticle(a)} className="articles-list-full-item">
+                              <img src={a.thumb} alt="" loading="lazy" />
                               <span>
-                                <span className="articles-menu-item-cat">{a.category}</span>
-                                <span className="articles-menu-item-title">{a.title}</span>
-                                <span className="articles-menu-item-meta">{a.date} · {a.readTime}</span>
+                                <span className="article-cat-chip">{a.category}</span>
+                                <span className="articles-list-full-title">{a.title}</span>
+                                <span className="articles-list-full-excerpt">{a.excerpt}</span>
+                                <span className="articles-list-full-meta">{a.date} · {a.readTime}</span>
                               </span>
                             </a>
                           </li>
@@ -1894,78 +2006,118 @@ export default function App() {
                       </ul>
                     )}
                   </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+
+            {/* Short teaser only — chip, title, meta, hero, excerpt and the first
+                couple of paragraphs fading out under a CTA. The full body renders
+                in the dedicated full-page view below, opened from that CTA. */}
+            <AnimatePresence>
+              {selectedArticle && (
+                <motion.div
+                  className="modal-overlay-backdrop"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setSelectedArticle(null)}
+                >
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95, y: 16 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: 16 }}
+                    transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                    className="modal-white-card article-preview-card"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <button className="modal-close-btn-round" onClick={() => setSelectedArticle(null)} aria-label="סגור">
+                      <X />
+                    </button>
+
+                    <div className="article-modal-head">
+                      <span className="article-cat-chip">{selectedArticle.category}</span>
+                      <h2>{selectedArticle.title}</h2>
+                      <div className="article-meta">
+                        <span>{selectedArticle.date}</span>
+                        <span aria-hidden="true">·</span>
+                        <span>{selectedArticle.readTime}</span>
+                      </div>
+                    </div>
+
+                    <img src={selectedArticle.image} alt="" className="article-hero article-hero-preview" loading="lazy" />
+
+                    <p className="article-lead">{selectedArticle.excerpt}</p>
+
+                    <div className="article-teaser">
+                      {selectedArticle.body.filter((b) => b.t === 'p').slice(0, 2).map((b, i) => <p key={i}>{b.v}</p>)}
+                      <div className="article-teaser-fade" aria-hidden="true" />
+                    </div>
+
+                    <button type="button" className="btn btn-primary article-preview-cta" onClick={() => { const id = selectedArticle.id; setSelectedArticle(null); navigate(`/blog/${id}`); }}>
+                      לקריאת המאמר המלא
+                      <ArrowLeft style={{ width: 18, height: 18 }} />
+                    </button>
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+
+            <div className="floating-actions">
+              <a
+                className="float-btn float-wa"
+                href={`https://wa.me/972${PHONE_TEL.slice(1)}`}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="שלחו הודעת WhatsApp"
+              >
+                <MessageCircle />
+              </a>
+              <AnimatePresence>
+                {scrolled && (
+                  <motion.button
+                    className="float-btn float-top"
+                    initial={{ opacity: 0, scale: 0.7 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.7 }}
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    aria-label="חזרה למעלה"
+                  >
+                    <ArrowUp />
+                  </motion.button>
                 )}
               </AnimatePresence>
-            </li>
+            </div>
 
-            <li><a href="#contact" className="header-nav-link">צור קשר</a></li>
-          </ul>
-        </nav>
+      </div>
+    </SiteContext.Provider>
+  );
+}
 
-        <a href={`tel:${PHONE_TEL}`} className="header-phone-cta-animated desktop-only">
-          <span className="cta-call-icon"><Phone /></span>
-          <span className="cta-call-text">
-            <span className="lead">לייעוץ חינם חייגו</span>
-            <span className="num">{PHONE_DISPLAY}</span>
-          </span>
-        </a>
+/* ------------------------------------------------------------------ *
+ *  Home
+ * ------------------------------------------------------------------ */
 
-        <button className="header-burger" onClick={() => setMobileOpen(true)} aria-label="פתח תפריט">
-          <Menu style={{ width: 22, height: 22 }} />
-        </button>
-      </header>
+function Home() {
+  const { openService, contactSent, setContactSent } = useSite();
+  const [openFaq, setOpenFaq] = useState(0);
+  const location = useLocation();
 
-      {/* ======================== MOBILE DRAWER ========================= */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            className="mobile-drawer"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setMobileOpen(false)}
-          >
-            <motion.div
-              className="mobile-drawer-panel"
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 30, stiffness: 280 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="mobile-drawer-head">
-                <Logo variant="light" style={{ height: 34 }} />
-                <button className="modal-close-btn-round" style={{ position: 'static' }} onClick={() => setMobileOpen(false)} aria-label="סגור">
-                  <X />
-                </button>
-              </div>
+  // arriving via navigate('/#contact') etc. from another route: Home mounts
+  // fresh with the hash already in the URL, so the browser's native
+  // scroll-into-view (which only fires on a real page load) never runs
+  useEffect(() => {
+    if (!location.hash) return;
+    const id = location.hash.slice(1);
+    requestAnimationFrame(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-              <a href="#services" onClick={() => setMobileOpen(false)}>שירותי IT לעסקים</a>
-              <a href="#process" onClick={() => setMobileOpen(false)}>איך זה עובד</a>
-              <a href="#about" onClick={() => setMobileOpen(false)}>אודות</a>
-              {/* hover has no mobile equivalent, so tapping opens the same
-                  article list as a full list overlay instead */}
-              <button
-                type="button"
-                className="mobile-drawer-link-btn"
-                onClick={() => { setMobileOpen(false); setArticlesListOpen(true); }}
-              >
-                מאמרים
-              </button>
-              <a href="#contact" onClick={() => setMobileOpen(false)}>צור קשר</a>
-
-              <a href={`tel:${PHONE_TEL}`} className="header-phone-cta-animated" style={{ marginTop: 18, justifyContent: 'center' }}>
-                <span className="cta-call-icon"><Phone /></span>
-                <span className="cta-call-text">
-                  <span className="lead">חייגו לייעוץ חינם</span>
-                  <span className="num">{PHONE_DISPLAY}</span>
-                </span>
-              </a>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
+  return (
+    <>
       {/* ============================= HERO ============================= */}
       <section className="hero-cyber" id="top">
         <div className="hero-cyber-inner">
@@ -2478,338 +2630,135 @@ export default function App() {
         </div>
       </section>
 
-      {/* ============================= MODAL ============================ */}
-      <AnimatePresence>
-        {selectedService && (
-          <motion.div
-            className="modal-overlay-backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedService(null)}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 16 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 16 }}
-              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-              className="modal-white-card"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button className="modal-close-btn-round" onClick={() => setSelectedService(null)} aria-label="סגור">
-                <X />
-              </button>
+    </>
+  );
+}
 
-              <div className="modal-head">
-                <img src={selectedService.img} alt="" className="service-icon-3d modal-icon" />
-                <div>
-                  <h2>{selectedService.title}</h2>
-                  <span>SecureOps — make IT easy</span>
-                </div>
-              </div>
+/* ------------------------------------------------------------------ *
+ *  Article page
+ * ------------------------------------------------------------------ */
 
-              <div className="service-card-tags" style={{ marginBottom: 22 }}>
-                {selectedService.tags.map((t) => <span className="service-tag" key={t}>{t}</span>)}
-              </div>
+// matches the canonical/OG domain already set in index.html — the site is
+// live at the Firebase URL pending DNS, but SEO tags should all agree on
+// the one real production address rather than mixing the two
+const SITE_URL = 'https://secureops.co.il';
 
-              <p className="modal-desc">{selectedService.fullDesc}</p>
+function ArticlePage() {
+  const { slug } = useParams();
+  const article = articles.find((a) => a.id === slug);
 
-              <h3 className="modal-sub-title">מה כולל השירות המלא?</h3>
-              <ul className="modal-feature-list">
-                {selectedService.features.map((feat) => (
-                  <li key={feat}><CheckCircle2 /> <span>{feat}</span></li>
-                ))}
-              </ul>
+  /* Per-article SEO: title, description, keywords, canonical link, Open
+     Graph and a JSON-LD Article block. This is the actual point of giving
+     articles their own route rather than a client-side overlay -- a
+     crawler (or a shared link) now hits a real URL with real tags instead
+     of the homepage's generic metadata. Everything is restored on
+     unmount so navigating back to Home via client-side routing doesn't
+     leave it wearing an article's title. */
+  useEffect(() => {
+    if (!article) return undefined;
 
-              <div className="modal-form-box">
-                <h4>מעוניינים בהצעת מחיר מותאמת?</h4>
-                <form
-                  onSubmit={(e) => { e.preventDefault(); setSelectedService(null); setContactSent(true); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }}
-                  style={{ display: 'flex', flexDirection: 'column', gap: 12 }}
-                >
-                  <div className="form-row">
-                    <div className="field" style={{ marginBottom: 0 }}>
-                      <input type="text" placeholder="שם מלא" required />
-                    </div>
-                    <div className="field" style={{ marginBottom: 0 }}>
-                      <input type="tel" placeholder="טלפון" required />
-                    </div>
-                  </div>
-                  <div className="field" style={{ marginBottom: 0 }}>
-                    <input type="email" placeholder='דוא"ל עסקי' required />
-                  </div>
-                  <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>
-                    <Send style={{ width: 18, height: 18 }} />
-                    שלחו לי הצעה
-                  </button>
-                </form>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+    const setMeta = (attr, name, content) => {
+      let tag = document.querySelector(`meta[${attr}="${name}"]`);
+      if (!tag) {
+        tag = document.createElement('meta');
+        tag.setAttribute(attr, name);
+        document.head.appendChild(tag);
+      }
+      tag.setAttribute('content', content);
+    };
 
-      {/* ===================== ARTICLES: LIST OVERLAY ==================== */}
-      {/* Only reachable from the mobile drawer today (desktop uses the hover
-          mega-menu instead), but written generically so a future "כל
-          המאמרים" link from the mega-menu can open the same thing. */}
-      <AnimatePresence>
-        {articlesListOpen && (
-          <motion.div
-            className="modal-overlay-backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setArticlesListOpen(false)}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 16 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 16 }}
-              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-              className="modal-white-card"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button className="modal-close-btn-round" onClick={() => setArticlesListOpen(false)} aria-label="סגור">
-                <X />
-              </button>
+    const baseTitle = document.title;
+    const baseDesc = document.querySelector('meta[name="description"]')?.getAttribute('content') || '';
+    const baseKeywords = document.querySelector('meta[name="keywords"]')?.getAttribute('content') || '';
+    const url = `${SITE_URL}/blog/${article.id}`;
+    const imageUrl = `${SITE_URL}${article.image}`;
 
-              <div className="modal-head">
-                <div className="service-icon-3d modal-icon" style={{ display: 'grid', placeItems: 'center', background: 'var(--purple-50)', borderRadius: 'var(--r-md)' }}>
-                  <FileText style={{ width: 30, height: 30, color: 'var(--purple-main)' }} />
-                </div>
-                <div>
-                  <h2>מאמרים</h2>
-                  <span>SecureOps — make IT easy</span>
-                </div>
-              </div>
+    document.title = `${article.title} | SecureOps`;
+    setMeta('name', 'description', article.excerpt);
+    setMeta('name', 'keywords', article.keywords.join(', '));
+    setMeta('property', 'og:type', 'article');
+    setMeta('property', 'og:title', article.title);
+    setMeta('property', 'og:description', article.excerpt);
+    setMeta('property', 'og:image', imageUrl);
+    setMeta('property', 'og:url', url);
 
-              {articles.length === 0 ? (
-                <p className="modal-desc">מאמרים חדשים בקרוב — נעדכן כאן ברגע שיעלו.</p>
-              ) : (
-                <ul className="articles-list-full">
-                  {articles.map((a) => (
-                    <li key={a.id}>
-                      <a onClick={() => openArticle(a)} className="articles-list-full-item">
-                        <img src={a.thumb} alt="" loading="lazy" />
-                        <span>
-                          <span className="article-cat-chip">{a.category}</span>
-                          <span className="articles-list-full-title">{a.title}</span>
-                          <span className="articles-list-full-excerpt">{a.excerpt}</span>
-                          <span className="articles-list-full-meta">{a.date} · {a.readTime}</span>
-                        </span>
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+    let canonical = document.querySelector('link[rel="canonical"]');
+    const hadCanonical = !!canonical;
+    const prevHref = canonical?.getAttribute('href');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', url);
 
-      {/* ===================== ARTICLES: PREVIEW MODAL =================== */}
-      {/* Short teaser only — chip, title, meta, hero, excerpt and the first
-          couple of paragraphs fading out under a CTA. The full body renders
-          in the dedicated full-page view below, opened from that CTA. */}
-      <AnimatePresence>
-        {selectedArticle && (
-          <motion.div
-            className="modal-overlay-backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedArticle(null)}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 16 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 16 }}
-              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-              className="modal-white-card article-preview-card"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button className="modal-close-btn-round" onClick={() => setSelectedArticle(null)} aria-label="סגור">
-                <X />
-              </button>
+    const ld = document.createElement('script');
+    ld.type = 'application/ld+json';
+    ld.id = 'article-ld';
+    ld.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: article.title,
+      description: article.excerpt,
+      image: imageUrl,
+      url,
+      articleSection: article.category,
+      keywords: article.keywords.join(', '),
+      datePublished: article.date,
+      inLanguage: 'he-IL',
+      author: { '@type': 'Organization', name: 'SecureOps' },
+      publisher: { '@type': 'Organization', name: 'SecureOps' }
+    });
+    document.head.appendChild(ld);
 
-              <div className="article-modal-head">
-                <span className="article-cat-chip">{selectedArticle.category}</span>
-                <h2>{selectedArticle.title}</h2>
-                <div className="article-meta">
-                  <span>{selectedArticle.date}</span>
-                  <span aria-hidden="true">·</span>
-                  <span>{selectedArticle.readTime}</span>
-                </div>
-              </div>
+    return () => {
+      document.title = baseTitle;
+      setMeta('name', 'description', baseDesc);
+      setMeta('name', 'keywords', baseKeywords);
+      if (hadCanonical) canonical.setAttribute('href', prevHref);
+      else canonical.remove();
+      document.getElementById('article-ld')?.remove();
+    };
+  }, [article]);
 
-              <img src={selectedArticle.image} alt="" className="article-hero article-hero-preview" loading="lazy" />
-
-              <p className="article-lead">{selectedArticle.excerpt}</p>
-
-              <div className="article-teaser">
-                {selectedArticle.body.filter((b) => b.t === 'p').slice(0, 2).map((b, i) => <p key={i}>{b.v}</p>)}
-                <div className="article-teaser-fade" aria-hidden="true" />
-              </div>
-
-              <button type="button" className="btn btn-primary article-preview-cta" onClick={() => openFullArticle(selectedArticle)}>
-                לקריאת המאמר המלא
-                <ArrowLeft style={{ width: 18, height: 18 }} />
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ===================== ARTICLES: FULL PAGE ======================= */}
-      {/* A dedicated reading page rather than a bigger modal: full-viewport
-          overlay with its own slim top bar (logo + close), independent
-          scroll, and the complete body. Note this is still not a routed
-          page — the URL doesn't change, so it isn't independently
-          shareable or crawlable as its own address. That would need an
-          actual router. */}
-      <AnimatePresence>
-        {fullArticle && (
-          <motion.div
-            className="article-fullpage"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.22 }}
-          >
-            <div className="article-fullpage-topbar">
-              <Logo variant="light" style={{ height: 30 }} />
-              <button className="article-fullpage-close" onClick={() => setFullArticle(null)} aria-label="סגירה וחזרה לאתר">
-                <X style={{ width: 18, height: 18 }} />
-                <span>סגירה</span>
-              </button>
-            </div>
-
-            <div className="article-fullpage-scroll">
-              <article className="article-fullpage-content">
-                <span className="article-cat-chip">{fullArticle.category}</span>
-                <h1>{fullArticle.title}</h1>
-                <div className="article-meta">
-                  <span>{fullArticle.date}</span>
-                  <span aria-hidden="true">·</span>
-                  <span>{fullArticle.readTime}</span>
-                </div>
-
-                <img src={fullArticle.image} alt="" className="article-hero" />
-
-                <div className="article-body">
-                  {renderArticleBody(fullArticle.body)}
-                </div>
-
-                <div className="article-cta">
-                  <h4>מחפשים את השירות שמכסה את זה?</h4>
-                  <p>אם משהו כאן נשמע מוכר, בואו נדבר על מה שמתאים לעסק שלכם.</p>
-                  <a
-                    href="#contact"
-                    className="btn btn-primary"
-                    onClick={() => setFullArticle(null)}
-                  >
-                    דברו איתנו
-                    <ArrowLeft style={{ width: 18, height: 18 }} />
-                  </a>
-                </div>
-              </article>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ============================ FOOTER ============================ */}
-      <footer className="footer-wrap-dark">
-        <div className="footer-inner-4grid">
-          <div>
-            <Logo variant="dark" style={{ height: 46, marginBottom: 14 }} />
-            <p style={{ color: 'rgba(255,255,255,0.66)', fontSize: '0.94rem', lineHeight: 1.75 }}>
-              פתרונות אבטחת מידע, סייבר ותשתיות ענן מתקדמות לעסקים בישראל.
-              ספק IT מנוהל אחד לכל מה שהארגון צריך. make IT easy.
-            </p>
-
-            <div className="footer-social">
-              <a href="#top" aria-label="LinkedIn"><Linkedin /></a>
-              <a href="#top" aria-label="Facebook"><Facebook /></a>
-              <a href={`https://wa.me/972${PHONE_TEL.slice(1)}`} aria-label="WhatsApp"><MessageCircle /></a>
-              <a href={`mailto:${EMAIL}`} aria-label="Email"><Mail /></a>
-            </div>
-          </div>
-
-          <div className="footer-col-item">
-            <h4>השירותים שלנו</h4>
-            {servicesData.map((s) => (
-              <a key={s.id} onClick={() => openService(s)}>{s.title}</a>
-            ))}
-          </div>
-
-          <div className="footer-col-item">
-            <h4>החברה</h4>
-            <a href="#about">אודות SecureOps</a>
-            <a href="#process">תהליך העבודה</a>
-            <a href="#team">צוות המומחים</a>
-            <a href="#testimonials">לקוחות ממליצים</a>
-            <a href="#faq">שאלות נפוצות</a>
-          </div>
-
-          <div className="footer-col-item">
-            <h4>צרו איתנו קשר</h4>
-            <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Mail style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
-              <a href={`mailto:${EMAIL}`} style={{ margin: 0, direction: 'ltr' }}>{EMAIL}</a>
-            </p>
-            <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Phone style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
-              <a href={`tel:${PHONE_TEL}`} style={{ margin: 0, direction: 'ltr' }}>{PHONE_DISPLAY}</a>
-            </p>
-            <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Clock style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
-              <span>{HOURS}</span>
-            </p>
-            <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <MapPin style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
-              <span>מגדלי עזריאלי, תל אביב</span>
-            </p>
-            <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Building2 style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
-              <span>ח.פ. 51-000000-0</span>
-            </p>
-          </div>
+  if (!article) {
+    return (
+      <div className="article-page">
+        <div className="article-fullpage-content article-not-found">
+          <h1>המאמר לא נמצא</h1>
+          <p>ייתכן שהקישור שגוי או שהמאמר הוסר.</p>
+          <Link to="/" className="btn btn-primary">חזרה לעמוד הבית</Link>
         </div>
-
-        <div className="footer-copyright-bar">
-          <p>© {new Date().getFullYear()} SecureOps Ltd. כל הזכויות שמורות. make IT easy.</p>
-        </div>
-      </footer>
-
-      {/* ====================== FLOATING ACTIONS ======================== */}
-      <div className="floating-actions">
-        <a
-          className="float-btn float-wa"
-          href={`https://wa.me/972${PHONE_TEL.slice(1)}`}
-          target="_blank"
-          rel="noreferrer"
-          aria-label="שלחו הודעת WhatsApp"
-        >
-          <MessageCircle />
-        </a>
-        <AnimatePresence>
-          {scrolled && (
-            <motion.button
-              className="float-btn float-top"
-              initial={{ opacity: 0, scale: 0.7 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.7 }}
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              aria-label="חזרה למעלה"
-            >
-              <ArrowUp />
-            </motion.button>
-          )}
-        </AnimatePresence>
       </div>
+    );
+  }
 
+  return (
+    <div className="article-page">
+      <article className="article-fullpage-content">
+        <span className="article-cat-chip">{article.category}</span>
+        <h1>{article.title}</h1>
+        <div className="article-meta">
+          <span>{article.date}</span>
+          <span aria-hidden="true">·</span>
+          <span>{article.readTime}</span>
+        </div>
+
+        <img src={article.image} alt="" className="article-hero" />
+
+        <div className="article-body">
+          {renderArticleBody(article.body)}
+        </div>
+
+        <div className="article-cta">
+          <h4>מחפשים את השירות שמכסה את זה?</h4>
+          <p>אם משהו כאן נשמע מוכר, בואו נדבר על מה שמתאים לעסק שלכם.</p>
+          <Link to="/#contact" className="btn btn-primary">
+            דברו איתנו
+            <ArrowLeft style={{ width: 18, height: 18 }} />
+          </Link>
+        </div>
+      </article>
     </div>
   );
 }

@@ -137,6 +137,12 @@ To wire in once received: set `photo: '/images/team/daniel.jpg'` (etc.) on the m
 
 ---
 
+## sitemap.xml — regenerate when articles change
+
+`public/sitemap.xml` is a static file generated from the `articles` array in `src/App.jsx`, not something the app keeps in sync on its own. Whenever an article is added or removed, rerun the generator (a script under this session's scratchpad — reconstitute it if it's gone: read the `id` fields out of `articles`, emit one `<url>` per slug at `https://secureops.co.il/blog/<id>`, plus the homepage) and rebuild before deploying, or the sitemap will list articles that no longer exist / omit new ones.
+
+---
+
 ## Priority
 
 | Asset | Urgency | Why |
