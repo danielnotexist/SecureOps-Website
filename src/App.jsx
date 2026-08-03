@@ -1645,6 +1645,31 @@ function Logo({ variant = 'dark', className = '', style }) {
   );
 }
 
+/* Renders a scraped article body (heading/paragraph/bullet blocks) to JSX.
+   Standalone function rather than inline in the component: it's used by both
+   the full-page reader and would be used by any future print/share view,
+   and it doesn't touch component state. Consecutive bullets are collected
+   into a single <ul> so they render as one list rather than a run of
+   orphaned items. */
+function renderArticleBody(body) {
+  const nodes = body.reduce((acc, b, i) => {
+    if (b.t === 'li') {
+      const prev = acc[acc.length - 1];
+      if (prev && prev.type === 'ul') prev.items.push(b.v);
+      else acc.push({ type: 'ul', items: [b.v], key: i });
+    } else {
+      acc.push({ type: b.t, v: b.v, key: i });
+    }
+    return acc;
+  }, []);
+
+  return nodes.map((node) => {
+    if (node.type === 'ul') return <ul key={node.key}>{node.items.map((it, j) => <li key={j}>{it}</li>)}</ul>;
+    if (node.type === 'h') return <h3 key={node.key}>{node.v}</h3>;
+    return <p key={node.key}>{node.v}</p>;
+  });
+}
+
 /* ------------------------------------------------------------------ *
  *  App
  * ------------------------------------------------------------------ */
@@ -1655,6 +1680,7 @@ export default function App() {
   const [isArticlesHovered, setIsArticlesHovered] = useState(false);
   const [articlesListOpen, setArticlesListOpen] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState(null);
+  const [fullArticle, setFullArticle] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [openFaq, setOpenFaq] = useState(0);
@@ -1667,24 +1693,25 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = selectedService || mobileOpen || articlesListOpen || selectedArticle ? 'hidden' : '';
+    document.body.style.overflow = selectedService || mobileOpen || articlesListOpen || selectedArticle || fullArticle ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
-  }, [selectedService, mobileOpen, articlesListOpen, selectedArticle]);
+  }, [selectedService, mobileOpen, articlesListOpen, selectedArticle, fullArticle]);
 
   /* Escape closes whichever overlay is on top — all of them were pointer-only
      otherwise, which strands keyboard users. */
   useEffect(() => {
-    if (!selectedService && !mobileOpen && !articlesListOpen && !selectedArticle) return undefined;
+    if (!selectedService && !mobileOpen && !articlesListOpen && !selectedArticle && !fullArticle) return undefined;
     const onKey = (e) => {
       if (e.key !== 'Escape') return;
-      if (selectedArticle) setSelectedArticle(null);
+      if (fullArticle) setFullArticle(null);
+      else if (selectedArticle) setSelectedArticle(null);
       else if (articlesListOpen) setArticlesListOpen(false);
       else if (selectedService) setSelectedService(null);
       else setMobileOpen(false);
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [selectedService, mobileOpen, articlesListOpen, selectedArticle]);
+  }, [selectedService, mobileOpen, articlesListOpen, selectedArticle, fullArticle]);
 
   const openService = (svc) => { setSelectedService(svc); setIsServicesHovered(false); setMobileOpen(false); };
   const openArticle = (article) => {
@@ -1692,6 +1719,10 @@ export default function App() {
     setIsArticlesHovered(false);
     setArticlesListOpen(false);
     setMobileOpen(false);
+  };
+  const openFullArticle = (article) => {
+    setFullArticle(article);
+    setSelectedArticle(null);
   };
 
   /* SEO. The site is a single page with no router, so an open article has no
@@ -1716,11 +1747,13 @@ export default function App() {
     const baseDesc = document.querySelector('meta[name="description"]')?.getAttribute('content') || '';
     const baseKeywords = document.querySelector('meta[name="keywords"]')?.getAttribute('content') || '';
 
-    if (!selectedArticle) return undefined;
+    // the full page is the "real" read, so it wins if both happen to be set
+    const active = fullArticle || selectedArticle;
+    if (!active) return undefined;
 
-    document.title = `${selectedArticle.title} | SecureOps`;
-    setMeta('description', selectedArticle.excerpt);
-    setMeta('keywords', selectedArticle.keywords.join(', '));
+    document.title = `${active.title} | SecureOps`;
+    setMeta('description', active.excerpt);
+    setMeta('keywords', active.keywords.join(', '));
 
     const ld = document.createElement('script');
     ld.type = 'application/ld+json';
@@ -1728,11 +1761,11 @@ export default function App() {
     ld.textContent = JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'Article',
-      headline: selectedArticle.title,
-      description: selectedArticle.excerpt,
-      image: `https://first-project-fed3c.web.app${selectedArticle.image}`,
-      articleSection: selectedArticle.category,
-      keywords: selectedArticle.keywords.join(', '),
+      headline: active.title,
+      description: active.excerpt,
+      image: `https://first-project-fed3c.web.app${active.image}`,
+      articleSection: active.category,
+      keywords: active.keywords.join(', '),
       inLanguage: 'he-IL',
       author: { '@type': 'Organization', name: 'SecureOps' },
       publisher: { '@type': 'Organization', name: 'SecureOps' }
@@ -1745,7 +1778,7 @@ export default function App() {
       setMeta('keywords', baseKeywords);
       document.getElementById('article-ld')?.remove();
     };
-  }, [selectedArticle]);
+  }, [selectedArticle, fullArticle]);
 
   return (
     <div className="min-h-screen">
@@ -2575,7 +2608,10 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* ===================== ARTICLES: READING MODAL =================== */}
+      {/* ===================== ARTICLES: PREVIEW MODAL =================== */}
+      {/* Short teaser only — chip, title, meta, hero, excerpt and the first
+          couple of paragraphs fading out under a CTA. The full body renders
+          in the dedicated full-page view below, opened from that CTA. */}
       <AnimatePresence>
         {selectedArticle && (
           <motion.div
@@ -2590,7 +2626,7 @@ export default function App() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 16 }}
               transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-              className="modal-white-card"
+              className="modal-white-card article-preview-card"
               onClick={(e) => e.stopPropagation()}
             >
               <button className="modal-close-btn-round" onClick={() => setSelectedArticle(null)} aria-label="סגור">
@@ -2600,7 +2636,6 @@ export default function App() {
               <div className="article-modal-head">
                 <span className="article-cat-chip">{selectedArticle.category}</span>
                 <h2>{selectedArticle.title}</h2>
-                <p className="article-lead">{selectedArticle.excerpt}</p>
                 <div className="article-meta">
                   <span>{selectedArticle.date}</span>
                   <span aria-hidden="true">·</span>
@@ -2608,42 +2643,78 @@ export default function App() {
                 </div>
               </div>
 
-              <img src={selectedArticle.image} alt="" className="article-hero" loading="lazy" />
+              <img src={selectedArticle.image} alt="" className="article-hero article-hero-preview" loading="lazy" />
 
-              {/* consecutive bullets are collected into a single <ul> so they
-                  render as one list rather than a run of orphaned items */}
-              <div className="article-body">
-                {selectedArticle.body.reduce((acc, b, i) => {
-                  if (b.t === 'li') {
-                    const prev = acc[acc.length - 1];
-                    if (prev && prev.type === 'ul') prev.items.push(b.v);
-                    else acc.push({ type: 'ul', items: [b.v], key: i });
-                  } else {
-                    acc.push({ type: b.t, v: b.v, key: i });
-                  }
-                  return acc;
-                }, []).map((node) => {
-                  if (node.type === 'ul') {
-                    return <ul key={node.key}>{node.items.map((it, j) => <li key={j}>{it}</li>)}</ul>;
-                  }
-                  if (node.type === 'h') return <h3 key={node.key}>{node.v}</h3>;
-                  return <p key={node.key}>{node.v}</p>;
-                })}
+              <p className="article-lead">{selectedArticle.excerpt}</p>
+
+              <div className="article-teaser">
+                {selectedArticle.body.filter((b) => b.t === 'p').slice(0, 2).map((b, i) => <p key={i}>{b.v}</p>)}
+                <div className="article-teaser-fade" aria-hidden="true" />
               </div>
 
-              <div className="article-cta">
-                <h4>מחפשים את השירות שמכסה את זה?</h4>
-                <p>אם משהו כאן נשמע מוכר, בואו נדבר על מה שמתאים לעסק שלכם.</p>
-                <a
-                  href="#contact"
-                  className="btn btn-primary"
-                  onClick={() => setSelectedArticle(null)}
-                >
-                  דברו איתנו
-                  <ArrowLeft style={{ width: 18, height: 18 }} />
-                </a>
-              </div>
+              <button type="button" className="btn btn-primary article-preview-cta" onClick={() => openFullArticle(selectedArticle)}>
+                לקריאת המאמר המלא
+                <ArrowLeft style={{ width: 18, height: 18 }} />
+              </button>
             </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ===================== ARTICLES: FULL PAGE ======================= */}
+      {/* A dedicated reading page rather than a bigger modal: full-viewport
+          overlay with its own slim top bar (logo + close), independent
+          scroll, and the complete body. Note this is still not a routed
+          page — the URL doesn't change, so it isn't independently
+          shareable or crawlable as its own address. That would need an
+          actual router. */}
+      <AnimatePresence>
+        {fullArticle && (
+          <motion.div
+            className="article-fullpage"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.22 }}
+          >
+            <div className="article-fullpage-topbar">
+              <Logo variant="light" style={{ height: 30 }} />
+              <button className="article-fullpage-close" onClick={() => setFullArticle(null)} aria-label="סגירה וחזרה לאתר">
+                <X style={{ width: 18, height: 18 }} />
+                <span>סגירה</span>
+              </button>
+            </div>
+
+            <div className="article-fullpage-scroll">
+              <article className="article-fullpage-content">
+                <span className="article-cat-chip">{fullArticle.category}</span>
+                <h1>{fullArticle.title}</h1>
+                <div className="article-meta">
+                  <span>{fullArticle.date}</span>
+                  <span aria-hidden="true">·</span>
+                  <span>{fullArticle.readTime}</span>
+                </div>
+
+                <img src={fullArticle.image} alt="" className="article-hero" />
+
+                <div className="article-body">
+                  {renderArticleBody(fullArticle.body)}
+                </div>
+
+                <div className="article-cta">
+                  <h4>מחפשים את השירות שמכסה את זה?</h4>
+                  <p>אם משהו כאן נשמע מוכר, בואו נדבר על מה שמתאים לעסק שלכם.</p>
+                  <a
+                    href="#contact"
+                    className="btn btn-primary"
+                    onClick={() => setFullArticle(null)}
+                  >
+                    דברו איתנו
+                    <ArrowLeft style={{ width: 18, height: 18 }} />
+                  </a>
+                </div>
+              </article>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

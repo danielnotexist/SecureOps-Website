@@ -496,10 +496,15 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
    with no natural 3-way split yet. Wraps into more columns on its own as
    entries accumulate, and caps height with a scrollbar rather than growing
    the panel past the viewport once there are many. */
+/* 3 columns instead of 2 so 10 entries land in 4 rows instead of 5 -- at
+   the smaller item size below that's short enough to clear the max-height
+   without a scrollbar on ordinary desktop viewports, while still capping
+   height (with a scrollbar as the fallback) once there are enough articles
+   that no column count fixes it. */
 .articles-menu-panel {
-  width: min(640px, 92vw);
+  width: min(760px, 92vw);
   grid-template-columns: 1fr;
-  max-height: min(70vh, 520px);
+  max-height: min(70vh, 460px);
   overflow-y: auto;
   display: block;
 }
@@ -514,8 +519,8 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 .articles-menu-list {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 4px;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 2px 8px;
 }
 
 .articles-menu-item {
@@ -523,8 +528,8 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
   text-decoration: none;
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  padding: 10px 11px;
+  gap: 9px;
+  padding: 7px 8px;
   border-radius: var(--r-sm);
   cursor: pointer;
   transition: background 0.22s var(--ease), transform 0.22s var(--ease);
@@ -534,37 +539,37 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 /* fixed box so a portrait and a landscape source crop to the same shape and
    the rows stay on a grid */
 .articles-menu-item img {
-  width: 74px;
-  height: 52px;
+  width: 54px;
+  height: 38px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 8px;
   flex-shrink: 0;
   border: 1px solid rgba(95, 227, 206, 0.18);
 }
 
 .articles-menu-item-cat {
   display: block;
-  font-size: 0.7rem;
+  font-size: 0.62rem;
   font-weight: 700;
   color: var(--cy-teal);
   letter-spacing: 0.02em;
-  margin-bottom: 2px;
+  margin-bottom: 1px;
 }
 .articles-menu-item-title {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  font-size: 0.9rem;
+  font-size: 0.78rem;
   font-weight: 600;
   color: #fff;
   white-space: normal;
-  line-height: 1.45;
+  line-height: 1.35;
 }
 .articles-menu-item-meta {
   display: block;
-  margin-top: 3px;
-  font-size: 0.74rem;
+  margin-top: 1px;
+  font-size: 0.66rem;
   color: rgba(255, 255, 255, 0.5);
 }
 
@@ -699,9 +704,86 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 .article-cta h4 { font-size: 1.1rem; font-weight: 800; color: var(--ink); margin-bottom: 8px; }
 .article-cta p { font-size: 0.94rem; color: var(--text-muted); margin-bottom: 18px; line-height: 1.7; }
 
+/* ---- preview modal — short teaser, not the full body ---- */
+.article-preview-card { max-width: 640px; }
+
+.article-hero-preview { aspect-ratio: 16 / 9; margin-bottom: 20px; }
+
+.article-teaser { position: relative; margin-bottom: 22px; max-height: 148px; overflow: hidden; }
+.article-teaser p { font-size: 0.97rem; line-height: 1.85; color: var(--text-dark); margin-bottom: 14px; }
+/* fades the teaser to transparent rather than cutting text off mid-line,
+   so it reads as "there's more" instead of looking broken */
+.article-teaser-fade {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 72px;
+  background: linear-gradient(to bottom, transparent, var(--surface));
+}
+
+.article-preview-cta { width: 100%; }
+
+/* ---- full-page reader ---- */
+.article-fullpage {
+  position: fixed;
+  inset: 0;
+  z-index: 2100;
+  background: var(--bg-page);
+  display: flex;
+  flex-direction: column;
+}
+
+.article-fullpage-topbar {
+  flex-shrink: 0;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: clamp(18px, 4vw, 48px);
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  box-shadow: var(--sh-xs);
+}
+
+.article-fullpage-close {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  color: var(--text-dark);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: var(--r-pill);
+  cursor: pointer;
+  transition: all 0.22s var(--ease);
+}
+.article-fullpage-close:hover { background: var(--purple-50); color: var(--purple-main); }
+
+.article-fullpage-scroll { flex: 1; overflow-y: auto; }
+
+.article-fullpage-content {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: clamp(28px, 5vw, 56px) 24px 80px;
+}
+.article-fullpage-content h1 {
+  font-size: clamp(1.6rem, 3.6vw, 2.4rem);
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.3;
+  margin: 14px 0 12px;
+}
+.article-fullpage-content > .article-meta { margin-bottom: 26px; }
+.article-fullpage-content .article-hero { margin-bottom: 30px; aspect-ratio: 16 / 9; }
+
 @media (max-width: 560px) {
   .articles-list-full-item img { width: 68px; height: 52px; }
   .article-hero { border-radius: var(--r-md); }
+  .article-fullpage-topbar { height: 56px; }
+  .article-fullpage-close span { display: none; }
 }
 
 /* Mobile drawer */
