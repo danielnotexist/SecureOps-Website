@@ -39,7 +39,9 @@ import {
   Gauge,
   Layers,
   Plus,
-  FileText
+  FileText,
+  Link2,
+  List
 } from 'lucide-react';
 
 /* ------------------------------------------------------------------ *
@@ -1495,6 +1497,21 @@ function Logo({ variant = 'dark', className = '', style }) {
   );
 }
 
+/* Section headings get stable ids so the table of contents can link to them
+   and the scroll-spy can observe them. Derived from position rather than
+   the Hebrew text, which would need transliterating to make a usable
+   fragment and would break every link the moment a heading is reworded. */
+const headingId = (i) => `sec-${i}`;
+
+/* The h-blocks in order, which is what both the TOC and the scroll-spy
+   iterate — kept next to headingId so the numbering can't drift apart. */
+function articleHeadings(body) {
+  return body.reduce((acc, b) => {
+    if (b.t === 'h') acc.push({ id: headingId(acc.length), text: b.v });
+    return acc;
+  }, []);
+}
+
 /* Renders a scraped article body (heading/paragraph/bullet blocks) to JSX.
    Standalone function rather than inline in the component: it's used by both
    the full-page reader and would be used by any future print/share view,
@@ -1502,21 +1519,29 @@ function Logo({ variant = 'dark', className = '', style }) {
    into a single <ul> so they render as one list rather than a run of
    orphaned items. */
 function renderArticleBody(body) {
+  let headingIndex = 0;
+  let seenFirstPara = false;
+
   const nodes = body.reduce((acc, b, i) => {
     if (b.t === 'li') {
       const prev = acc[acc.length - 1];
       if (prev && prev.type === 'ul') prev.items.push(b.v);
       else acc.push({ type: 'ul', items: [b.v], key: i });
+    } else if (b.t === 'h') {
+      acc.push({ type: 'h', v: b.v, key: i, id: headingId(headingIndex++) });
     } else {
-      acc.push({ type: b.t, v: b.v, key: i });
+      // the opening paragraph gets larger, lighter treatment as a standfirst
+      const lead = !seenFirstPara;
+      seenFirstPara = true;
+      acc.push({ type: 'p', v: b.v, key: i, lead });
     }
     return acc;
   }, []);
 
   return nodes.map((node) => {
     if (node.type === 'ul') return <ul key={node.key}>{node.items.map((it, j) => <li key={j}>{it}</li>)}</ul>;
-    if (node.type === 'h') return <h3 key={node.key}>{node.v}</h3>;
-    return <p key={node.key}>{node.v}</p>;
+    if (node.type === 'h') return <h2 key={node.key} id={node.id}>{node.v}</h2>;
+    return <p key={node.key} className={node.lead ? 'article-standfirst' : undefined}>{node.v}</p>;
   });
 }
 
@@ -1616,7 +1641,12 @@ export default function App() {
     <SiteContext.Provider value={{ openService, contactSent, setContactSent }}>
       <div className="min-h-screen" onClick={handleShellClick}>
 
-            <header className={`header-unibo-style${scrolled ? ' is-scrolled' : ''}`}>
+            {/* The bar is transparent by default so it can float over the
+                home page's dark hero. Any other route has a light background
+                under it instead, where white nav text is invisible — so those
+                get the solid treatment from the top rather than only after
+                scrolling. */}
+            <header className={`header-unibo-style${scrolled ? ' is-scrolled' : ''}${location.pathname === '/' ? '' : ' is-solid'}`}>
               <a href="#top" className="header-right-logo-group" aria-label="SecureOps">
                 <Logo variant="dark" className="header-logo" />
               </a>
@@ -2646,6 +2676,67 @@ const SITE_URL = 'https://secureops.co.il';
 function ArticlePage() {
   const { slug } = useParams();
   const article = articles.find((a) => a.id === slug);
+  const [progress, setProgress] = useState(0);
+  const [activeHeading, setActiveHeading] = useState(null);
+  const [copied, setCopied] = useState(false);
+
+  const headings = article ? articleHeadings(article.body) : [];
+  /* Same category first, then anything else, so the rail always fills even
+     for a category with only one article. */
+  const related = article
+    ? [...articles.filter((a) => a.id !== article.id && a.category === article.category),
+       ...articles.filter((a) => a.id !== article.id && a.category !== article.category)].slice(0, 3)
+    : [];
+
+  // reading-progress bar: how far through the article body, not the page,
+  // so the footer and related rail don't count as "still reading"
+  useEffect(() => {
+    if (!article) return undefined;
+    const onScroll = () => {
+      const el = document.querySelector('.article-body');
+      if (!el) return;
+      const start = el.offsetTop;
+      const total = el.offsetHeight - window.innerHeight;
+      const done = window.scrollY - start;
+      setProgress(total <= 0 ? 1 : Math.min(1, Math.max(0, done / total)));
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [article]);
+
+  // scroll-spy for the table of contents
+  useEffect(() => {
+    if (!article || headings.length === 0) return undefined;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+        if (visible) setActiveHeading(visible.target.id);
+      },
+      // top band keeps the heading "active" while its section is being read
+      // rather than only at the instant it crosses the viewport edge
+      { rootMargin: '-20% 0px -70% 0px' }
+    );
+    headings.forEach((h) => {
+      const el = document.getElementById(h.id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [article]);
+
+  const shareUrl = `${SITE_URL}/blog/${slug}`;
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* clipboard blocked (insecure context / denied) — the WhatsApp and
+         LinkedIn buttons still work, so fail quietly rather than alerting */
+    }
+  };
 
   /* Per-article SEO: title, description, keywords, canonical link, Open
      Graph and a JSON-LD Article block. This is the actual point of giving
@@ -2735,30 +2826,136 @@ function ArticlePage() {
 
   return (
     <div className="article-page">
-      <article className="article-fullpage-content">
-        <span className="article-cat-chip">{article.category}</span>
-        <h1>{article.title}</h1>
-        <div className="article-meta">
-          <span>{article.date}</span>
-          <span aria-hidden="true">·</span>
-          <span>{article.readTime}</span>
-        </div>
+      {/* scaleX rather than width so the bar animates on the compositor
+          instead of laying out on every scroll frame */}
+      <div className="article-progress" aria-hidden="true">
+        <span style={{ transform: `scaleX(${progress})` }} />
+      </div>
 
-        <img src={article.image} alt="" className="article-hero" />
+      {/* Dark band, same treatment as the story/contact bands on the home
+          page, so the article opens with weight instead of a bare white
+          page — and it gives the header something dark to sit on. */}
+      <header className="article-band">
+        <div className="article-band-inner">
+          <nav className="article-crumbs" aria-label="מסלול ניווט">
+            <Link to="/">בית</Link>
+            <span aria-hidden="true">›</span>
+            <span>מאמרים</span>
+            <span aria-hidden="true">›</span>
+            <span className="is-current">{article.category}</span>
+          </nav>
 
-        <div className="article-body">
-          {renderArticleBody(article.body)}
-        </div>
+          <h1>{article.title}</h1>
+          <p className="article-band-lead">{article.excerpt}</p>
 
-        <div className="article-cta">
-          <h4>מחפשים את השירות שמכסה את זה?</h4>
-          <p>אם משהו כאן נשמע מוכר, בואו נדבר על מה שמתאים לעסק שלכם.</p>
-          <Link to="/#contact" className="btn btn-primary">
-            דברו איתנו
-            <ArrowLeft style={{ width: 18, height: 18 }} />
-          </Link>
+          <div className="article-byline">
+            <div className="article-byline-avatar" aria-hidden="true">SO</div>
+            <div>
+              <span className="article-byline-name">צוות SecureOps</span>
+              <span className="article-byline-meta">{article.date} · {article.readTime}</span>
+            </div>
+          </div>
         </div>
-      </article>
+      </header>
+
+      <div className="article-layout">
+        <article className="article-fullpage-content">
+          {/* pulled up into the band above so the two overlap */}
+          <img src={article.image} alt="" className="article-hero" />
+
+          <div className="article-body">
+            {renderArticleBody(article.body)}
+          </div>
+
+          <div className="article-share">
+            <span className="article-share-label">שיתוף המאמר</span>
+            <div className="article-share-btns">
+              <a
+                href={`https://wa.me/?text=${encodeURIComponent(article.title + ' ' + shareUrl)}`}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="שיתוף בוואטסאפ"
+                className="article-share-btn is-wa"
+              >
+                <MessageCircle />
+              </a>
+              <a
+                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="שיתוף בלינקדאין"
+                className="article-share-btn is-li"
+              >
+                <Linkedin />
+              </a>
+              <button
+                type="button"
+                onClick={copyLink}
+                className={`article-share-btn is-copy${copied ? ' is-done' : ''}`}
+                aria-label="העתקת קישור"
+              >
+                {copied ? <CheckCircle2 /> : <Link2 />}
+                <span>{copied ? 'הועתק' : 'העתקת קישור'}</span>
+              </button>
+            </div>
+          </div>
+
+          <div className="article-cta">
+            <h4>מחפשים את השירות שמכסה את זה?</h4>
+            <p>אם משהו כאן נשמע מוכר, בואו נדבר על מה שמתאים לעסק שלכם.</p>
+            <Link to="/#contact" className="btn btn-primary">
+              דברו איתנו
+              <ArrowLeft style={{ width: 18, height: 18 }} />
+            </Link>
+          </div>
+        </article>
+
+        {/* Sticky on desktop, collapsed to a plain block above the body on
+            narrow screens where there's no room to park it beside the text. */}
+        {headings.length > 1 && (
+          <aside className="article-toc" aria-label="תוכן העניינים">
+            <div className="article-toc-inner">
+              <span className="article-toc-title"><List /> במאמר הזה</span>
+              <ol>
+                {headings.map((h) => (
+                  <li key={h.id}>
+                    <a
+                      href={`#${h.id}`}
+                      className={activeHeading === h.id ? 'is-active' : undefined}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        document.getElementById(h.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }}
+                    >
+                      {h.text}
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </aside>
+        )}
+      </div>
+
+      {related.length > 0 && (
+        <section className="article-related">
+          <div className="article-related-inner">
+            <h2>מאמרים נוספים</h2>
+            <div className="article-related-grid">
+              {related.map((a) => (
+                <Link key={a.id} to={`/blog/${a.id}`} className="article-related-card">
+                  <img src={a.thumb} alt="" loading="lazy" />
+                  <div className="article-related-card-body">
+                    <span className="article-cat-chip">{a.category}</span>
+                    <h3>{a.title}</h3>
+                    <span className="article-related-card-meta">{a.date} · {a.readTime}</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 }
