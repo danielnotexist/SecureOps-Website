@@ -818,6 +818,13 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 /* Content column first so it stays the reading anchor; the TOC takes the
    second track, which in RTL renders on the left. */
 .article-layout {
+  /* Positioned so it paints above .article-band. The band is
+     position: relative (it needs that for its grid overlay), and a
+     positioned element paints over later static siblings — which was
+     hiding exactly the slice of the hero image that gets pulled up into
+     the band by its negative margin. */
+  position: relative;
+  z-index: 1;
   max-width: 1140px;
   margin: 0 auto;
   padding-inline: 24px;
@@ -995,13 +1002,17 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 
 @media (max-width: 1000px) {
   /* no room to park the TOC beside the text — it becomes a plain block
-     above the body, which is also where it's most useful on a phone */
+     above the body, which is also where it's most useful on a phone. It
+     takes over the hero's pull-up so the card is what overlaps the band. */
   .article-layout { grid-template-columns: minmax(0, 1fr); }
-  .article-toc { position: static; order: -1; }
+  .article-toc {
+    position: static;
+    order: -1;
+    margin-top: clamp(-136px, -10vw, -76px);
+  }
   .article-toc-inner { max-height: none; }
   .article-fullpage-content { max-width: none; }
   .article-fullpage-content .article-hero { margin-top: 0; }
-  .article-toc { margin-top: clamp(-136px, -10vw, -76px); position: relative; z-index: 1; }
 }
 
 @media (max-width: 760px) {
