@@ -2228,6 +2228,28 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
   font-size: 0.88rem;
 }
 
+.footer-legal-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  padding-bottom: 22px;
+}
+.footer-legal-links button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.82rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s var(--ease);
+}
+.footer-legal-links button:hover { color: var(--cyan-accent); }
+.footer-legal-links span { color: rgba(255, 255, 255, 0.25); font-size: 0.8rem; }
+
 /* ==========================================================================
    Modal
    ========================================================================== */
@@ -2306,6 +2328,10 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 }
 .modal-form-box h4 { font-size: 1.05rem; font-weight: 700; color: var(--ink); margin-bottom: 14px; }
 
+.legal-doc-body > div + div { margin-top: 22px; }
+.legal-doc-body .modal-desc { margin-bottom: 10px; }
+.legal-doc-body .modal-desc:last-child { margin-bottom: 0; }
+
 /* ==========================================================================
    Floating WhatsApp / back-to-top
    ========================================================================== */
@@ -2351,4 +2377,211 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ==========================================================================
+   Accessibility widget
+   Deliberately tiny and docked flush to the physical left edge (this is an
+   RTL page, so "left" is the logical end -- opposite the content flow, out
+   of the way of everything else) -- a half-tab rather than a full floating
+   button, so it reads as a quiet utility rather than another CTA competing
+   with the WhatsApp button pinned bottom-left.
+   ========================================================================== */
+
+.a11y-widget { position: fixed; top: 50%; left: 0; z-index: 1450; transform: translateY(-50%); }
+
+.a11y-fab {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-left: none;
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  color: var(--purple-main);
+  cursor: pointer;
+  box-shadow: var(--sh-sm);
+  opacity: 0.68;
+  transition: opacity 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+.a11y-fab:hover, .a11y-fab[aria-expanded="true"] { opacity: 1; box-shadow: var(--sh-md); }
+.a11y-fab svg { width: 16px; height: 16px; }
+
+.a11y-panel {
+  position: absolute;
+  top: 50%;
+  left: 40px;
+  transform: translateY(-50%);
+  transform-origin: right center;
+  width: 226px;
+  background: var(--surface);
+  border-radius: var(--r-md);
+  box-shadow: var(--sh-xl);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  direction: rtl;
+  text-align: right;
+}
+
+.a11y-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--ink);
+  padding-bottom: 8px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--line);
+}
+.a11y-panel-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+.a11y-panel-close:hover { background: var(--bg-soft); color: var(--ink); }
+.a11y-panel-close svg { width: 13px; height: 13px; }
+
+.a11y-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 5px 0; }
+.a11y-row-label { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text-dark); }
+.a11y-row-label svg { color: var(--purple-main); flex-shrink: 0; }
+
+.a11y-stepper { display: flex; gap: 4px; }
+.a11y-stepper button {
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  border: 1px solid var(--line-strong);
+  background: var(--bg-soft);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.a11y-stepper button:disabled { opacity: 0.35; cursor: not-allowed; }
+.a11y-stepper button svg { width: 12px; height: 12px; }
+
+.a11y-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 5px 0;
+  cursor: pointer;
+  text-align: right;
+}
+.a11y-toggle-value { font-size: 0.76rem; color: var(--purple-main); font-weight: 600; }
+
+.a11y-switch {
+  width: 28px;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--line-strong);
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.2s var(--ease);
+}
+.a11y-switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: var(--sh-xs);
+  transition: right 0.2s var(--ease);
+}
+.a11y-toggle.is-on .a11y-switch { background: var(--purple-main); }
+.a11y-toggle.is-on .a11y-switch::after { right: 14px; }
+
+.a11y-reset {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  margin-top: 6px;
+  padding: 8px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--line-strong);
+  background: var(--bg-soft);
+  color: var(--text-dark);
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+.a11y-reset:hover { background: var(--purple-50); color: var(--purple-main); }
+
+@media (max-width: 600px) {
+  .a11y-fab { width: 28px; height: 28px; }
+  .a11y-fab svg { width: 14px; height: 14px; }
+  .a11y-panel { width: 198px; left: 36px; padding: 13px; }
+}
+
+/* -- effects, driven purely by the data-a11y-* attributes the widget sets
+   on <html> -- kept here rather than inline so they sit next to the rest
+   of the page's styling. */
+
+html[data-a11y-font-step="1"] { font-size: 106%; }
+html[data-a11y-font-step="2"] { font-size: 112%; }
+html[data-a11y-font-step="3"] { font-size: 119%; }
+
+html[data-a11y-contrast="high"] {
+  --text-muted: #3A4460;
+  --line: rgba(43, 51, 76, 0.22);
+  --line-strong: rgba(43, 51, 76, 0.34);
+}
+
+/* filter lives on <html>, not <body> -- filter on an ancestor becomes the
+   containing block for position:fixed descendants, and html's box already
+   equals the viewport, so fixed headers/floating buttons keep working;
+   putting it on body would make them scroll with the page instead. */
+html[data-a11y-contrast="invert"] { filter: invert(1) hue-rotate(180deg); }
+html[data-a11y-contrast="invert"] img,
+html[data-a11y-contrast="invert"] video,
+html[data-a11y-contrast="invert"] svg image {
+  filter: invert(1) hue-rotate(180deg);
+}
+html[data-a11y-contrast="grayscale"] { filter: grayscale(1); }
+
+html[data-a11y-links="on"] a:not(.a11y-fab) {
+  text-decoration: underline !important;
+  text-underline-offset: 3px;
+}
+
+html[data-a11y-readable-font="on"],
+html[data-a11y-readable-font="on"] body {
+  font-family: Arial, 'Segoe UI', Tahoma, sans-serif;
+  letter-spacing: 0.01em;
+}
+
+html[data-a11y-big-cursor="on"],
+html[data-a11y-big-cursor="on"] a,
+html[data-a11y-big-cursor="on"] button {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 24 24'><path d='M4 2l14 11-6 1.2L15 21l-3 1.3-3-6.8L4 19V2z' fill='black' stroke='white' stroke-width='1.2'/></svg>") 4 4, auto;
+}
+
+html[data-a11y-reduce-motion="on"] *,
+html[data-a11y-reduce-motion="on"] *::before,
+html[data-a11y-reduce-motion="on"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
 }

@@ -24,7 +24,6 @@ import {
   Sparkles,
   Activity,
   Cpu,
-  Building2,
   Linkedin,
   Facebook,
   Send,
@@ -39,9 +38,15 @@ import {
   Gauge,
   Layers,
   Plus,
+  Minus,
   FileText,
   Link2,
-  List
+  List,
+  Accessibility,
+  Contrast,
+  Type,
+  MousePointer2,
+  RotateCcw
 } from 'lucide-react';
 
 /* ------------------------------------------------------------------ *
@@ -1473,6 +1478,89 @@ const PHONE_TEL = '0555702552';
 const EMAIL = 'sales@secureops.co.il';
 const HOURS = 'א׳–ה׳ 09:00–18:00';
 
+/* Generic site-usage boilerplate, not a substitute for legal review of the
+   company's actual service agreements -- written narrow on purpose (no
+   invented company/registration numbers, no specific court district) so
+   nothing here contradicts whatever a lawyer later drafts for the real
+   contracts. */
+const LEGAL_DOCS = {
+  regulations: {
+    title: 'תקנון האתר',
+    sections: [
+      {
+        h: 'כללי',
+        p: [
+          'תקנון זה מסדיר את השימוש באתר האינטרנט של SecureOps ("האתר"). גלישה ושימוש באתר מהווים הסכמה לתנאי תקנון זה במלואם. אם אינך מסכים/ה לתנאי כלשהו — נא להימנע מהמשך השימוש באתר.',
+          'החברה רשאית לעדכן את התקנון מעת לעת ללא הודעה מוקדמת; הנוסח המחייב הוא זה המתפרסם באתר במועד הגלישה.'
+        ]
+      },
+      {
+        h: 'השימוש באתר',
+        p: [
+          'האתר מיועד למתן מידע על שירותי SecureOps ולאפשר יצירת קשר לצורך בירור, הצעת מחיר או תיאום שירות. אין להשתמש באתר למטרה בלתי חוקית, לפגיעה בפעילותו התקינה, לניסיון גישה לא מורשית למערכות החברה, או להעתקה/גריפה שיטתית של תוכן האתר.',
+          'החברה משקיעה מאמץ סביר בשמירה על זמינות ותקינות האתר, אך אינה מתחייבת לזמינות רצופה ללא תקלות, ואינה אחראית לנזק שייגרם כתוצאה מהשבתה זמנית, תחזוקה או תקלה טכנית.'
+        ]
+      },
+      {
+        h: 'קניין רוחני',
+        p: [
+          'כל התכנים באתר — לרבות טקסט, עיצוב, לוגו, גרפיקה ותמונות — הם קניינה של SecureOps או של צדדים שלישיים שהעניקו לה רישיון שימוש, ומוגנים בדיני זכויות יוצרים וסימני מסחר. אין להעתיק, לשכפל או להשתמש בתכני האתר למטרה מסחרית ללא אישור מראש ובכתב.'
+        ]
+      },
+      {
+        h: 'עוגיות (Cookies)',
+        p: [
+          'האתר עשוי לעשות שימוש בעוגיות ובכלי ניתוח סטטיסטי לצורך שיפור חוויית הגלישה והבנת השימוש באתר. ניתן לחסום או למחוק עוגיות דרך הגדרות הדפדפן; חסימתן עלולה לפגוע בחלק מהפונקציונליות.'
+        ]
+      },
+      {
+        h: 'יצירת קשר',
+        p: [`לפניות בנוגע לתקנון האתר ניתן לפנות אלינו בדוא"ל ${EMAIL} או בטלפון ${PHONE_DISPLAY}.`]
+      }
+    ]
+  },
+  terms: {
+    title: 'תנאי שימוש',
+    sections: [
+      {
+        h: 'תיאור השירותים',
+        p: [
+          'SecureOps מספקת שירותי IT וסייבר לעסקים — לרבות תשתיות ענן, אבטחת מידע, גיבוי, ניטור ותמיכה טכנית — כמפורט בעמודי השירותים באתר. פרטי היקף השירות, עלותו ותנאיו הסופיים ייקבעו בהסכם התקשרות נפרד מול הלקוח, ואין לראות בתוכן האתר כשלעצמו הצעה מחייבת.'
+        ]
+      },
+      {
+        h: 'הגבלת אחריות',
+        p: [
+          'המידע באתר מוצג כמות שהוא ("AS IS") למטרות אינפורמטיביות בלבד. החברה אינה מתחייבת שהמידע באתר מלא, מדויק או עדכני בכל עת, ואינה אחראית להחלטה המתקבלת על סמך המידע באתר בלבד, ללא בירור ישיר מול נציג החברה.',
+          'החברה לא תישא באחריות לכל נזק ישיר או עקיף שייגרם כתוצאה משימוש באתר או מהסתמכות על תוכנו, למעט במקרים בהם קיימת חובה שלא ניתן להתנות עליה על פי דין.'
+        ]
+      },
+      {
+        h: 'קישורים לאתרים חיצוניים',
+        p: [
+          'האתר עשוי לכלול קישורים לאתרי צד שלישי לנוחות המשתמש בלבד. החברה אינה שולטת בתוכנם ואינה אחראית להם.'
+        ]
+      },
+      {
+        h: 'שיפוי',
+        p: [
+          'המשתמש/ת מתחייב/ת לשפות את החברה בגין כל נזק, הפסד או הוצאה שייגרמו לה כתוצאה משימוש באתר בניגוד לתנאים אלו.'
+        ]
+      },
+      {
+        h: 'דין וסמכות שיפוט',
+        p: [
+          'על תנאי שימוש אלו יחולו דיני מדינת ישראל בלבד, וסמכות השיפוט הבלעדית בכל מחלוקת הנוגעת אליהם נתונה לבתי המשפט המוסמכים בישראל.'
+        ]
+      },
+      {
+        h: 'יצירת קשר',
+        p: [`לשאלות או הבהרות בנוגע לתנאי השימוש ניתן לפנות אלינו בדוא"ל ${EMAIL} או בטלפון ${PHONE_DISPLAY}.`]
+      }
+    ]
+  }
+};
+
 /* ------------------------------------------------------------------ *
  *  Logo
  * ------------------------------------------------------------------ */
@@ -1561,6 +1649,129 @@ function useSite() {
   return React.useContext(SiteContext);
 }
 
+/* ------------------------------------------------------------------ *
+ *  Accessibility widget
+ * ------------------------------------------------------------------ *
+ * Deliberately small and self-contained -- no SiteContext, no props --
+ * since it has to render identically and independently on every route.
+ * State is a handful of flags mirrored onto <html data-a11y-*> attributes
+ * and consumed purely in CSS, so the effect of each toggle lives next to
+ * the rest of the page's styling rather than in inline styles here. */
+const A11Y_STORAGE_KEY = 'secureops-a11y';
+const A11Y_DEFAULT = { fontStep: 0, contrast: 'normal', links: false, readableFont: false, bigCursor: false, reduceMotion: false };
+const CONTRAST_MODES = [
+  { id: 'normal', label: 'רגיל' },
+  { id: 'high', label: 'ניגודיות גבוהה' },
+  { id: 'invert', label: 'צבעים הפוכים' },
+  { id: 'grayscale', label: 'גווני אפור' }
+];
+
+function A11yWidget() {
+  const [open, setOpen] = useState(false);
+  const [settings, setSettings] = useState(A11Y_DEFAULT);
+
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(A11Y_STORAGE_KEY));
+      if (saved) setSettings({ ...A11Y_DEFAULT, ...saved });
+    } catch { /* corrupt or blocked storage -- fall back to defaults */ }
+  }, []);
+
+  useEffect(() => {
+    const html = document.documentElement;
+    html.setAttribute('data-a11y-font-step', settings.fontStep);
+    html.setAttribute('data-a11y-contrast', settings.contrast);
+    html.setAttribute('data-a11y-links', settings.links ? 'on' : 'off');
+    html.setAttribute('data-a11y-readable-font', settings.readableFont ? 'on' : 'off');
+    html.setAttribute('data-a11y-big-cursor', settings.bigCursor ? 'on' : 'off');
+    html.setAttribute('data-a11y-reduce-motion', settings.reduceMotion ? 'on' : 'off');
+    try { localStorage.setItem(A11Y_STORAGE_KEY, JSON.stringify(settings)); } catch { /* storage blocked -- setting just won't persist */ }
+  }, [settings]);
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open]);
+
+  const patch = (p) => setSettings((s) => ({ ...s, ...p }));
+  const contrastIdx = CONTRAST_MODES.findIndex((m) => m.id === settings.contrast);
+  const cycleContrast = () => patch({ contrast: CONTRAST_MODES[(contrastIdx + 1) % CONTRAST_MODES.length].id });
+
+  return (
+    <div className="a11y-widget">
+      <button
+        type="button"
+        className="a11y-fab"
+        aria-label="כלי נגישות"
+        aria-expanded={open}
+        onClick={() => setOpen((v) => !v)}
+      >
+        <Accessibility />
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className="a11y-panel"
+            role="region"
+            aria-label="כלי נגישות"
+            initial={{ opacity: 0, scale: 0.94, x: -8 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            exit={{ opacity: 0, scale: 0.94, x: -8 }}
+            transition={{ duration: 0.18 }}
+          >
+            <div className="a11y-panel-head">
+              <span>נגישות</span>
+              <button type="button" className="a11y-panel-close" aria-label="סגירה" onClick={() => setOpen(false)}>
+                <X />
+              </button>
+            </div>
+
+            <div className="a11y-row">
+              <span className="a11y-row-label"><Type style={{ width: 15, height: 15 }} /> גודל טקסט</span>
+              <div className="a11y-stepper">
+                <button type="button" disabled={settings.fontStep <= 0} onClick={() => patch({ fontStep: Math.max(0, settings.fontStep - 1) })} aria-label="הקטן טקסט"><Minus /></button>
+                <button type="button" disabled={settings.fontStep >= 3} onClick={() => patch({ fontStep: Math.min(3, settings.fontStep + 1) })} aria-label="הגדל טקסט"><Plus /></button>
+              </div>
+            </div>
+
+            <button type="button" className="a11y-toggle" onClick={cycleContrast}>
+              <span className="a11y-row-label"><Contrast style={{ width: 15, height: 15 }} /> ניגודיות</span>
+              <span className="a11y-toggle-value">{CONTRAST_MODES[contrastIdx].label}</span>
+            </button>
+
+            <button type="button" className={`a11y-toggle${settings.links ? ' is-on' : ''}`} onClick={() => patch({ links: !settings.links })}>
+              <span className="a11y-row-label"><Link2 style={{ width: 15, height: 15 }} /> הדגשת קישורים</span>
+              <span className="a11y-switch" />
+            </button>
+
+            <button type="button" className={`a11y-toggle${settings.readableFont ? ' is-on' : ''}`} onClick={() => patch({ readableFont: !settings.readableFont })}>
+              <span className="a11y-row-label"><FileText style={{ width: 15, height: 15 }} /> גופן קריא</span>
+              <span className="a11y-switch" />
+            </button>
+
+            <button type="button" className={`a11y-toggle${settings.bigCursor ? ' is-on' : ''}`} onClick={() => patch({ bigCursor: !settings.bigCursor })}>
+              <span className="a11y-row-label"><MousePointer2 style={{ width: 15, height: 15 }} /> סמן גדול</span>
+              <span className="a11y-switch" />
+            </button>
+
+            <button type="button" className={`a11y-toggle${settings.reduceMotion ? ' is-on' : ''}`} onClick={() => patch({ reduceMotion: !settings.reduceMotion })}>
+              <span className="a11y-row-label"><Activity style={{ width: 15, height: 15 }} /> עצירת אנימציות</span>
+              <span className="a11y-switch" />
+            </button>
+
+            <button type="button" className="a11y-reset" onClick={() => setSettings(A11Y_DEFAULT)}>
+              <RotateCcw style={{ width: 14, height: 14 }} /> איפוס הגדרות
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export default function App() {
   const [selectedService, setSelectedService] = useState(null);
   const [isServicesHovered, setIsServicesHovered] = useState(false);
@@ -1570,6 +1781,7 @@ export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [contactSent, setContactSent] = useState(false);
+  const [openLegalDoc, setOpenLegalDoc] = useState(null);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -1581,24 +1793,25 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = selectedService || mobileOpen || articlesListOpen || selectedArticle ? 'hidden' : '';
+    document.body.style.overflow = selectedService || mobileOpen || articlesListOpen || selectedArticle || openLegalDoc ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
-  }, [selectedService, mobileOpen, articlesListOpen, selectedArticle]);
+  }, [selectedService, mobileOpen, articlesListOpen, selectedArticle, openLegalDoc]);
 
   /* Escape closes whichever overlay is on top — all of them were pointer-only
      otherwise, which strands keyboard users. */
   useEffect(() => {
-    if (!selectedService && !mobileOpen && !articlesListOpen && !selectedArticle) return undefined;
+    if (!selectedService && !mobileOpen && !articlesListOpen && !selectedArticle && !openLegalDoc) return undefined;
     const onKey = (e) => {
       if (e.key !== 'Escape') return;
-      if (selectedArticle) setSelectedArticle(null);
+      if (openLegalDoc) setOpenLegalDoc(null);
+      else if (selectedArticle) setSelectedArticle(null);
       else if (articlesListOpen) setArticlesListOpen(false);
       else if (selectedService) setSelectedService(null);
       else setMobileOpen(false);
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [selectedService, mobileOpen, articlesListOpen, selectedArticle]);
+  }, [selectedService, mobileOpen, articlesListOpen, selectedArticle, openLegalDoc]);
 
   // route changes on their own scroll to the top; only a hash target should
   // override that, and Home's own mount effect handles scrolling to it
@@ -1898,17 +2111,18 @@ export default function App() {
                   </p>
                   <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <MapPin style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
-                    <span>מגדלי עזריאלי, תל אביב</span>
-                  </p>
-                  <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <Building2 style={{ width: 16, height: 16, color: 'var(--cyan-accent)', flexShrink: 0 }} />
-                    <span>ח.פ. 51-000000-0</span>
+                    <span>כפר יונה ואלעד</span>
                   </p>
                 </div>
               </div>
 
               <div className="footer-copyright-bar">
                 <p>© {new Date().getFullYear()} SecureOps Ltd. כל הזכויות שמורות. make IT easy.</p>
+                <div className="footer-legal-links">
+                  <button type="button" onClick={() => setOpenLegalDoc('regulations')}>תקנון האתר</button>
+                  <span aria-hidden="true">·</span>
+                  <button type="button" onClick={() => setOpenLegalDoc('terms')}>תנאי שימוש</button>
+                </div>
               </div>
             </footer>
 
@@ -2040,6 +2254,49 @@ export default function App() {
               )}
             </AnimatePresence>
 
+            <AnimatePresence>
+              {openLegalDoc && (
+                <motion.div
+                  className="modal-overlay-backdrop"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setOpenLegalDoc(null)}
+                >
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95, y: 16 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: 16 }}
+                    transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                    className="modal-white-card"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <button className="modal-close-btn-round" onClick={() => setOpenLegalDoc(null)} aria-label="סגור">
+                      <X />
+                    </button>
+
+                    <div className="modal-head">
+                      <div className="service-icon-3d modal-icon" style={{ display: 'grid', placeItems: 'center', background: 'var(--purple-50)', borderRadius: 'var(--r-md)' }}>
+                        <FileText style={{ width: 30, height: 30, color: 'var(--purple-main)' }} />
+                      </div>
+                      <div>
+                        <h2>{LEGAL_DOCS[openLegalDoc].title}</h2>
+                        <span>SecureOps — make IT easy</span>
+                      </div>
+                    </div>
+
+                    <div className="legal-doc-body">
+                      {LEGAL_DOCS[openLegalDoc].sections.map((sec) => (
+                        <div key={sec.h}>
+                          <h3 className="modal-sub-title">{sec.h}</h3>
+                          {sec.p.map((para, i) => <p key={i} className="modal-desc">{para}</p>)}
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             {/* Short teaser only — chip, title, meta, hero, excerpt and the first
                 couple of paragraphs fading out under a CTA. The full body renders
@@ -2119,6 +2376,8 @@ export default function App() {
                 )}
               </AnimatePresence>
             </div>
+
+            <A11yWidget />
 
       </div>
     </SiteContext.Provider>
