@@ -1479,6 +1479,61 @@ const PHONE_TEL = '0555702552';
 const EMAIL = 'sales@secureops.co.il';
 const HOURS = 'א׳–ה׳ 09:00–18:00';
 
+/* Contact forms post to a Supabase edge function, which stores the lead and
+   emails it via Resend. Only the anon key is exposed here -- the function does
+   the privileged work server-side. Until the env vars are set the submit fails
+   loudly rather than showing a success screen for a lead that went nowhere. */
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+async function submitLead(form, source) {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) throw new Error('lead endpoint not configured');
+  const fd = new FormData(form);
+  const res = await fetch(`${SUPABASE_URL}/functions/v1/submit-lead`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`
+    },
+    body: JSON.stringify({
+      name: fd.get('name') || '',
+      phone: fd.get('phone') || '',
+      email: fd.get('email') || '',
+      company_size: fd.get('company_size') || '',
+      topic: fd.get('topic') || '',
+      message: fd.get('message') || '',
+      company_website: fd.get('company_website') || '',
+      source
+    })
+  });
+  if (!res.ok) throw new Error(`lead submit failed (${res.status})`);
+  return res.json();
+}
+
+/* Invisible to humans, irresistible to bots -- anything typed here marks the
+   submission as automated. Off-screen rather than display:none, which some
+   bots specifically skip. */
+function HoneypotField() {
+  return (
+    <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
+      <label>
+        אל תמלאו שדה זה
+        <input type="text" name="company_website" tabIndex={-1} autoComplete="off" />
+      </label>
+    </div>
+  );
+}
+
+function LeadFormError({ show }) {
+  if (!show) return null;
+  return (
+    <p className="lead-form-error" role="alert">
+      השליחה נכשלה. אפשר להתקשר <a href={`tel:${PHONE_TEL}`}>{PHONE_DISPLAY}</a> או לכתוב ל־<a href={`mailto:${EMAIL}`}>{EMAIL}</a>.
+    </p>
+  );
+}
+
 /* Generic site-usage boilerplate, not a substitute for legal review of the
    company's actual service agreements -- written narrow on purpose (no
    invented company/registration numbers, no specific court district) so
@@ -1851,6 +1906,8 @@ export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [contactSent, setContactSent] = useState(false);
   const [openLegalDoc, setOpenLegalDoc] = useState(null);
+  const [serviceSending, setServiceSending] = useState(false);
+  const [serviceError, setServiceError] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -1901,6 +1958,22 @@ export default function App() {
     setContactSent(true);
     if (location.pathname === '/') document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
     else navigate('/#contact');
+  };
+
+  const handleServiceSubmit = async (e) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    setServiceSending(true);
+    setServiceError(false);
+    try {
+      await submitLead(form, `service-modal:${selectedService?.id ?? 'unknown'}`);
+      goToContactAfterSubmit();
+    } catch (err) {
+      console.error(err);
+      setServiceError(true);
+    } finally {
+      setServiceSending(false);
+    }
   };
 
   /* Section anchors (#services, #contact, ...) only exist on Home. Clicking
@@ -2243,24 +2316,27 @@ export default function App() {
                     <div className="modal-form-box">
                       <h4>מעוניינים בהצעת מחיר מותאמת?</h4>
                       <form
-                        onSubmit={(e) => { e.preventDefault(); goToContactAfterSubmit(); }}
+                        onSubmit={handleServiceSubmit}
                         style={{ display: 'flex', flexDirection: 'column', gap: 12 }}
                       >
+                        <HoneypotField />
+                        <input type="hidden" name="topic" value={selectedService.title} />
                         <div className="form-row">
                           <div className="field" style={{ marginBottom: 0 }}>
-                            <input type="text" placeholder="שם מלא" required />
+                            <input type="text" name="name" placeholder="שם מלא" required />
                           </div>
                           <div className="field" style={{ marginBottom: 0 }}>
-                            <input type="tel" placeholder="טלפון" required />
+                            <input type="tel" name="phone" placeholder="טלפון" required />
                           </div>
                         </div>
                         <div className="field" style={{ marginBottom: 0 }}>
-                          <input type="email" placeholder='דוא"ל עסקי' required />
+                          <input type="email" name="email" placeholder='דוא"ל עסקי' required />
                         </div>
-                        <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>
+                        <button type="submit" className="btn btn-primary" style={{ width: '100%' }} disabled={serviceSending}>
                           <Send style={{ width: 18, height: 18 }} />
-                          שלחו לי הצעה
+                          {serviceSending ? 'שולח…' : 'שלחו לי הצעה'}
                         </button>
+                        <LeadFormError show={serviceError} />
                       </form>
                     </div>
                   </motion.div>
@@ -2463,7 +2539,25 @@ export default function App() {
 function Home() {
   const { openService, contactSent, setContactSent } = useSite();
   const [openFaq, setOpenFaq] = useState(0);
+  const [contactSending, setContactSending] = useState(false);
+  const [contactError, setContactError] = useState(false);
   const location = useLocation();
+
+  const handleContactSubmit = async (e) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    setContactSending(true);
+    setContactError(false);
+    try {
+      await submitLead(form, 'contact-form');
+      setContactSent(true);
+    } catch (err) {
+      console.error(err);
+      setContactError(true);
+    } finally {
+      setContactSending(false);
+    }
+  };
 
   // arriving via navigate('/#contact') etc. from another route: Home mounts
   // fresh with the hash already in the URL, so the browser's native
@@ -2931,23 +3025,24 @@ function Home() {
                   <button className="btn btn-ghost" onClick={() => setContactSent(false)}>שליחת פנייה נוספת</button>
                 </div>
               ) : (
-                <form onSubmit={(e) => { e.preventDefault(); setContactSent(true); }}>
+                <form onSubmit={handleContactSubmit}>
+                  <HoneypotField />
                   <div className="form-grid">
                     <div className="field">
                       <label htmlFor="c-name">שם מלא</label>
-                      <input id="c-name" type="text" placeholder="ישראל ישראלי" required />
+                      <input id="c-name" name="name" type="text" placeholder="ישראל ישראלי" required />
                     </div>
                     <div className="field">
                       <label htmlFor="c-phone">טלפון</label>
-                      <input id="c-phone" type="tel" placeholder="050-0000000" required />
+                      <input id="c-phone" name="phone" type="tel" placeholder="050-0000000" required />
                     </div>
                     <div className="field">
                       <label htmlFor="c-email">דוא"ל</label>
-                      <input id="c-email" type="email" placeholder="name@company.co.il" required />
+                      <input id="c-email" name="email" type="email" placeholder="name@company.co.il" required />
                     </div>
                     <div className="field">
                       <label htmlFor="c-size">כמה מחשבים בחברה?</label>
-                      <select id="c-size" defaultValue="">
+                      <select id="c-size" name="company_size" defaultValue="">
                         <option value="" disabled>בחרו טווח</option>
                         <option>עד 10 עובדים</option>
                         <option>10–50 עובדים</option>
@@ -2957,7 +3052,7 @@ function Home() {
                     </div>
                     <div className="field field-wide">
                       <label htmlFor="c-topic">באיזה שירות אתם מתעניינים?</label>
-                      <select id="c-topic" defaultValue="">
+                      <select id="c-topic" name="topic" defaultValue="">
                         <option value="" disabled>בחרו נושא</option>
                         {servicesData.map((s) => <option key={s.id}>{s.title}</option>)}
                         <option>אחר / ייעוץ כללי</option>
@@ -2965,7 +3060,7 @@ function Home() {
                     </div>
                     <div className="field field-wide">
                       <label htmlFor="c-msg">תיאור הפנייה (אופציונלי)</label>
-                      <textarea id="c-msg" placeholder="ספרו לנו בקצרה על הסביבה הקיימת ועל מה שחשוב לכם לשפר" />
+                      <textarea id="c-msg" name="message" placeholder="ספרו לנו בקצרה על הסביבה הקיימת ועל מה שחשוב לכם לשפר" />
                     </div>
                   </div>
 
@@ -2975,11 +3070,13 @@ function Home() {
                       <span>אני מאשר/ת שימוש בפרטים שמסרתי לצורך יצירת קשר בהתאם למדיניות הפרטיות.</span>
                     </label>
 
-                    <button type="submit" className="btn btn-cyan contact-band-submit">
+                    <button type="submit" className="btn btn-cyan contact-band-submit" disabled={contactSending}>
                       <Send style={{ width: 18, height: 18 }} />
-                      שלח פנייה
+                      {contactSending ? 'שולח…' : 'שלח פנייה'}
                     </button>
                   </div>
+
+                  <LeadFormError show={contactError} />
 
                   <p className="contact-band-note">
                     או ישירות: <a href={`tel:${PHONE_TEL}`}>{PHONE_DISPLAY}</a> · <a href={`mailto:${EMAIL}`}>{EMAIL}</a> · {HOURS}

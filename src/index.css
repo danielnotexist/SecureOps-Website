@@ -1,12 +1,11 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap');
 
 /* ==========================================================================
    SecureOps Design System v3
-   Typeface: Rubik — rounded geometric sans, full Hebrew support.
-   Back from Heebo (sharper/neutral grotesk) to Rubik on request for a
-   softer, friendlier letterform — Rubik's terminals are genuinely rounded
-   where Heebo's are square, and it already proved out well in Hebrew on
-   this exact project before the earlier swap.
+   Typeface: Heebo — neutral Hebrew grotesk, weights 300–900.
+   (The other font supplied alongside it, Varela Round, ships a single 400
+   weight only; this page uses 300 through 900, so it would have been
+   synthetically bolded everywhere. Kept out for that reason.)
    ========================================================================== */
 
 :root {
@@ -88,7 +87,7 @@ html {
 
 html, body {
   width: 100%;
-  font-family: 'Rubik', system-ui, -apple-system, sans-serif;
+  font-family: 'Heebo', system-ui, -apple-system, sans-serif;
   font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -2328,6 +2327,24 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
   border: 1px solid var(--purple-100);
 }
 .modal-form-box h4 { font-size: 1.05rem; font-weight: 700; color: var(--ink); margin-bottom: 14px; }
+
+.lead-form-error {
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-radius: var(--r-sm);
+  background: rgba(220, 38, 38, 0.1);
+  border: 1px solid rgba(220, 38, 38, 0.32);
+  color: #B91C1C;
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+.lead-form-error a { color: inherit; text-decoration: underline; direction: ltr; display: inline-block; }
+/* on the violet contact band the dark red reads as mud -- lift it to white */
+.contact-form-panel .lead-form-error {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+}
 
 .legal-doc-body > div + div { margin-top: 22px; }
 .legal-doc-body .modal-desc { margin-bottom: 10px; }
