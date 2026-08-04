@@ -38,14 +38,15 @@ import {
   Gauge,
   Layers,
   Plus,
-  Minus,
   FileText,
   Link2,
   List,
   Accessibility,
   Contrast,
-  Type,
-  MousePointer2,
+  Palette,
+  Sun,
+  ZoomIn,
+  ZoomOut,
   RotateCcw
 } from 'lucide-react';
 
@@ -1558,6 +1559,86 @@ const LEGAL_DOCS = {
         p: [`לשאלות או הבהרות בנוגע לתנאי השימוש ניתן לפנות אלינו בדוא"ל ${EMAIL} או בטלפון ${PHONE_DISPLAY}.`]
       }
     ]
+  },
+  accessibility: {
+    title: 'הצהרת נגישות',
+    sections: [
+      {
+        h: 'המחויבות שלנו',
+        p: [
+          'SecureOps רואה חשיבות רבה בהנגשת האתר לכלל הגולשים, לרבות אנשים עם מוגבלות, ופועלת להתאמתו לתקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), התשע"ג-2013, ולעקרונות תקן WCAG 2.0 ברמה AA.'
+        ]
+      },
+      {
+        h: 'כלי הנגישות באתר',
+        p: [
+          'בצד שמאל של המסך מופיע כפתור נגישות קבוע, המאפשר בין היתר הגדלה והקטנה של גודל הטקסט, מעבר לגווני אפור, ניגודיות גבוהה, ניגודיות הפוכה, מעבר לרקע בהיר בקטעי האתר הכהים, הדגשת קישורים ומעבר לגופן קריא. ההגדרות נשמרות בדפדפן ונטענות אוטומטית בביקור הבא.',
+          'האתר נבנה עם תשומת לב למבנה סמנטי (כותרות, קישורים ותוויות), ניגודיות צבעים נאותה בטקסט המרכזי, ותמיכה בניווט מקלדת בתפריטים ובחלונות הקופצים.'
+        ]
+      },
+      {
+        h: 'מגבלות ידועות',
+        p: [
+          'חלק מהתכנים באתר (כגון סרטון הרקע בעמוד הבית) הם ויזואליים באופיים ואינם קריטיים להבנת התוכן. אנו ממשיכים לבחון ולשפר את נגישות האתר על בסיס שוטף.'
+        ]
+      },
+      {
+        h: 'פנייה בנושא נגישות',
+        p: [`נתקלתם בבעיית נגישות באתר? נשמח שתדווחו לנו בדוא"ל ${EMAIL} או בטלפון ${PHONE_DISPLAY}, ונטפל בפנייה בהקדם.`]
+      }
+    ]
+  },
+  privacy: {
+    title: 'מדיניות פרטיות',
+    sections: [
+      {
+        h: 'איזה מידע אנחנו אוספים',
+        p: [
+          'בעת פנייה אלינו דרך טופסי יצירת הקשר באתר אנו אוספים את הפרטים שאתם מוסרים ביוזמתכם — לרוב שם, טלפון, דוא"ל ותוכן הפנייה — לצורך מענה וטיפול בבקשה בלבד.',
+          'בנוסף, כמקובל באתרי אינטרנט, נאספים באופן אוטומטי נתוני שימוש כלליים (כגון סוג דפדפן ועמודים שנצפו) לצורך הבנת השימוש באתר ושיפורו.'
+        ]
+      },
+      {
+        h: 'כיצד אנו משתמשים במידע',
+        p: [
+          'המידע שנמסר משמש אותנו ליצירת קשר חוזר, הכנת הצעת מחיר או מענה לפנייה, ואינו נמכר או מועבר לצדדים שלישיים לצרכי שיווק. המידע עשוי להישמר במערכות ה-CRM וה-Email שלנו לצורך ניהול הקשר העסקי מולכם.'
+        ]
+      },
+      {
+        h: 'זכויותיכם',
+        p: [
+          'ניתן לפנות אלינו בכל עת בבקשה לעיין במידע שנשמר אודותיכם, לתקנו או למחקו, בכפוף לכל דין.'
+        ]
+      },
+      {
+        h: 'יצירת קשר',
+        p: [`לשאלות בנוגע למדיניות הפרטיות ניתן לפנות בדוא"ל ${EMAIL} או בטלפון ${PHONE_DISPLAY}.`]
+      }
+    ]
+  },
+  cookies: {
+    title: 'מדיניות עוגיות',
+    sections: [
+      {
+        h: 'מה זה עוגיות',
+        p: [
+          'עוגיות (Cookies) הן קבצי טקסט קטנים הנשמרים בדפדפן בעת הגלישה באתר, ומאפשרים לו לזכור העדפות והגדרות בין ביקור לביקור.'
+        ]
+      },
+      {
+        h: 'באילו עוגיות אנו משתמשים',
+        p: [
+          'עוגיות חיוניות לתפעול האתר, ובהן שמירת ההעדפות שנבחרו בתפריט הנגישות (localStorage בדפדפן, ללא העברה לשרת).',
+          'עוגיות סטטיסטיות המסייעות לנו להבין כיצד משתמשים גולשים באתר ולשפר אותו, ככל שאלו מופעלות.'
+        ]
+      },
+      {
+        h: 'ניהול עוגיות',
+        p: [
+          'ניתן לחסום או למחוק עוגיות בכל עת דרך הגדרות הדפדפן. חסימת עוגיות מסוימות עלולה לפגוע בחלק מהפונקציונליות באתר, כגון שמירת הגדרות הנגישות.'
+        ]
+      }
+    ]
   }
 };
 
@@ -1658,12 +1739,14 @@ function useSite() {
  * and consumed purely in CSS, so the effect of each toggle lives next to
  * the rest of the page's styling rather than in inline styles here. */
 const A11Y_STORAGE_KEY = 'secureops-a11y';
-const A11Y_DEFAULT = { fontStep: 0, contrast: 'normal', links: false, readableFont: false, bigCursor: false, reduceMotion: false };
-const CONTRAST_MODES = [
-  { id: 'normal', label: 'רגיל' },
-  { id: 'high', label: 'ניגודיות גבוהה' },
-  { id: 'invert', label: 'צבעים הפוכים' },
-  { id: 'grayscale', label: 'גווני אפור' }
+const A11Y_DEFAULT = { fontStep: 0, grayscale: false, highContrast: false, invert: false, lightBg: false, links: false, readableFont: false };
+const A11Y_TOGGLES = [
+  { key: 'grayscale', label: 'גווני אפור', icon: Palette },
+  { key: 'highContrast', label: 'ניגודיות גבוהה', icon: Contrast },
+  { key: 'invert', label: 'ניגודיות הפוכה', icon: Eye },
+  { key: 'lightBg', label: 'רקע בהיר', icon: Sun },
+  { key: 'links', label: 'הדגשת קישורים', icon: Link2 },
+  { key: 'readableFont', label: 'פונט קריא', icon: FileText }
 ];
 
 function A11yWidget() {
@@ -1680,11 +1763,12 @@ function A11yWidget() {
   useEffect(() => {
     const html = document.documentElement;
     html.setAttribute('data-a11y-font-step', settings.fontStep);
-    html.setAttribute('data-a11y-contrast', settings.contrast);
+    html.setAttribute('data-a11y-grayscale', settings.grayscale ? 'on' : 'off');
+    html.setAttribute('data-a11y-high-contrast', settings.highContrast ? 'on' : 'off');
+    html.setAttribute('data-a11y-invert', settings.invert ? 'on' : 'off');
+    html.setAttribute('data-a11y-light-bg', settings.lightBg ? 'on' : 'off');
     html.setAttribute('data-a11y-links', settings.links ? 'on' : 'off');
     html.setAttribute('data-a11y-readable-font', settings.readableFont ? 'on' : 'off');
-    html.setAttribute('data-a11y-big-cursor', settings.bigCursor ? 'on' : 'off');
-    html.setAttribute('data-a11y-reduce-motion', settings.reduceMotion ? 'on' : 'off');
     try { localStorage.setItem(A11Y_STORAGE_KEY, JSON.stringify(settings)); } catch { /* storage blocked -- setting just won't persist */ }
   }, [settings]);
 
@@ -1696,8 +1780,6 @@ function A11yWidget() {
   }, [open]);
 
   const patch = (p) => setSettings((s) => ({ ...s, ...p }));
-  const contrastIdx = CONTRAST_MODES.findIndex((m) => m.id === settings.contrast);
-  const cycleContrast = () => patch({ contrast: CONTRAST_MODES[(contrastIdx + 1) % CONTRAST_MODES.length].id });
 
   return (
     <div className="a11y-widget">
@@ -1723,47 +1805,34 @@ function A11yWidget() {
             transition={{ duration: 0.18 }}
           >
             <div className="a11y-panel-head">
-              <span>נגישות</span>
+              <span><Accessibility style={{ width: 16, height: 16 }} /> כלי נגישות</span>
               <button type="button" className="a11y-panel-close" aria-label="סגירה" onClick={() => setOpen(false)}>
                 <X />
               </button>
             </div>
 
-            <div className="a11y-row">
-              <span className="a11y-row-label"><Type style={{ width: 15, height: 15 }} /> גודל טקסט</span>
-              <div className="a11y-stepper">
-                <button type="button" disabled={settings.fontStep <= 0} onClick={() => patch({ fontStep: Math.max(0, settings.fontStep - 1) })} aria-label="הקטן טקסט"><Minus /></button>
-                <button type="button" disabled={settings.fontStep >= 3} onClick={() => patch({ fontStep: Math.min(3, settings.fontStep + 1) })} aria-label="הגדל טקסט"><Plus /></button>
-              </div>
-            </div>
-
-            <button type="button" className="a11y-toggle" onClick={cycleContrast}>
-              <span className="a11y-row-label"><Contrast style={{ width: 15, height: 15 }} /> ניגודיות</span>
-              <span className="a11y-toggle-value">{CONTRAST_MODES[contrastIdx].label}</span>
+            <button type="button" className="a11y-toggle" disabled={settings.fontStep >= 3} onClick={() => patch({ fontStep: Math.min(3, settings.fontStep + 1) })}>
+              <span className="a11y-row-label"><ZoomIn style={{ width: 15, height: 15 }} /> הגדל טקסט</span>
             </button>
 
-            <button type="button" className={`a11y-toggle${settings.links ? ' is-on' : ''}`} onClick={() => patch({ links: !settings.links })}>
-              <span className="a11y-row-label"><Link2 style={{ width: 15, height: 15 }} /> הדגשת קישורים</span>
-              <span className="a11y-switch" />
+            <button type="button" className="a11y-toggle" disabled={settings.fontStep <= 0} onClick={() => patch({ fontStep: Math.max(0, settings.fontStep - 1) })}>
+              <span className="a11y-row-label"><ZoomOut style={{ width: 15, height: 15 }} /> הקטן טקסט</span>
             </button>
 
-            <button type="button" className={`a11y-toggle${settings.readableFont ? ' is-on' : ''}`} onClick={() => patch({ readableFont: !settings.readableFont })}>
-              <span className="a11y-row-label"><FileText style={{ width: 15, height: 15 }} /> גופן קריא</span>
-              <span className="a11y-switch" />
-            </button>
-
-            <button type="button" className={`a11y-toggle${settings.bigCursor ? ' is-on' : ''}`} onClick={() => patch({ bigCursor: !settings.bigCursor })}>
-              <span className="a11y-row-label"><MousePointer2 style={{ width: 15, height: 15 }} /> סמן גדול</span>
-              <span className="a11y-switch" />
-            </button>
-
-            <button type="button" className={`a11y-toggle${settings.reduceMotion ? ' is-on' : ''}`} onClick={() => patch({ reduceMotion: !settings.reduceMotion })}>
-              <span className="a11y-row-label"><Activity style={{ width: 15, height: 15 }} /> עצירת אנימציות</span>
-              <span className="a11y-switch" />
-            </button>
+            {A11Y_TOGGLES.map(({ key, label, icon: Icon }) => (
+              <button
+                key={key}
+                type="button"
+                className={`a11y-toggle${settings[key] ? ' is-on' : ''}`}
+                onClick={() => patch({ [key]: !settings[key] })}
+              >
+                <span className="a11y-row-label"><Icon style={{ width: 15, height: 15 }} /> {label}</span>
+                <span className="a11y-switch" />
+              </button>
+            ))}
 
             <button type="button" className="a11y-reset" onClick={() => setSettings(A11Y_DEFAULT)}>
-              <RotateCcw style={{ width: 14, height: 14 }} /> איפוס הגדרות
+              <RotateCcw style={{ width: 14, height: 14 }} /> איפוס
             </button>
           </motion.div>
         )}
@@ -2119,9 +2188,12 @@ export default function App() {
               <div className="footer-copyright-bar">
                 <p>© {new Date().getFullYear()} SecureOps Ltd. כל הזכויות שמורות. make IT easy.</p>
                 <div className="footer-legal-links">
-                  <button type="button" onClick={() => setOpenLegalDoc('regulations')}>תקנון האתר</button>
-                  <span aria-hidden="true">·</span>
-                  <button type="button" onClick={() => setOpenLegalDoc('terms')}>תנאי שימוש</button>
+                  {['regulations', 'terms', 'privacy', 'cookies', 'accessibility'].map((key, i) => (
+                    <React.Fragment key={key}>
+                      {i > 0 && <span aria-hidden="true">·</span>}
+                      <button type="button" onClick={() => setOpenLegalDoc(key)}>{LEGAL_DOCS[key].title}</button>
+                    </React.Fragment>
+                  ))}
                 </div>
               </div>
             </footer>
