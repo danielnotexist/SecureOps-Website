@@ -1720,12 +1720,16 @@ const LEGAL_DOCS = {
    Sized by height so one value scales the whole lockup, and the intrinsic
    ratio is fixed in CSS so the header doesn't reflow while the PNG loads. */
 function Logo({ variant = 'dark', className = '', style }) {
+  const src = variant === 'light' ? '/images/logo-lockup-light-v2.png' : '/images/logo-lockup.png';
+  // each file's own intrinsic ratio, so the reserved box doesn't letterbox
+  // whichever variant is showing while it loads
+  const [w, h] = variant === 'light' ? [800, 229] : [755, 200];
   return (
     <img
-      src={variant === 'light' ? '/images/logo-lockup-light.png' : '/images/logo-lockup.png'}
+      src={src}
       alt="SecureOps — make IT easy"
-      width="755"
-      height="200"
+      width={w}
+      height={h}
       className={`logo ${className}`}
       style={style}
     />
