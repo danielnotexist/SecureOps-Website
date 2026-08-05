@@ -21,9 +21,8 @@ import {
   Star,
   MessageCircle,
   ArrowUp,
-  Sparkles,
   Activity,
-  Cpu,
+  Newspaper,
   Linkedin,
   Facebook,
   Send,
@@ -32,7 +31,6 @@ import {
   Globe,
   Monitor,
   Smartphone,
-  KeyRound,
   Menu,
   RefreshCw,
   Gauge,
@@ -1733,6 +1731,44 @@ function Logo({ variant = 'dark', className = '', style }) {
   );
 }
 
+const HERO_ROTATING_PHRASES = [
+  'שקט נפשי',
+  'הגנה מלאה',
+  'ניטור 24/7',
+  'גיבוי אוטומטי',
+  'תגובה מיידית לאירועים',
+  'IT ללא כאבי ראש',
+];
+
+/* cycles the word/phrase before "עם SecureOps" so the hero brand line
+   reads as a rotating list of what SecureOps actually gives you */
+function HeroRotatingBrand() {
+  const [index, setIndex] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setIndex((i) => (i + 1) % HERO_ROTATING_PHRASES.length);
+    }, 2600);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <span className="hero-cyber-brand">
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={HERO_ROTATING_PHRASES[index]}
+          className="hero-cyber-brand-rotate"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -12 }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        >
+          {HERO_ROTATING_PHRASES[index]}
+        </motion.span>
+      </AnimatePresence>
+      {' '}עם SecureOps
+    </span>
+  );
+}
+
 /* Section headings get stable ids so the table of contents can link to them
    and the scroll-spy can observe them. Derived from position rather than
    the Hebrew text, which would need transliterating to make a usable
@@ -2083,7 +2119,13 @@ export default function App() {
                   </li>
 
                   <li><a href="#process" className="header-nav-link">איך זה עובד</a></li>
-                  <li><a href="#about" className="header-nav-link">אודות</a></li>
+                  <li>
+                    <span className="header-nav-link header-nav-press">
+                      <Newspaper style={{ width: 14, height: 14 }} />
+                      כתבה עלינו — ישראל היום
+                      <span className="header-nav-press-tag">בקרוב</span>
+                    </span>
+                  </li>
 
                   <li
                     className="header-nav-item"
@@ -2179,7 +2221,11 @@ export default function App() {
 
                     <a href="#services" onClick={() => setMobileOpen(false)}>שירותי IT לעסקים</a>
                     <a href="#process" onClick={() => setMobileOpen(false)}>איך זה עובד</a>
-                    <a href="#about" onClick={() => setMobileOpen(false)}>אודות</a>
+                    <span className="mobile-drawer-press">
+                      <Newspaper style={{ width: 15, height: 15 }} />
+                      כתבה עלינו — ישראל היום
+                      <span className="header-nav-press-tag">בקרוב</span>
+                    </span>
                     {/* hover has no mobile equivalent, so tapping opens the same
                         article list as a full list overlay instead */}
                     <button
@@ -2251,7 +2297,6 @@ export default function App() {
 
                 <div className="footer-col-item">
                   <h4>החברה</h4>
-                  <a href="#about">אודות SecureOps</a>
                   <a href="#process">תהליך העבודה</a>
                   <a href="#team">צוות המומחים</a>
                   <a href="#testimonials">לקוחות ממליצים</a>
@@ -2629,7 +2674,7 @@ function Home() {
               העסק שלך מוגן<br />גם כשאתה לא מסתכל
             </h1>
 
-            <span className="hero-cyber-brand">עם SecureOps</span>
+            <HeroRotatingBrand />
 
             <p className="hero-cyber-lead">
               פתרונות סייבר, גיבוי וניטור שמזהים איומים בזמן אמת, עוצרים בעיות
@@ -2903,49 +2948,6 @@ function Home() {
                   </span>
                 )}
               </React.Fragment>
-            ))}
-          </div>
-        </div>
-      </section>
-
-
-      {/* ============================ ABOUT ============================= */}
-      <section className="dark-soc-wrapper" id="about">
-        <div className="dark-soc-inner">
-          <motion.div className="section-head-center" {...reveal}>
-            <span className="eyebrow eyebrow-dark"><Activity style={{ width: 15, height: 15 }} /> אודות SecureOps</span>
-            <h2 className="section-head-title-light" style={{ color: '#fff' }}>
-              הגנה שלא נרדמת <span style={{ fontWeight: 800, color: 'var(--cyan-accent)' }}>אף פעם</span>
-            </h2>
-          </motion.div>
-
-          <motion.div className="dark-soc-banner-card" {...reveal}>
-            <img src="/images/about_office.jpg" alt="ניטור ותגובה מנוהלים 24/7" />
-            <div className="dark-soc-banner-badge">
-              <Activity />
-              <span>SecureOps — פתרונות אבטחה וענן</span>
-            </div>
-          </motion.div>
-
-          <div className="dark-soc-4grid">
-            {[
-              { icon: Sparkles, h: 'חזון ומחויבות (make IT easy)', p: 'אנחנו ב-SecureOps מאמינים שטכנולוגיה, ענן ואבטחת מידע צריכים להיות פשוטים, נגישים ושקופים. המטרה שלנו היא לאפשר לעסקים לצמוח במהירות תוך שמירה על מעטפת הגנה הרמטית — בלי ז\'רגון ובלי הפחדות.' },
-              { icon: Cpu, h: 'מומחיות טכנולוגית', p: 'הצוות שלנו מורכב ממומחי סייבר, ארכיטקטי ענן ומהנדסי תשתיות בעלי הסמכות בינלאומיות מובילות (CISSP, AWS Certified Solutions Architect, Fortinet NSE 7, Microsoft Expert).' },
-              { icon: Eye, h: 'כיסוי 24/7 דרך שותפי MDR', p: 'אנחנו לא מוכרים לכם מרכז ניטור מדומיין. הניטור והתגובה נעשים על ידי ספקי MDR מובילים שאנחנו בוחרים ומנהלים מולם, ואנחנו נקודת האחריות היחידה שלכם — כולל חיוג יזום אליכם לפני שאתם בכלל מגלים שקרה משהו.' },
-              { icon: KeyRound, h: 'פתרונות מותאמים אישית', p: 'כל ארגון הוא ייחודי. אנו מבצעים אפיון מקיף ומתאימים את ארכיטקטורת האבטחה והענן בדיוק למאפיינים, לרגולציה ולצרכים העסקיים שלכם.' }
-            ].map((it, i) => (
-              <motion.div
-                className="dark-soc-item"
-                key={it.h}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.5, delay: i * 0.07 }}
-              >
-                <div className="dark-soc-item-icon"><it.icon /></div>
-                <h3>{it.h}</h3>
-                <p>{it.p}</p>
-              </motion.div>
             ))}
           </div>
         </div>

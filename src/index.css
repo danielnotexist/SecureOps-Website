@@ -351,6 +351,42 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 .header-nav-link.is-static::after { content: none; }
 .header-nav-link.is-static:hover { color: rgba(255, 255, 255, 0.86); }
 
+/* teaser for a press feature that isn't live yet -- a pill, not a plain nav
+   link, so it doesn't read as a dead link before the article exists */
+.header-nav-press {
+  cursor: default;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(121, 215, 237, 0.1);
+  border: 1px solid rgba(121, 215, 237, 0.28);
+  color: var(--cyan-accent);
+  font-size: 0.92rem;
+}
+.header-nav-press:hover { color: var(--cyan-accent); }
+.header-nav-press::after { content: none; }
+.header-nav-press-tag {
+  background: var(--cyan-accent);
+  color: #0B2530;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-inline-start: 2px;
+}
+
+.mobile-drawer-press {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 14px;
+  border-radius: var(--r-sm);
+  color: var(--purple-main);
+  font-weight: 600;
+  font-size: 1.02rem;
+  background: var(--purple-50);
+}
+.mobile-drawer-press .header-nav-press-tag { margin-inline-start: auto; }
+
 .header-nav-chevron { transition: transform 0.28s var(--ease); color: var(--cy-teal); }
 .header-nav-item:hover .header-nav-chevron { transform: rotate(180deg); }
 
@@ -1164,6 +1200,13 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
   color: var(--cy-teal);
   letter-spacing: -0.01em;
   margin-bottom: 22px;
+  min-height: 1.4em;
+}
+
+.hero-cyber-brand-rotate {
+  display: inline-block;
+  color: #fff;
+  font-weight: 800;
 }
 
 .hero-cyber-lead {
