@@ -1848,15 +1848,17 @@ function A11yWidget() {
         <Accessibility />
       </button>
 
-      <AnimatePresence>
-        {open && (
+      {/* Enter-only, no AnimatePresence -- closing must remove the panel the
+          instant `open` flips, not once an exit animation's completion callback
+          fires (see the route-transition comment in AppShell for why that
+          callback can't be relied on to ever fire). */}
+      {open && (
           <motion.div
             className="a11y-panel"
             role="region"
             aria-label="כלי נגישות"
             initial={{ opacity: 0, scale: 0.94, x: -8 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
-            exit={{ opacity: 0, scale: 0.94, x: -8 }}
             transition={{ duration: 0.18 }}
           >
             <div className="a11y-panel-head">
@@ -1890,8 +1892,7 @@ function A11yWidget() {
               <RotateCcw style={{ width: 14, height: 14 }} /> איפוס
             </button>
           </motion.div>
-        )}
-      </AnimatePresence>
+      )}
     </div>
   );
 }
@@ -1908,6 +1909,7 @@ export default function App() {
   const [openLegalDoc, setOpenLegalDoc] = useState(null);
   const [serviceSending, setServiceSending] = useState(false);
   const [serviceError, setServiceError] = useState(false);
+  const [waBubbleOpen, setWaBubbleOpen] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -1916,6 +1918,13 @@ export default function App() {
     const onScroll = () => setScrolled(window.scrollY > 24);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // shown once per visit, a few seconds in rather than instantly -- gives the
+  // page a moment before nudging toward WhatsApp
+  useEffect(() => {
+    const t = setTimeout(() => setWaBubbleOpen(true), 2500);
+    return () => clearTimeout(t);
   }, []);
 
   useEffect(() => {
@@ -2500,15 +2509,35 @@ export default function App() {
 
 
             <div className="floating-actions">
-              <a
-                className="float-btn float-wa"
-                href={`https://wa.me/972${PHONE_TEL.slice(1)}`}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="שלחו הודעת WhatsApp"
-              >
-                <MessageCircle />
-              </a>
+              <div className="wa-bubble-wrap">
+                {/* Enter-only, no AnimatePresence: closing must remove the node the
+                    instant React re-renders, not once an exit animation's completion
+                    callback fires -- see the route-transition comment in AppShell for
+                    why that callback can't be relied on. */}
+                {waBubbleOpen && (
+                  <motion.div
+                    className="wa-bubble"
+                    initial={{ opacity: 0, scale: 0.9, x: -8 }}
+                    animate={{ opacity: 1, scale: 1, x: 0 }}
+                    transition={{ duration: 0.22 }}
+                  >
+                    <button type="button" className="wa-bubble-close" aria-label="סגירה" onClick={() => setWaBubbleOpen(false)}>
+                      <X />
+                    </button>
+                    <span>היי 👋 יש שאלה על IT או אבטחת מידע? כתבו לנו!</span>
+                  </motion.div>
+                )}
+                <a
+                  className="float-btn float-wa"
+                  href={`https://wa.me/972${PHONE_TEL.slice(1)}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="שלחו הודעת WhatsApp"
+                  onClick={() => setWaBubbleOpen(false)}
+                >
+                  <MessageCircle />
+                </a>
+              </div>
               <AnimatePresence>
                 {scrolled && (
                   <motion.button

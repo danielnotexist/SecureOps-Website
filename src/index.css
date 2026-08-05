@@ -2385,7 +2385,57 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 .float-top { background: var(--surface); border: 1px solid var(--line); }
 .float-top svg { color: var(--ink); }
 
+.wa-bubble-wrap { position: relative; }
+
+.wa-bubble {
+  position: absolute;
+  bottom: 4px;
+  left: 64px;
+  width: max-content;
+  max-width: 220px;
+  background: var(--surface);
+  border-radius: var(--r-md) var(--r-md) var(--r-md) 4px;
+  padding: 12px 16px;
+  box-shadow: var(--sh-lg);
+  font-size: 0.86rem;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--text-dark);
+  direction: rtl;
+  text-align: right;
+}
+/* tail pointing back at the WhatsApp button */
+.wa-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: 10px;
+  left: -7px;
+  width: 14px;
+  height: 14px;
+  background: var(--surface);
+  transform: rotate(45deg);
+  border-radius: 0 0 0 3px;
+}
+.wa-bubble-close {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  color: var(--text-muted);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: var(--sh-sm);
+}
+.wa-bubble-close:hover { background: var(--bg-soft); color: var(--ink); }
+.wa-bubble-close svg { width: 11px; height: 11px; }
+
 @media (max-width: 600px) { .floating-actions { bottom: 16px; left: 16px; } }
+@media (max-width: 420px) { .wa-bubble { max-width: 180px; font-size: 0.8rem; } }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
