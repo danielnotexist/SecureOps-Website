@@ -1479,36 +1479,47 @@ const PHONE_TEL = '0555702552';
 const EMAIL = 'sales@secureops.co.il';
 const HOURS = 'א׳–ה׳ 09:00–18:00';
 
-/* Contact forms post to a Supabase edge function, which stores the lead and
-   emails it via Resend. Only the anon key is exposed here -- the function does
-   the privileged work server-side. Until the env vars are set the submit fails
-   loudly rather than showing a success screen for a lead that went nowhere. */
+/* Contact forms insert straight into the `leads` table that already exists in
+   this Supabase project -- it's the same table the old site's forms and its
+   chatbot write to, with an AFTER INSERT trigger (`new-lead-email`) that calls
+   the `notify-new-lead` edge function and emails the row via Resend. No new
+   backend was built here on purpose: reusing it means both sites' leads land
+   in one place and the existing email pipeline just keeps working.
+   RLS on `leads` allows anon INSERT only (no SELECT) -- the anon key can add
+   rows but never read customer data back out. Until the env vars are set the
+   submit fails loudly rather than showing a success screen for a lead that
+   went nowhere. */
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 async function submitLead(form, source) {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) throw new Error('lead endpoint not configured');
   const fd = new FormData(form);
-  const res = await fetch(`${SUPABASE_URL}/functions/v1/submit-lead`, {
+  // honeypot: real visitors never fill this in, bots that fill every field do
+  if (fd.get('company_website')) return { ok: true };
+
+  const service = fd.get('topic') || '';
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       apikey: SUPABASE_ANON_KEY,
-      Authorization: `Bearer ${SUPABASE_ANON_KEY}`
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      Prefer: 'return=minimal'
     },
     body: JSON.stringify({
       name: fd.get('name') || '',
       phone: fd.get('phone') || '',
       email: fd.get('email') || '',
-      company_size: fd.get('company_size') || '',
-      topic: fd.get('topic') || '',
+      company: '',
+      employees: fd.get('company_size') || '',
+      service,
+      service_interest: service,
       message: fd.get('message') || '',
-      company_website: fd.get('company_website') || '',
       source
     })
   });
   if (!res.ok) throw new Error(`lead submit failed (${res.status})`);
-  return res.json();
 }
 
 /* Invisible to humans, irresistible to bots -- anything typed here marks the
