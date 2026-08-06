@@ -1752,6 +1752,7 @@ function HeroRotatingBrand() {
   }, []);
   return (
     <span className="hero-cyber-brand">
+      עם SecureOps —{' '}
       <AnimatePresence mode="wait">
         <motion.span
           key={HERO_ROTATING_PHRASES[index]}
@@ -1764,7 +1765,6 @@ function HeroRotatingBrand() {
           {HERO_ROTATING_PHRASES[index]}
         </motion.span>
       </AnimatePresence>
-      {' '}עם SecureOps
     </span>
   );
 }
