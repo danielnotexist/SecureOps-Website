@@ -1806,84 +1806,6 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 }
 
 /* ==========================================================================
-   Dark SOC section
-   ========================================================================== */
-
-.dark-soc-wrapper {
-  background:
-    radial-gradient(760px 460px at 88% 4%, rgba(108, 92, 168, 0.34), transparent 62%),
-    radial-gradient(620px 420px at 4% 96%, rgba(121, 215, 237, 0.16), transparent 60%),
-    var(--navy-soc);
-  color: white;
-  padding: 96px 0;
-}
-
-.dark-soc-inner { max-width: 1180px; margin: 0 auto; padding-inline: 24px; }
-
-.dark-soc-banner-card {
-  position: relative;
-  border-radius: var(--r-xl);
-  overflow: hidden;
-  margin-bottom: 48px;
-  box-shadow: 0 26px 56px rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.dark-soc-banner-card img { width: 100%; height: 360px; object-fit: cover; display: block; }
-
-.dark-soc-banner-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(23, 28, 43, 0.9) 0%, rgba(23, 28, 43, 0.18) 52%, transparent 100%);
-}
-
-.dark-soc-banner-badge {
-  position: absolute;
-  bottom: 26px;
-  right: 30px;
-  z-index: 2;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(14px);
-  padding: 12px 26px;
-  border-radius: var(--r-pill);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  font-weight: 600;
-  font-size: 1rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-}
-.dark-soc-banner-badge svg { width: 18px; height: 18px; color: var(--cyan-accent); }
-
-.dark-soc-4grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-@media (max-width: 768px) { .dark-soc-4grid { grid-template-columns: 1fr; } }
-
-.dark-soc-item {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--r-lg);
-  padding: 30px 28px;
-  transition: all 0.35s var(--ease-out);
-}
-.dark-soc-item:hover { background: rgba(255, 255, 255, 0.075); transform: translateY(-4px); border-color: rgba(121, 215, 237, 0.28); }
-
-.dark-soc-item-icon {
-  width: 46px;
-  height: 46px;
-  border-radius: var(--r-sm);
-  display: grid;
-  place-items: center;
-  background: rgba(121, 215, 237, 0.12);
-  border: 1px solid rgba(121, 215, 237, 0.24);
-  margin-bottom: 16px;
-}
-.dark-soc-item-icon svg { width: 22px; height: 22px; color: var(--cyan-accent); stroke-width: 1.9; }
-
-.dark-soc-item h3 { font-size: 1.22rem; color: #fff; font-weight: 700; margin-bottom: 10px; }
-.dark-soc-item p { font-size: 1rem; line-height: 1.78; color: rgba(255, 255, 255, 0.72); font-weight: 300; }
-
-/* ==========================================================================
    Testimonials
    ========================================================================== */
 
@@ -1992,7 +1914,13 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
 .contact-band {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, var(--purple-light) 0%, var(--purple-main) 52%, var(--purple-dark) 100%);
+  /* dark-navy cyber background, same recipe as the rest of the page below
+     the hero -- the old purple-gradient version read low-contrast (white
+     glass-on-light-purple) and clashed with the header/hero's navy skin */
+  background:
+    radial-gradient(760px 460px at 88% 4%, rgba(108, 92, 168, 0.34), transparent 62%),
+    radial-gradient(620px 420px at 4% 96%, rgba(121, 215, 237, 0.16), transparent 60%),
+    var(--navy-soc);
   padding-block: clamp(56px, 7vw, 92px);
   color: #fff;
 }
@@ -2084,7 +2012,7 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
   background: rgba(255, 255, 255, 0.2);
   box-shadow: 0 0 0 4px rgba(121, 215, 237, 0.22);
 }
-.contact-form-panel .field select option { background: var(--purple-dark); color: #fff; }
+.contact-form-panel .field select option { background: var(--navy-soc); color: #fff; }
 .contact-form-panel .field textarea { min-height: 76px; }
 
 /* two fields per row, with the wide ones spanning both — keeps the panel
