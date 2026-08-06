@@ -2244,6 +2244,10 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
   width: 100%;
   max-height: 88vh;
   overflow-y: auto;
+  /* explicit, because overflow-y: auto alone computes the x-axis to auto
+     too -- any 1-2px of rounding (the scrollbar's own width included)
+     was enough to trigger a stray horizontal scrollbar */
+  overflow-x: hidden;
   padding: 42px;
   position: relative;
   box-shadow: var(--sh-xl);
