@@ -874,11 +874,15 @@ h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.18; }
   padding-bottom: 72px;
   min-width: 0;
 }
-/* pulled up so it straddles the band's lower edge */
+/* pulled up so it straddles the band's lower edge. aspect-ratio matches the
+   source photos (800-900px wide, 512-604px tall -- roughly 3:2) rather than
+   a cinematic 16:9: these are illustration crops with the subject (phone,
+   laptop, checkmark icons) running right to the top/bottom edge, so forcing
+   a shorter box was cropping it -- see task #14. */
 .article-fullpage-content .article-hero {
   margin-top: clamp(-136px, -10vw, -76px);
   margin-bottom: 34px;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 3 / 2;
   box-shadow: var(--sh-xl);
   border: 1px solid rgba(255, 255, 255, 0.14);
 }
