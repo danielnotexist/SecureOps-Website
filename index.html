@@ -25,6 +25,61 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+
+    <!-- GA4 (same property/ID the old site used, G-XZ0FZE6S64, carried over so
+         history isn't split across two properties). Consent Mode default is
+         "denied" until CookieConsentBar (App.jsx) calls gtag('consent','update'),
+         so no analytics cookie is set before a visitor actually agrees to one.
+         send_page_view is off here -- App.jsx fires page_view itself on each
+         route change, since this is a single-page app and the one load this
+         script sees is never the whole story. -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){window.dataLayer.push(arguments);}
+      window.gtag = gtag;
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied',
+        'wait_for_update': 500
+      });
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XZ0FZE6S64"></script>
+    <script>
+      gtag('js', new Date());
+      gtag('config', 'G-XZ0FZE6S64', {
+        'send_page_view': false,
+        'allow_google_signals': false
+      });
+    </script>
+
+    <!-- Organization/LocalBusiness JSON-LD -- static because it's the same on
+         every route; per-article Article JSON-LD is added dynamically in
+         App.jsx only while that article is open. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "SecureOps",
+        "description": "שירותי IT מנוהלים, ענן ואבטחת מידע לעסקים",
+        "url": "https://secureops.co.il/",
+        "telephone": "+972555702552",
+        "email": "sales@secureops.co.il",
+        "areaServed": "IL",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "כפר יונה",
+          "addressCountry": "IL"
+        },
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"],
+          "opens": "09:00",
+          "closes": "18:00"
+        }
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

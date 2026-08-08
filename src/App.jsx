@@ -1852,6 +1852,39 @@ const A11Y_TOGGLES = [
   { key: 'readableFont', label: 'פונט קריא', icon: FileText }
 ];
 
+/* GA4's Consent Mode default (index.html) starts every visitor at
+   analytics_storage: 'denied' -- this bar is the only thing that can move
+   it to 'granted'. Without it the site would ship the GA4 script forever
+   but never actually collect anything beyond bare, cookieless pings. */
+function CookieConsentBar({ onReadMore }) {
+  const [choice, setChoice] = useState(() => {
+    try { return localStorage.getItem('cookie-consent'); } catch (e) { return null; }
+  });
+
+  if (choice) return null;
+
+  const decide = (granted) => {
+    try { localStorage.setItem('cookie-consent', granted ? 'granted' : 'denied'); } catch (e) {}
+    if (typeof window.gtag === 'function') {
+      window.gtag('consent', 'update', { analytics_storage: granted ? 'granted' : 'denied' });
+    }
+    setChoice(granted ? 'granted' : 'denied');
+  };
+
+  return (
+    <div className="cookie-consent-bar" role="dialog" aria-label="הסכמה לעוגיות">
+      <p>
+        אנחנו משתמשים בעוגיות אנליטיקה כדי להבין איך מבקרים משתמשים באתר. בלי מידע אישי, בלי פרסום.
+        {' '}<button type="button" className="cookie-consent-link" onClick={onReadMore}>קראו עוד</button>
+      </p>
+      <div className="cookie-consent-actions">
+        <button type="button" className="btn btn-ghost" onClick={() => decide(false)}>דחייה</button>
+        <button type="button" className="btn btn-primary" onClick={() => decide(true)}>אישור</button>
+      </div>
+    </div>
+  );
+}
+
 function A11yWidget() {
   const [open, setOpen] = useState(false);
   const [settings, setSettings] = useState(A11Y_DEFAULT);
@@ -2000,6 +2033,22 @@ export default function App() {
   // override that, and Home's own mount effect handles scrolling to it
   useEffect(() => {
     if (!location.hash) window.scrollTo(0, 0);
+  }, [location.pathname]);
+
+  // GA4 has send_page_view off (index.html), so this SPA has to report its
+  // own route changes -- otherwise GA4 only ever sees the one load. Deferred
+  // a tick so it fires after ArticlePage's own title/meta effect has already
+  // updated document.title for the route being entered.
+  useEffect(() => {
+    const t = setTimeout(() => {
+      if (typeof window.gtag !== 'function') return;
+      window.gtag('event', 'page_view', {
+        page_title: document.title,
+        page_location: window.location.href,
+        page_path: location.pathname,
+      });
+    }, 0);
+    return () => clearTimeout(t);
   }, [location.pathname]);
 
   const openService = (svc) => { setSelectedService(svc); setIsServicesHovered(false); setMobileOpen(false); };
@@ -2612,6 +2661,7 @@ export default function App() {
             </div>
 
             <A11yWidget />
+            <CookieConsentBar onReadMore={() => setOpenLegalDoc('cookies')} />
 
       </div>
     </SiteContext.Provider>
